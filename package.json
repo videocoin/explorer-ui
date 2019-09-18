@@ -24,6 +24,15 @@
     "eject": "react-scripts eject",
     "lint": "eslint \"./src/**/*.+(ts|tsx)\""
   },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^2.3.0",
+    "customize-cra": "^0.7.0",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "node-sass": "^4.12.0",
+    "prettier": "^1.18.2",
+    "redux-devtools-extension": "^2.13.8"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -39,13 +48,19 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@typescript-eslint/parser": "^2.3.0",
-    "customize-cra": "^0.7.0",
-    "husky": "^3.0.5",
-    "lint-staged": "^9.2.5",
-    "node-sass": "^4.12.0",
-    "prettier": "^1.18.2",
-    "redux-devtools-extension": "^2.13.8"
+  "lint-staged": {
+    "./src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "./src/**/*.{json,css,scss,md}": [
+      "prettier --config .prettierrc --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
