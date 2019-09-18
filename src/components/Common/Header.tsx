@@ -1,6 +1,6 @@
-import React from 'react'
-import { Logo } from 'ui-kit'
-import css from './header.module.scss'
+import React from 'react';
+import { Logo } from 'ui-kit';
+import css from './header.module.scss';
 
 const Header: React.FC = () => {
   return (

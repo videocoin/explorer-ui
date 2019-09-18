@@ -1,34 +1,32 @@
-/* eslint-disable */
-
 export interface AppState {
-    isLoading: boolean;
+  isLoading: boolean;
 }
 
 export const UPDATE_LOADING = 'UPDATE_LOADING';
 
 interface UpdateSessionAction {
-    type: typeof UPDATE_LOADING;
-    payload: AppState;
+  type: typeof UPDATE_LOADING;
+  payload: AppState;
 }
 
-export type AppActionTypes = UpdateSessionAction
+export type AppActionTypes = UpdateSessionAction;
 
 const initialState: AppState = {
-    isLoading: false
+  isLoading: false,
 };
 
 export function appReducer(
-    state = initialState,
-    action: AppActionTypes
+  state = initialState,
+  action: AppActionTypes
 ): AppState {
-    switch (action.type) {
-        case UPDATE_LOADING: {
-            return {
-                ...state,
-                ...action.payload
-            }
-        }
-        default:
-            return state
+  switch (action.type) {
+    case UPDATE_LOADING: {
+      return {
+        ...state,
+        ...action.payload,
+      };
     }
+    default:
+      return state;
+  }
 }

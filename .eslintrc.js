@@ -5,9 +5,14 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    jest: true
   },
   extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -15,13 +20,14 @@ module.exports = {
     },
     project: './tsconfig.json',
   },
-  plugins: ['@typescript-eslint', 'import'],
+  plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
-    '@typescript-eslint/indent': ['error', 2]
+    '@typescript-eslint/indent': ['error', 2],
+    'prettier/prettier': ['error', { 'singleQuote': true, 'trailingComma': 'es5' }],
   },
   settings: {
-    'import/resolver': {
-      typescript: {},
-    },
+    'react': {
+      'version': 'latest',
+    }
   },
 };
