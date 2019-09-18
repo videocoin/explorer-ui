@@ -52,10 +52,6 @@
     "./src/**/*.{ts,tsx}": [
       "eslint --fix",
       "git add"
-    ],
-    "./src/**/*.{json,css,scss,md}": [
-      "prettier --config .prettierrc --write",
-      "git add"
     ]
   },
   "husky": {
