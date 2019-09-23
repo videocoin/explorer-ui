@@ -1,26 +1,43 @@
+import { ReduxStore } from './index';
+import { transformBlocks } from './utils/transformers';
+
 const SET_BLOCKS = 'SET_BLOCKS';
 const SET_SINGLE_BLOCK = 'SET_SINGLE_BLOCK';
 
-interface SetBlocksAction {
-  type: typeof SET_BLOCKS;
-  payload: {};
+export interface Block {
+  number: string;
+  hash: string;
+  timestamp: string;
+  num_txs: string;
+  gas_used: string;
+  gas_limit: string;
+  size: number;
 }
 
-interface SetSingleBlockAction {
+export interface Blocks {
+  [key: string]: Block;
+}
+
+export interface SetBlocksAction {
+  type: typeof SET_BLOCKS;
+  payload: Block[];
+}
+
+export interface SetSingleBlockAction {
   type: typeof SET_SINGLE_BLOCK;
-  payload: {};
+  payload: Blocks;
 }
 
 type BlockActionTypes = SetBlocksAction | SetSingleBlockAction;
 
-export function setBlocks(payload: {}): SetBlocksAction {
+export function setBlocks(payload: Block[]): SetBlocksAction {
   return {
     type: SET_BLOCKS,
     payload,
   };
 }
 
-export function setSingleBlocks(payload: {}): SetSingleBlockAction {
+export function setSingleBlock(payload: Blocks): SetSingleBlockAction {
   return {
     type: SET_SINGLE_BLOCK,
     payload,
@@ -32,6 +49,7 @@ export function blockReducer(state = {}, action: BlockActionTypes): {} {
     case SET_BLOCKS:
       return {
         ...state,
+        ...transformBlocks(action.payload),
       };
     case SET_SINGLE_BLOCK:
       return {
@@ -41,3 +59,5 @@ export function blockReducer(state = {}, action: BlockActionTypes): {} {
       return state;
   }
 }
+
+export const getBlocks = (state: ReduxStore): Blocks => state.blocks;

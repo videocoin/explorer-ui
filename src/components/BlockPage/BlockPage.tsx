@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router';
 
-const BlockPage: React.FC = () => {
-  return <div>Block</div>;
+interface PathParamsType {
+  hash: string;
+}
+
+const BlockPage: React.FC<RouteComponentProps<PathParamsType>> = ({
+  match,
+}): ReactElement => {
+  const hash = match.params.hash;
+  return (
+    <div>
+      <h2>Block Hash:</h2>
+      <p>{hash}</p>
+    </div>
+  );
 };
 
-export default BlockPage;
+export default withRouter(BlockPage);
