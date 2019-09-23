@@ -22,8 +22,12 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
+    '@typescript-eslint/explicit-function-return-type': ['warn', {
+      allowExpressions: true
+    }],
     '@typescript-eslint/indent': ['error', 2],
-    'prettier/prettier': ['error', { 'singleQuote': true, 'trailingComma': 'es5' }],
+    'prettier/prettier': ['error', { 'singleQuote': true, 'trailingComma': 'es5', 'tabWidth': 2 }],
+    'react/prop-types': 0,
   },
   settings: {
     'react': {
