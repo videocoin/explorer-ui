@@ -1,0 +1,22 @@
+@import "vars";
+
+.row {
+  cursor: pointer;
+}
+
+.txns,
+.duration {
+  width: 200px;
+}
+
+.status {
+  width: 64px;
+  text-align: center;
+  div:last-child {
+    font-size: 8px;
+    line-height: 20px;
+    letter-spacing: .04px;
+    color: rgba($lightSmallTitle, .53);
+    text-transform: capitalize;
+  }
+}

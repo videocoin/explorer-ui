@@ -1,26 +1,44 @@
 import React, { ReactElement } from 'react';
+import { hot } from 'react-hot-loader/root';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
-
-import Header from './components/Common/Header';
-import Navigation from './components/Common/Navigation';
-import HomePage from './components/HomePage/HomePage';
-import BlockPage from './components/BlockPage/BlockPage';
+import Navigation from 'components/Common/Navigation';
+import HomePage from 'components/HomePage/HomePage';
+import BlocksPage from 'components/BlocksPage/BlocksPage';
+import BlockPage from 'components/BlockPage/BlockPage';
+import TransactionsPage from 'components/TransactionsPage/TransactionsPage';
+import TransactionPage from 'components/TransactionPage/TransactionPage';
+import StreamsPage from 'components/StreamsPage/StreamsPage';
+import StreamPage from 'components/StreamPage/StreamPage';
+import AccountPage from 'components/AccountPage/AccountPage';
 
 const App: React.FC = (): ReactElement => {
   return (
-    <div className="App">
-      <Header />
-      <BrowserRouter>
-        <div>
-          <Navigation />
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/block/:hash" component={BlockPage} />
-          </Switch>
+    <BrowserRouter>
+      <div className="wrapper">
+        <div className="root">
+          <div className="nav">
+            <Navigation />
+          </div>
+          <div className="body">
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/blocks" component={BlocksPage} />
+              <Route exact path="/blocks/:hash" component={BlockPage} />
+              <Route exact path="/transactions" component={TransactionsPage} />
+              <Route
+                exact
+                path="/transactions/:hash"
+                component={TransactionPage}
+              />
+              <Route exact path="/streams" component={StreamsPage} />
+              <Route exact path="/streams/:hash" component={StreamPage} />
+              <Route exact path="/account/:hash" component={AccountPage} />
+            </Switch>
+          </div>
         </div>
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 };
 
-export default App;
+export default hot(App);

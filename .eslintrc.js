@@ -8,11 +8,11 @@ module.exports = {
     jest: true
   },
   extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'react-app',
+    'prettier',
     'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
+    'prettier/react',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -20,13 +20,12 @@ module.exports = {
     },
     project: './tsconfig.json',
   },
-  plugins: ['react', '@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier', 'react',],
   rules: {
     '@typescript-eslint/explicit-function-return-type': ['warn', {
       allowExpressions: true
     }],
-    '@typescript-eslint/indent': ['error', 2],
-    'prettier/prettier': ['error', { 'singleQuote': true, 'trailingComma': 'es5', 'tabWidth': 2 }],
+    'prettier/prettier': 'error',
     'react/prop-types': 0,
   },
   settings: {

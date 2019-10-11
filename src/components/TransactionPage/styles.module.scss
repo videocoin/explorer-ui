@@ -1,0 +1,46 @@
+@import "colors";
+@import "vars";
+
+.head {
+  margin-bottom: 48px;
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+}
+
+.blockId {
+  background-color: $violet-sky;
+  padding: 0 10px;
+  box-shadow: $lowly;
+  border-radius: 2px;
+  margin-right: 16px;
+}
+
+.spec {
+  li {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 16px;
+    &.empty {
+      margin-bottom: 40px;
+    }
+    div:first-child {
+      width: 56px;
+      flex-shrink: 0;
+      margin-right: 42px;
+    }
+    div:last-child {
+      min-width: 1px;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+  }
+}
+
+.list {
+  display: flex;
+  margin: 113px -30px 60px;
+  justify-content: center;
+}

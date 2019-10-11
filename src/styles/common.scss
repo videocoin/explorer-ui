@@ -17,6 +17,55 @@ html {
   display: flex;
   flex-direction: column;
 }
+.root {
+  flex: 1 1;
+  display: flex;
+  background-image: linear-gradient(180deg, #290f55 0%, #1b0a33 100%);
+  background-attachment: fixed;
+}
+.body {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  &::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 92px;
+    top: 0;
+    border: 2px solid #4e238e;
+    border-right: 0;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 50px 0 0 50px;
+  }
+  &::after {
+    content: '';
+    width: 55px;
+    height: 55px;
+    position: fixed;
+    bottom: 0;
+    left: 92px;
+    background-image: url(data:image/png;base64,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);
+  }
+  & > div {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.nav {
+  padding: 56px 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  width: 92px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
 
 .vc-container {
   width: 100%;
@@ -137,8 +186,17 @@ html {
   flex: 1;
   background: linear-gradient(180deg, #1b0d2f 0%, #0c0417 100%);
   margin-top: -144px;
+  max-width: calc(100vw - 92px);
+  min-width: 1108px;
 }
 
 b {
   font-weight: bold;
+}
+a {
+  text-decoration: none;
+}
+button {
+  background: none;
+  border: none;
 }

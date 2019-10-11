@@ -1,0 +1,22 @@
+.row {
+  cursor: pointer;
+}
+
+.from {
+  display: flex;
+  align-items: center;
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  svg {
+    flex-shrink: 0;
+    margin-left: 20px;
+  }
+}
+
+.pagination {
+  position: sticky;
+  bottom: 5px;
+  text-align: right;
+}

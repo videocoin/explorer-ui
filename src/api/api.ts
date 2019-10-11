@@ -1,11 +1,28 @@
-import axios, { AxiosPromise, AxiosError } from 'axios';
+import api from './index';
+import { AxiosPromise } from 'axios';
 
-const BASE_URL = 'https://txlog.videocoin.network/api/v1';
-
-export function fetchBlocks(limit = 20): AxiosPromise {
-  return axios.get(`${BASE_URL}/blocks?limit=${limit}`);
+export function fetchBlocks(params: {
+  offset: number;
+  limit: number;
+}): AxiosPromise {
+  return api(`/blocks`, { params });
 }
 
 export function fetchBlock(hash: string): AxiosPromise {
-  return axios.get(`${BASE_URL}/blocks/${hash}`);
+  return api(`/block/${hash}`);
+}
+
+export function fetchTransactions(params: {
+  offset: number;
+  limit: number;
+}): AxiosPromise {
+  return api(`/transactions`, { params });
+}
+
+export function fetchTransaction(hash: string): AxiosPromise {
+  return api(`/transaction/${hash}`);
+}
+
+export function fetchAccount(hash: string): AxiosPromise {
+  return api(`/account/${hash}`);
 }

@@ -1,0 +1,26 @@
+@import "vars";
+@import "colors";
+
+.infoList {
+  margin: 0 30px;
+  min-width: 1px;
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.title {
+  border-bottom: 1px solid $grey-dawn-w2;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+  letter-spacing: -.1px;
+  color: $lightSubtitle;
+  flex: 1;
+  padding: 0 8px;
+}

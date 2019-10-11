@@ -1,0 +1,60 @@
+@import "vars";
+@import "colors";
+
+.row {
+  display: flex;
+  margin-bottom: 12px;
+}
+.rowLeft {
+  min-width: 1px;
+  margin-right: 32px;
+}
+.rowRight {
+  flex-shrink: 0;
+}
+.rowIcon {
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+.hash {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vid,
+.live,
+.offline {
+  box-shadow: $lowly;
+  height: 16px;
+  padding-top: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 10px;
+  letter-spacing: .25px;
+  font-weight: 500;
+  border-radius: 2px;
+  text-align: center;
+  color: rgba($perfect-white, .87);
+}
+.live {
+  background-color: $impossibly-pink;
+}
+
+.offline {
+  background-color: $grey-dawn;
+}
+
+.vid {
+  background-color: $grey-dawn-w4;
+  color: rgba($grey-dawn-b2, .72);
+}
+.hashFromTo {
+  display: flex;
+  align-items: center;
+  svg {
+    flex-shrink: 0;
+    margin: 0 7px;
+    opacity: .24;
+  }
+}

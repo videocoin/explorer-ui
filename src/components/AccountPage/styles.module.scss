@@ -1,0 +1,11 @@
+@import "colors";
+@import "vars";
+
+.balance {
+  background-color: $violet-sky;
+  padding: 0 10px;
+  box-shadow: $lowly;
+  border-radius: 2px;
+  margin-right: 16px;
+  display: inline-block;
+}

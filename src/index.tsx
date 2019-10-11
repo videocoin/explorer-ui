@@ -1,12 +1,17 @@
 import React from 'react';
+import JavascriptTimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { rootReducer } from './store';
+import { rootReducer } from 'store';
 import * as serviceWorker from './serviceWorker';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
+import './styles/index.scss';
+
+JavascriptTimeAgo.locale(en);
 
 const store = createStore(
   rootReducer,

@@ -18,14 +18,14 @@ export type AppActionTypes = SetLoadingAction | SetErrorAction;
 export function setLoading(payload: boolean): SetLoadingAction {
   return {
     type: SET_LOADING,
-    payload,
+    payload
   };
 }
 
 export function setError(payload: Error | null): SetErrorAction {
   return {
     type: SET_ERROR,
-    payload,
+    payload
   };
 }
 
@@ -36,7 +36,7 @@ export interface AppState {
 
 const initialState: AppState = {
   isLoading: false,
-  error: null,
+  error: null
 };
 
 export function appReducer(
@@ -47,12 +47,12 @@ export function appReducer(
     case SET_LOADING:
       return {
         ...state,
-        isLoading: action.payload,
+        isLoading: action.payload
       };
     case SET_ERROR:
       return {
         ...state,
-        error: action.payload,
+        error: action.payload
       };
     default:
       return state;

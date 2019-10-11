@@ -1,0 +1,40 @@
+import React, { FC, ReactElement } from 'react';
+import { map, uniqueId } from 'lodash/fp';
+import css from './styles.module.scss';
+import { Button, IconName } from 'ui-kit/src';
+import { Link } from 'react-router-dom';
+
+interface List<T> {
+  data: T[];
+  viewAll: string;
+  icon: IconName;
+  title: string;
+  rowComponent: FC<{ item: T }>;
+}
+
+const List = <T extends { hash: string }>({
+  data,
+  viewAll,
+  icon,
+  title,
+  rowComponent: RowComponent
+}: List<T>): ReactElement => {
+  const renderRow = (item: T): ReactElement => (
+    <RowComponent key={item.hash} item={item} />
+  );
+  return (
+    <div className={css.infoList}>
+      <div className={css.header}>
+        <div className={css.title}>{title}</div>
+        <Link to={viewAll}>
+          <Button icon={icon} theme="minimal">
+            view all
+          </Button>
+        </Link>
+      </div>
+      {map(renderRow)(data)}
+    </div>
+  );
+};
+
+export default List;

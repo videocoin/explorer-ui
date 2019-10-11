@@ -1,13 +1,19 @@
 import { combineReducers } from 'redux';
 import { appReducer } from './app';
-import { blockReducer } from './block';
+import { blocksReducer } from './blocks';
+import { transactionsReducer } from './transactions';
+import { accountReducer } from './account';
 
 export * from './app';
-export * from './block';
+export * from './blocks';
+export * from './transactions';
+export * from './account';
 
 export const rootReducer = combineReducers({
   app: appReducer,
-  blocks: blockReducer,
+  blocks: blocksReducer,
+  transactions: transactionsReducer,
+  account: accountReducer
 });
 
 export type ReduxStore = ReturnType<typeof rootReducer>;
