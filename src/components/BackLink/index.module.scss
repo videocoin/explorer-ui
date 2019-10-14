@@ -1,5 +1,10 @@
+@import "mixins";
+
 .btn {
   position: absolute;
   left: -50px;
   bottom: 3px;
+  @include mobile {
+    display: none;
+  }
 }

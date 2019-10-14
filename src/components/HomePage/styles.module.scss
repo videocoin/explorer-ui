@@ -1,13 +1,25 @@
 @import "vars";
 @import "colors";
+@import "mixins";
 
 .infoBlocks {
   display: flex;
-  margin: 40px -23px 0;
+  margin: 40px -28px 0;
   justify-content: center;
+  @include mobile {
+    flex-wrap: wrap;
+    margin: 40px -12px 0;
+  }
+}
+.root {
+  max-width: calc(100vw - 339px);
+  overflow: hidden;
+  @include mobile {
+    max-width: 100%;
+  }
 }
 .infoBlock {
-  margin: 0 23px;
+  margin: 0 28px;
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -17,6 +29,7 @@
   height: 189px;
   box-shadow: $lofty;
   background: $violet-sky-b3 no-repeat bottom;
+  background-size: contain;
   width: 236px;
   &:nth-child(2) {
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMzYiIGhlaWdodD0iMTUxIiB2aWV3Qm94PSIwIDAgMjM2IDE1MSI+ICA8cGF0aCBmaWxsPSIjMzUxNjYxIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0wLDE4OSBMMCwxMzIuMTkzMDc3IEwxMi42OTE0NTM0LDEzMC4zMjI1ODkgQzI4LjkyNDAyMiwxMjcuOTMwMjA1IDQ0LjIzMTcyMzIsMTIxLjI3NTU0MyA1Ny4wNTM0NjY5LDExMS4wMzcyNDggQzY5Ljg0ODIyMTEsMTAwLjgyMDUwNSA4NS4yNTA5MzQyLDk0LjM5NTMxMDkgMTAxLjUxMzE5OCw5Mi40OTEwMDkzIEwxMjkuMDIzODkxLDg5LjI2OTUyMzIgQzEzNy45NTgwMTQsODguMjIzMzQyNyAxNDYuNzEwMTM1LDg1Ljk3NjUxMSAxNTUuMDQzNDA4LDgyLjU4OTgzMTUgTDE3OS42MDM4MTIsNzIuNjA4MzcyOCBDMTg1LjUxMzg3Nyw3MC4yMDY0OTU5IDE5MS4xODA1NDEsNjcuMjQ0NTg1MSAxOTYuNTI2MzI1LDYzLjc2MzEzODMgTDIzNiwzOC4wNTU4NzE2IEwyMzYsMzguMDU1ODcxNiBMMjM2LDE4OSBMMCwxODkgWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAtMzgpIi8+PC9zdmc+);
@@ -27,6 +40,11 @@
   &:nth-child(4) {
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMzgiIGhlaWdodD0iMTUxIiB2aWV3Qm94PSIwIDAgMjM4IDE1MSI+ICA8cGF0aCBmaWxsPSIjMzUxNjYxIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0wLDE4OSBMMCwxMzIuMTkzMDc3IEwxMS41NDYwMjE4LDEzMi4xOTMwNzcgQzI4Ljc0OTE1OTksMTMyLjE5MzA3NyA0NS4zMDA1NTUxLDEyNS42MTE5MDIgNTcuODA2NjA2NiwxMTMuNzk4OTE2IEM3MC40NDkzMjY1LDEwMS44NTY4MzYgODYuNjEzMzQ1MSw5NC4zMjEwMDM0IDEwMy44ODg0MTQsOTIuMzE1MTAyIEwxMzAuMzI5MTg4LDg5LjI0NDkyMTQgQzEzOS4xOTkwMDcsODguMjE0OTk4OCAxNDcuODkwOTIzLDg2LjAwMTcwNTMgMTU2LjE3MzExMSw4Mi42NjQwNzE4IEwxODEuMjMzNTc5LDcyLjU2NDk3MDYgQzE4Ny4xMjIyMjMsNzAuMTkxOTEgMTkyLjc3MTQ5NCw2Ny4yNjM0NTU3IDE5OC4xMDQ4ODgsNjMuODE5MjY1OCBMMjM4LDM4LjA1NTg3MTYgTDIzOCwzOC4wNTU4NzE2IEwyMzgsMTg5IEwwLDE4OSBaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIC0zOCkiLz48L3N2Zz4=);
   }
+  @include mobile {
+    width: calc(50% - 24px);
+    height: 92px;
+    margin: 0 12px 24px;
+  }
 }
 
 .blockValue {
@@ -35,6 +53,17 @@
 
 .info {
   display: flex;
-  margin: 113px -30px 60px;
+  margin: 113px 0 60px;
   justify-content: center;
+  & > div:first-child {
+    margin-right: 60px;
+    @include mobile {
+      margin-right: 0;
+      margin-bottom: 35px;
+    }
+  }
+  @include mobile {
+    margin-top: 12px;
+    flex-direction: column;
+  }
 }

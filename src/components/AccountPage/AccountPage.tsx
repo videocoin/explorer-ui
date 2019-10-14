@@ -1,8 +1,6 @@
 import React, { ReactElement, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { TopBar, Typography } from 'ui-kit/src';
-import Search from 'components/Search';
-import BackLink from 'components/BackLink';
+import { Spinner, Typography } from 'ui-kit';
 import css from './styles.module.scss';
 import { fetchAccount } from 'api/api';
 import {
@@ -13,6 +11,7 @@ import {
   SetAccountAction
 } from 'store';
 import { connect } from 'react-redux';
+import PageLayout from 'components/Common/PageLayout';
 
 interface PathParamsType {
   hash: string;
@@ -55,40 +54,33 @@ const AccountPage = ({
     };
   }, [hash, setAccount]);
 
-  if (!account) return null;
+  if (!account)
+    return (
+      <div className="content">
+        <Spinner />
+      </div>
+    );
 
   const { balance } = account;
 
   return (
-    <div>
-      <div className="topBar">
-        <TopBar>
-          <BackLink to="/blocks" />
-          <div>
-            <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">Account</Typography>
-          </div>
-          <Search />
-        </TopBar>
-      </div>
-      <div className="content">
-        <div className={css.head}>
-          <div>
-            <Typography
-              type="subtitleAlt"
-              theme="white"
-              weight="medium"
-              className={css.balance}
-            >
-              {balance} VID
-            </Typography>
-          </div>
-          <Typography type="subtitleAlt" theme="white" weight="medium">
-            {hash}
+    <PageLayout title="Account" backTo="/blocks">
+      <div className={css.head}>
+        <div>
+          <Typography
+            type="subtitleAlt"
+            theme="white"
+            weight="medium"
+            className={css.balance}
+          >
+            {balance} VID
           </Typography>
         </div>
+        <Typography type="subtitleAlt" theme="white" weight="medium">
+          {hash}
+        </Typography>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

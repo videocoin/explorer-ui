@@ -38,38 +38,48 @@ const Search = ({
     setValue(e.currentTarget.value);
   const handleSearch = async (): Promise<void> => {
     setLoading(true);
-    if (isAddress(value)) {
-      const res = await fetchAccount(value);
-      const { account } = res.data;
-      if (account) {
-        await setAccount(account);
-        history.push(`/account/${value}`);
-        return;
+    try {
+      if (isAddress(value)) {
+        const res = await fetchAccount(value);
+        const { account } = res.data;
+        if (account) {
+          await setAccount(account);
+          history.push(`/account/${value}`);
+        } else {
+          history.push('/no-results');
+        }
       }
-    }
-    if (isTransaction(value)) {
-      const res = await fetchTransaction(value);
-      const { transaction } = res.data;
-      if (transaction) {
-        await setSingleTransaction(transaction);
-        history.push(`/transactions/${value}`);
-        return;
+      if (isTransaction(value)) {
+        const res = await fetchTransaction(value);
+        const { transaction } = res.data;
+        if (transaction) {
+          await setSingleTransaction(transaction);
+          history.push(`/transactions/${value}`);
+        } else {
+          history.push('/no-results');
+        }
       }
-    }
-    const res = await fetchBlock(value);
-    const { block } = res.data;
-    if (block) {
-      await setSingleBlock(block);
-      history.push(`/blocks/${value}`);
+      const res = await fetchBlock(value);
+      const { block } = res.data;
+      if (block) {
+        await setSingleBlock(block);
+        history.push(`/blocks/${value}`);
+      } else {
+        history.push('/no-results');
+      }
+    } catch (e) {
+      history.push('/no-results');
     }
   };
   return (
     <div className={css.root}>
-      <Input
-        label="Search by Blocks, Tx Hash, Stream Id, or Account"
-        value={value}
-        onChange={onChange}
-      />
+      <div className={css.input}>
+        <Input
+          label="Search by Blocks, Tx Hash, Stream Id, or Account"
+          value={value}
+          onChange={onChange}
+        />
+      </div>
       <button className={css.btn} onClick={handleSearch}>
         {loading ? <Spinner size="sm" type="inline" /> : <Icon name="search" />}
       </button>

@@ -11,6 +11,8 @@
 }
 .rowRight {
   flex-shrink: 0;
+  margin-left: auto;
+  text-align: right;
 }
 .rowIcon {
   flex-shrink: 0;
@@ -52,6 +54,9 @@
 .hashFromTo {
   display: flex;
   align-items: center;
+  & > div {
+    flex: 1;
+  }
   svg {
     flex-shrink: 0;
     margin: 0 7px;

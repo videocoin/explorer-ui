@@ -1,7 +1,15 @@
-@import "~styles/vars";
+@import "vars";
+@import "~styles/mixins";
 
 .nav {
   margin-top: 50px;
+  @include mobile {
+    display: flex;
+    margin-top: 0;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+  }
 }
 .link {
   display: block;
@@ -18,6 +26,10 @@
   svg {
     opacity: .48;
   }
+  @include mobile {
+    height: auto;
+    margin-bottom: 0;
+  }
 }
 .active {
   svg {
@@ -31,4 +43,14 @@
   margin-top: 2px;
   color: rgba($light, .86);
   visibility: hidden;
+  @include mobile {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.navLogo {
+  @include mobile {
+    display: none;
+  }
 }

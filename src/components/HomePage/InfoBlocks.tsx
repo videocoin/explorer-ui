@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { map } from 'lodash/fp';
 import css from './styles.module.scss';
-import { Typography } from 'ui-kit/src';
+import { Typography } from 'ui-kit';
 
 interface InfoBlock {
   label: string;

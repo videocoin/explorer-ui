@@ -1,8 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { TopBar, Typography } from 'ui-kit/src';
-import Search from 'components/Search';
-import BackLink from 'components/BackLink';
+import { Typography } from 'ui-kit';
+import PageLayout from 'components/Common/PageLayout';
 
 interface PathParamsType {
   hash: string;
@@ -38,21 +37,9 @@ const StreamPage: React.FC<RouteComponentProps<PathParamsType>> = ({
     </li>
   );
   return (
-    <div>
-      <div className="topBar">
-        <TopBar>
-          <BackLink to="/blocks" />
-          <div>
-            <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle" weight="bold">
-              Stream
-            </Typography>
-          </div>
-          <Search />
-        </TopBar>
-      </div>
-      <div className="content" />
-    </div>
+    <PageLayout title="Stream" backTo="/streams">
+      Stream
+    </PageLayout>
   );
 };
 

@@ -1,6 +1,5 @@
-import React, { ReactElement, useEffect } from 'react';
-import { Pagination, TopBar, Typography } from 'ui-kit/src';
-import Search from 'components/Search';
+import React, { ReactElement, useEffect, Fragment } from 'react';
+import { Pagination, Spinner } from 'ui-kit';
 import BlocksTable from './BlocksTable';
 import {
   Block,
@@ -16,6 +15,7 @@ import {
 import { connect } from 'react-redux';
 import css from './styles.module.scss';
 import { Meta } from 'store/types';
+import PageLayout from 'components/Common/PageLayout';
 
 interface StateProps {
   isLoading: boolean;
@@ -35,11 +35,14 @@ const BlocksPage = ({
   setLoading,
   blocks,
   fetchBlocks,
-  meta
+  meta,
+  isLoading
 }: BlocksPageProps): ReactElement => {
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      await setLoading(true);
+      if (!blocks.length) {
+        await setLoading(true);
+      }
       try {
         await fetchBlocks({ page: 1 });
       } catch (e) {
@@ -51,28 +54,23 @@ const BlocksPage = ({
     };
 
     fetchData();
-  }, [fetchBlocks, setLoading]);
+  }, [blocks.length, fetchBlocks, setLoading]);
   const handlePageChange = (page: number): void => {
     fetchBlocks({ page });
   };
   return (
-    <div>
-      <div className="topBar">
-        <TopBar>
-          <div>
-            <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">Latest Blocks</Typography>
+    <PageLayout title="Latest Blocks">
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <Fragment>
+          <BlocksTable data={blocks} />
+          <div className={css.pagination}>
+            <Pagination onChange={handlePageChange} max={!meta.hasMore} />
           </div>
-          <Search />
-        </TopBar>
-      </div>
-      <div className="content">
-        <BlocksTable data={blocks} />
-        <div className={css.pagination}>
-          <Pagination onChange={handlePageChange} max={!meta.hasMore} />
-        </div>
-      </div>
-    </div>
+        </Fragment>
+      )}
+    </PageLayout>
   );
 };
 

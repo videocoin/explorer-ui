@@ -18,11 +18,14 @@ import {
   Block,
   SetLatestBlocksAction
 } from 'store';
-import { TopBar, Typography } from 'ui-kit/src';
+import { Typography } from 'ui-kit';
 import Search from 'components/Search';
 import InfoBlocks from 'components/HomePage/InfoBlocks';
 import TransactionsList from 'components/LatestTransactions';
 import BlocksList from 'components/LatestBlocks';
+import TopBar from 'components/Common/TopBar';
+import PageLayout from 'components/Common/PageLayout';
+import Logo from 'components/Common/Logo';
 
 interface StateProps {
   isLoading: boolean;
@@ -72,7 +75,7 @@ const HomePage: React.FC<HomePageProps> = ({
           console.log('ERROR', e.response);
           // Handle Error. There is a setError function defined in app.ts if you want to use it.
         } finally {
-          startPoll(5000);
+          startPoll(5000000000);
         }
       }, timeout);
     },
@@ -83,24 +86,15 @@ const HomePage: React.FC<HomePageProps> = ({
   }, [setLatestBlocks, setLatestTransactions, startPoll]);
 
   return (
-    <div>
-      <div className="topBar">
-        <TopBar>
-          <div>
-            <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">Block Explorer</Typography>
-          </div>
-          <Search />
-        </TopBar>
-      </div>
-      <div className="content">
+    <PageLayout title="Block Explorer">
+      <div className={css.root}>
         <InfoBlocks />
         <div className={css.info}>
           <BlocksList data={blocks} />
           <TransactionsList data={transactions} />
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

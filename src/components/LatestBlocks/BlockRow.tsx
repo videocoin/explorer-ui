@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import css from './styles.module.scss';
-import { Icon, Typography } from 'ui-kit/src';
+import { Icon, Typography } from 'ui-kit';
 import { Link } from 'react-router-dom';
 import { Block } from 'store';
 import ReactTimeAgo from 'react-time-ago';

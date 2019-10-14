@@ -8,6 +8,10 @@
     align-items: center;
     margin-bottom: 12px;
   }
+  & > div:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .blockId {

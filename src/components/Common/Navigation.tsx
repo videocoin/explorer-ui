@@ -5,8 +5,8 @@ import Logo from 'components/Common/Logo';
 import { Link } from 'react-router-dom';
 
 const Navigation = (): ReactElement => (
-  <div className={css.root}>
-    <Link to="/">
+  <>
+    <Link className={css.navLogo} to="/">
       <Logo />
     </Link>
     <div className={css.nav}>
@@ -15,7 +15,7 @@ const Navigation = (): ReactElement => (
       <NavLink icon="transactions" label="Transactions" to="/transactions" />
       {/*<NavLink icon="stream" label="Streams1" to="/streams" />*/}
     </div>
-  </div>
+  </>
 );
 
 export default Navigation;

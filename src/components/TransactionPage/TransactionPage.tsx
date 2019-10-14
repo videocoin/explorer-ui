@@ -1,9 +1,7 @@
 import React, { ReactElement, ReactNode, useEffect } from 'react';
 import { map } from 'lodash/fp';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import { TopBar, Typography } from 'ui-kit/src';
-import Search from 'components/Search';
-import BackLink from 'components/BackLink';
+import { Spinner, Typography } from 'ui-kit';
 import css from './styles.module.scss';
 import { fetchTransaction } from 'api/api';
 import {
@@ -17,6 +15,7 @@ import {
 } from 'store';
 import { connect } from 'react-redux';
 import ReactTimeAgo from 'react-time-ago';
+import PageLayout from 'components/Common/PageLayout';
 
 interface PathParamsType {
   hash: string;
@@ -70,7 +69,12 @@ const TransactionPage = ({
     };
   }, [hash, setSingleTransaction]);
 
-  if (!transaction) return null;
+  if (!transaction)
+    return (
+      <div className="content">
+        <Spinner />
+      </div>
+    );
 
   const {
     hash: transactionHash,
@@ -144,40 +148,27 @@ const TransactionPage = ({
     );
   };
   return (
-    <div>
-      <div className="topBar">
-        <TopBar>
-          <BackLink to="/blocks" />
-          <div>
-            <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">Transaction</Typography>
-          </div>
-          <Search />
-        </TopBar>
-      </div>
-      <div className="content">
-        <div className={css.head}>
-          <div>
-            <Typography
-              type="subtitleAlt"
-              theme="white"
-              weight="medium"
-              className={css.blockId}
-            >
-              Protocol
-            </Typography>
-            <Typography>
-              <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} />{' '}
-              Ago
-            </Typography>
-          </div>
-          <Typography type="subtitleAlt" theme="white" weight="medium">
-            {transactionHash}
+    <PageLayout title="Transaction" backTo="/transactions">
+      <div className={css.head}>
+        <div>
+          <Typography
+            type="subtitleAlt"
+            theme="white"
+            weight="medium"
+            className={css.blockId}
+          >
+            Protocol
+          </Typography>
+          <Typography>
+            <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} /> Ago
           </Typography>
         </div>
-        <ul className={css.spec}>{map(renderSpec)(specs)}</ul>
+        <Typography type="subtitleAlt" theme="white" weight="medium">
+          {transactionHash}
+        </Typography>
       </div>
-    </div>
+      <ul className={css.spec}>{map(renderSpec)(specs)}</ul>
+    </PageLayout>
   );
 };
 

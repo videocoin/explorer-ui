@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
-import { map, uniqueId } from 'lodash/fp';
+import { map } from 'lodash/fp';
 import css from './styles.module.scss';
-import { Button, IconName } from 'ui-kit/src';
+import { Button, IconName } from 'ui-kit';
 import { Link } from 'react-router-dom';
 
 interface List<T> {
@@ -23,7 +23,7 @@ const List = <T extends { hash: string }>({
     <RowComponent key={item.hash} item={item} />
   );
   return (
-    <div className={css.infoList}>
+    <div className={css.list}>
       <div className={css.header}>
         <div className={css.title}>{title}</div>
         <Link to={viewAll}>

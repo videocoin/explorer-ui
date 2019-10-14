@@ -1,5 +1,6 @@
 @import "vars";
 @import "colors";
+@import "mixins";
 
 .infoList {
   margin: 0 30px;
@@ -23,4 +24,8 @@
   color: $lightSubtitle;
   flex: 1;
   padding: 0 8px;
+  @include mobile {
+    line-height: 1.1;
+    padding-bottom: 5px;
+  }
 }

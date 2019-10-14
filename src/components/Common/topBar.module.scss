@@ -1,0 +1,60 @@
+@import "mixins";
+
+.root {
+  padding: 44px 116px 44px 116px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  overflow: hidden;
+  @include mobile {
+    padding: 15px 22px;
+    position: fixed;
+    width: 100%;
+    overflow: visible;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    background: #290f55;
+    top: 0;
+    height: 50px;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    pointer-events: none;
+    @include mobile {
+      display: none;
+    }
+  }
+  &::after {
+    content: '';
+    border: 2px solid #4e238e;
+    border-bottom: 0;
+    border-right: 0;
+    position: absolute;
+    border-top-left-radius: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(
+                    180deg,
+                    #1b0d2f 68%,
+                    rgba(27, 13, 47, 0) 100%
+    );
+    pointer-events: none;
+    @include mobile {
+      height: 120px;
+      border-radius: 0;
+      background-image: linear-gradient(-180deg, #290f55 0%, #1b0a33 100%);
+    }
+  }
+}
+
+.logo {
+  display: none;
+  @include mobile {
+    display: block;
+    margin-right: 9px;
+  }
+}

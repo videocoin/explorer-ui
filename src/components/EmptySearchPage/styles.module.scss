@@ -1,0 +1,17 @@
+.root {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  margin-top: -70px;
+  img {
+    margin-bottom: 70px;
+  }
+}
+
+.title {
+  margin-bottom: 8px;
+}

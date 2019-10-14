@@ -1,12 +1,8 @@
 import React, { useEffect, ReactElement, ReactNode } from 'react';
 import { map, get } from 'lodash/fp';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { TopBar, Typography } from 'ui-kit/src';
-import Search from 'components/Search';
-import BackLink from 'components/BackLink';
+import { Spinner, Typography } from 'ui-kit';
 import css from './styles.module.scss';
-import StreamsList from 'components/StreamsList';
-import { StreamRowProps } from 'components/StreamsList/StreamRow';
 import TransactionsList from 'components/LatestTransactions';
 import { fetchBlock, fetchTransaction } from 'api/api';
 import {
@@ -19,11 +15,11 @@ import {
   setLoading,
   SetLoadingAction,
   setSingleBlock,
-  SetSingleBlockAction,
-  Transaction
+  SetSingleBlockAction
 } from 'store';
 import { connect } from 'react-redux';
 import ReactTimeAgo from 'react-time-ago';
+import PageLayout from 'components/Common/PageLayout';
 
 interface StateProps {
   isLoading: boolean;
@@ -49,7 +45,8 @@ const BlockPage = ({
   match,
   setSingleBlock,
   setLoading,
-  block
+  block,
+  isLoading
 }: RouteComponentProps<PathParamsType> &
   DispatchProps &
   StateProps): ReactElement => {
@@ -78,7 +75,12 @@ const BlockPage = ({
       setSingleBlock(null);
     };
   }, [hash, setLoading, setSingleBlock]);
-  if (!block) return null;
+  if (!block)
+    return (
+      <div className="content">
+        <Spinner />
+      </div>
+    );
   const {
     size,
     timestamp,
@@ -110,47 +112,32 @@ const BlockPage = ({
   );
 
   return (
-    <div>
-      <div className="topBar">
-        <TopBar>
-          <BackLink to="/blocks" />
-          <div>
-            <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle" weight="bold">
-              Individual Block
-            </Typography>
-          </div>
-          <Search />
-        </TopBar>
-      </div>
-      <div className="content">
-        <div className={css.head}>
-          <div>
-            <Typography
-              type="subtitleAlt"
-              theme="white"
-              weight="medium"
-              className={css.blockId}
-            >
-              {number}
-            </Typography>
-            <Typography>
-              <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} />{' '}
-              Ago
-            </Typography>
-          </div>
-          <Typography type="subtitleAlt" theme="white" weight="medium">
-            {blockHash}
+    <PageLayout title="Individual Block" backTo="/blocks">
+      <div className={css.head}>
+        <div>
+          <Typography
+            type="subtitleAlt"
+            theme="white"
+            weight="medium"
+            className={css.blockId}
+          >
+            {number}
+          </Typography>
+          <Typography>
+            <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} /> Ago
           </Typography>
         </div>
-        <ul className={css.spec}>{map(renderSpec)(specs)}</ul>
-        {Boolean(transactions.length) && (
-          <div className={css.list}>
-            <TransactionsList data={transactions as FullTransaction[]} />
-          </div>
-        )}
+        <Typography type="subtitleAlt" theme="white" weight="medium">
+          {blockHash}
+        </Typography>
       </div>
-    </div>
+      <ul className={css.spec}>{map(renderSpec)(specs)}</ul>
+      {Boolean(transactions.length) && (
+        <div className={css.list}>
+          <TransactionsList data={transactions as FullTransaction[]} />
+        </div>
+      )}
+    </PageLayout>
   );
 };
 

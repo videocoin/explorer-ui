@@ -1,4 +1,6 @@
-@import "~styles/vars";
+@import "vars";
+@import "colors";
+@import "mixins";
 
 .root {
   width: 100%;
@@ -7,6 +9,9 @@
   display: flex;
   & > label {
     flex-grow: 1;
+  }
+  @include mobile {
+    width: auto;
   }
 }
 
@@ -19,4 +24,19 @@
   margin-left: -5px;
   position: relative;
   z-index: 1 ;
+  @include mobile {
+    width: 36px;
+    height: 36px;
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}
+
+.input {
+  width: 100%;
+  @include mobile {
+    display: none;
+  }
 }

@@ -10,6 +10,7 @@ import TransactionPage from 'components/TransactionPage/TransactionPage';
 import StreamsPage from 'components/StreamsPage/StreamsPage';
 import StreamPage from 'components/StreamPage/StreamPage';
 import AccountPage from 'components/AccountPage/AccountPage';
+import EmptySearchPage from 'components/EmptySearchPage';
 
 const App: React.FC = (): ReactElement => {
   return (
@@ -33,6 +34,7 @@ const App: React.FC = (): ReactElement => {
               <Route exact path="/streams" component={StreamsPage} />
               <Route exact path="/streams/:hash" component={StreamPage} />
               <Route exact path="/account/:hash" component={AccountPage} />
+              <Route exact path="/no-results" component={EmptySearchPage} />
             </Switch>
           </div>
         </div>

@@ -1,25 +1,32 @@
 import React, { ReactElement, useEffect } from 'react';
-import { Pagination, TopBar, Typography } from 'ui-kit/src';
-import Search from 'components/Search';
+import { Pagination, Spinner } from 'ui-kit';
 import TransactionsTable from './TransactionsTable';
 import {
   getTransactions,
   getTransactionsMeta,
   ReduxStore,
   fetchTransactions,
-  Transaction
+  Transaction,
+  SetLoadingAction,
+  SetErrorAction,
+  getIsLoading,
+  setLoading
 } from 'store';
 import { connect } from 'react-redux';
 import { Meta } from 'store/types';
 import css from './styles.module.scss';
+import PageLayout from 'components/Common/PageLayout';
 
 interface StateProps {
   transactions: Transaction[];
   meta: Meta;
+  isLoading: boolean;
 }
 
 interface DispatchProps {
   fetchTransactions: ({ page }: { page: number }) => void;
+  setLoading: (payload: boolean) => SetLoadingAction;
+  setError: (payload: Error | null) => SetErrorAction;
 }
 
 type TransactionsPageProps = StateProps & DispatchProps;
@@ -27,46 +34,53 @@ type TransactionsPageProps = StateProps & DispatchProps;
 const TransactionsPage = ({
   fetchTransactions,
   transactions,
-  meta
+  meta,
+  setLoading,
+  isLoading
 }: TransactionsPageProps): ReactElement => {
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      await fetchTransactions({ page: 1 });
+      if (!transactions.length) {
+        await setLoading(true);
+      }
+      try {
+        await fetchTransactions({ page: 1 });
+      } catch (e) {
+        throw e;
+      }
+      setLoading(false);
     };
 
     fetchData();
-  }, [fetchTransactions]);
+  }, [fetchTransactions, setLoading, transactions.length]);
   const handlePageChange = (page: number): void => {
     fetchTransactions({ page });
   };
   return (
-    <div>
-      <div className="topBar">
-        <TopBar>
-          <div>
-            <Typography type="caption">VideoCoin Network</Typography>
-            <Typography type="smallTitle">Transactions</Typography>
+    <PageLayout title="Transactions">
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <TransactionsTable data={transactions} />
+          <div className={css.pagination}>
+            <Pagination onChange={handlePageChange} max={!meta.hasMore} />
           </div>
-          <Search />
-        </TopBar>
-      </div>
-      <div className="content">
-        <TransactionsTable data={transactions} />
-        <div className={css.pagination}>
-          <Pagination onChange={handlePageChange} max={!meta.hasMore} />
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    </PageLayout>
   );
 };
 
 const mapStateToProps = (state: ReduxStore): StateProps => ({
   transactions: getTransactions(state),
-  meta: getTransactionsMeta(state)
+  meta: getTransactionsMeta(state),
+  isLoading: getIsLoading(state)
 });
 
 const dispatchProps = {
-  fetchTransactions
+  fetchTransactions,
+  setLoading
 };
 
 export default connect(

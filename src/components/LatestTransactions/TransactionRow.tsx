@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import ReactTimeAgo from 'react-time-ago';
 import css from './styles.module.scss';
-import { Icon, Typography } from 'ui-kit/src';
+import { Icon, Typography } from 'ui-kit';
 import { Link } from 'react-router-dom';
 import { FullTransaction, Transaction } from 'store';
 

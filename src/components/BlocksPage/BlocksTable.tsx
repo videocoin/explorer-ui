@@ -48,7 +48,7 @@ const BlocksPage = ({
     </tr>
   );
   return (
-    <div>
+    <div className={css.table}>
       <Table fields={fields} data={data} renderRow={renderRow} />
     </div>
   );
