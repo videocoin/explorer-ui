@@ -26,3 +26,22 @@ export function fetchTransaction(hash: string): AxiosPromise {
 export function fetchAccount(hash: string): AxiosPromise {
   return api(`/account/${hash}`);
 }
+
+export function fetchAccountTransactions(
+  hash: string,
+  params: {
+    offset: number;
+    limit: number;
+  }
+): AxiosPromise {
+  return api(`/address/${hash}`, { params });
+}
+export function fetchAccountActions(
+  hash: string,
+  params: {
+    offset: number;
+    limit: number;
+  }
+): AxiosPromise {
+  return api(`/actions/${hash}`, { params });
+}

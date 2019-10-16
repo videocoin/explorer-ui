@@ -5,10 +5,6 @@ html {
   font-family: $baseFont;
   background: $bg no-repeat fixed;
   min-height: 100vh;
-  min-width: 1200px;
-  @include mobile {
-    min-width: 0;
-  }
 }
 
 .app {
@@ -173,9 +169,7 @@ html {
   background: linear-gradient(180deg, #1b0d2f 0%, #0c0417 100%);
   margin-top: -144px;
   max-width: calc(100vw - 92px);
-  min-width: 1108px;
   @include mobile {
-    min-width: 0;
     max-width: 100%;
     padding: 24px;
     margin-top: 70px;
@@ -192,6 +186,7 @@ b {
 }
 a {
   text-decoration: none;
+  color: $sunkissed-orange;
 }
 button {
   background: none;

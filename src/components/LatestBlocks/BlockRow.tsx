@@ -22,7 +22,9 @@ const BlockRow = ({ item }: { item: Block }): ReactElement => {
         <Typography type="caption">{609} Transactions</Typography>
       </div>
       <div className={css.rowRight}>
-        <div className={css.vid}>{gasUsed} VID</div>
+        <div className={css.vid}>
+          <span>{gasUsed}</span> VID
+        </div>
         <Typography type="caption" weight="medium">
           <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} /> Ago
         </Typography>

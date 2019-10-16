@@ -1,4 +1,4 @@
-@import 'mixins';
+@import "mixins";
 
 .row {
   a:hover {
@@ -19,21 +19,18 @@
   }
 }
 
-.pagination {
-  position: sticky;
-  bottom: 5px;
-  text-align: right;
-  @include mobile {
-    bottom: 70px;
-  }
-}
 .table {
   @include mobile {
     overflow-y: scroll;
     margin: 0 -24px;
   }
 }
-.protocolCell,
-.ageCell {
-  width: 100px;
+
+.timeCell {
+  width: 220px;
+}
+
+.valueCell,
+.sourceCell {
+  width: 115px;
 }

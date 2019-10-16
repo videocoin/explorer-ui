@@ -8,6 +8,7 @@
 .rowLeft {
   min-width: 1px;
   margin-right: 32px;
+  flex: 1;
 }
 .rowRight {
   flex-shrink: 0;
@@ -39,6 +40,17 @@
   border-radius: 2px;
   text-align: center;
   color: rgba($perfect-white, .87);
+  max-width: 80px;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  & > span:first-child {
+    margin-right: 3px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 1px;
+  }
 }
 .live {
   background-color: $impossibly-pink;

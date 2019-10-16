@@ -1,5 +1,6 @@
 @import "colors";
 @import "vars";
+@import "mixins";
 
 .balance {
   background-color: $violet-sky;
@@ -9,3 +10,28 @@
   margin-right: 16px;
   display: inline-block;
 }
+
+.pagination {
+  position: sticky;
+  bottom: 5px;
+  text-align: right;
+  @include mobile {
+    bottom: 70px
+  }
+}
+
+.tabNav {
+  border-bottom: 1px solid $violet-sky;
+  margin: 50px 0 20px;
+  button {
+    font-size: 18px;
+    color: #fff;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    margin-bottom: -1px;
+    &.tabActive {
+      border-color: $violet-sky;
+    }
+  }
+}
+

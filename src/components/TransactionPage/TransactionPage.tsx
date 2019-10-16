@@ -16,6 +16,7 @@ import {
 import { connect } from 'react-redux';
 import ReactTimeAgo from 'react-time-ago';
 import PageLayout from 'components/Common/PageLayout';
+import decodeInput from 'utils/decodeInput';
 
 interface PathParamsType {
   hash: string;
@@ -43,6 +44,7 @@ type TransactionPageProps = StateProps & DispatchProps;
 
 const TransactionPage = ({
   match,
+  history,
   setSingleTransaction,
   transaction
 }: RouteComponentProps<PathParamsType> &
@@ -57,6 +59,7 @@ const TransactionPage = ({
         if (transaction) {
           setSingleTransaction(transaction);
         } else {
+          history.replace('/no-results');
           throw new Error('Error');
         }
       } catch (e) {
@@ -67,7 +70,7 @@ const TransactionPage = ({
     return () => {
       setSingleTransaction(null);
     };
-  }, [hash, setSingleTransaction]);
+  }, [hash, history, setSingleTransaction]);
 
   if (!transaction)
     return (
@@ -86,6 +89,7 @@ const TransactionPage = ({
     value,
     timestamp
   } = transaction;
+  const decodedInput = JSON.stringify(decodeInput(input));
 
   const specs: TransactionSpec[] = [
     {
@@ -112,12 +116,6 @@ const TransactionPage = ({
       highlight: true
     },
     {
-      label: 'Stream',
-      value:
-        '0x819e8adbdedcd931588c7359d0fddbbdca02212352bc080cabb5b49de0dc4f9b',
-      highlight: true
-    },
-    {
       label: 'Nonce',
       value: nonce
     },
@@ -127,7 +125,7 @@ const TransactionPage = ({
     },
     {
       label: 'Input',
-      value: input
+      value: decodedInput
     }
   ];
   const renderSpec = ({

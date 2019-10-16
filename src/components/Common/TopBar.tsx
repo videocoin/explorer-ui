@@ -20,7 +20,7 @@ const TopBar = ({ title, backTo }: TopBarProps): ReactElement => {
         </Link>
 
         {Boolean(backTo) && <BackLink to={backTo} />}
-        <div>
+        <div className={css.title}>
           <Typography type="caption">VideoCoin Network</Typography>
           <Typography type="smallTitle">{title}</Typography>
         </div>

@@ -2,21 +2,20 @@ import React, { ReactElement, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Field, Icon, Table } from 'ui-kit';
 import css from './styles.module.scss';
-import { Transaction } from 'store';
-import ReactTimeAgo from 'react-time-ago';
+import { AccountEvent } from 'store/types';
 
 const fields: Field[] = [
   {
-    name: 'type',
-    label: 'Type'
-  },
-  {
-    name: 'age',
-    label: 'Age'
+    name: 'createdAt',
+    label: 'Timestamp'
   },
   {
     name: 'hash',
-    label: 'Transaction Hash'
+    label: 'Hash'
+  },
+  {
+    name: 'type',
+    label: 'Type'
   },
   {
     name: 'from',
@@ -27,32 +26,31 @@ const fields: Field[] = [
     label: 'To'
   },
   {
-    name: 'vid',
-    label: 'VID'
+    name: 'value',
+    label: 'Value'
+  },
+  {
+    name: 'source',
+    label: 'Source'
   }
 ];
 
-interface TransactionRow {
-  type: string;
-  age: string;
+interface EventRow {
+  createdAt: string;
   hash: string;
   from: string;
   to: string;
-  vid: number;
+  type: string;
+  value: string;
+  source: string;
 }
 
-const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {
-  const renderRow = (row: Transaction): ReactNode => (
+const EventsTable = ({ data }: { data: AccountEvent[] }): ReactElement => {
+  const renderRow = (row: AccountEvent): ReactNode => (
     <tr key={row.hash} className={css.row}>
-      <td className={css.protocolCell}>Protocol</td>
-      <td className={css.ageCell}>
-        <ReactTimeAgo timeStyle="twitter" date={new Date(row.timestamp)} />
-      </td>
-      <td>
-        <Link to={`/transactions/${row.hash}`} className={css.from}>
-          <span>{row.hash}</span>
-        </Link>
-      </td>
+      <td className={css.timeCell}>{row.createdAt}</td>
+      <td>{row.hash}</td>
+      <td>{row.type}</td>
       <td>
         <Link to={`/transactions/${row.from}`} className={css.from}>
           <span>{row.from}</span>{' '}
@@ -64,7 +62,8 @@ const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {
           <span>{row.to}</span>
         </Link>
       </td>
-      <td>{row.value}</td>
+      <td className={css.valueCell}>{row.value}</td>
+      <td className={css.sourceCell}>{row.source}</td>
     </tr>
   );
   return (
@@ -74,4 +73,4 @@ const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {
   );
 };
 
-export default TransactionsTable;
+export default EventsTable;

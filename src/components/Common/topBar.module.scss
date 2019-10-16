@@ -6,6 +6,7 @@
   top: 0;
   z-index: 1000;
   overflow: hidden;
+  white-space: nowrap;
   @include mobile {
     padding: 15px 22px;
     position: fixed;
@@ -57,4 +58,8 @@
     display: block;
     margin-right: 9px;
   }
+}
+
+.title {
+  margin-right: 25px;
 }

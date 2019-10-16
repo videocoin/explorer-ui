@@ -34,7 +34,9 @@ const TransactionRow = ({
         </div>
       </div>
       <div className={css.rowRight}>
-        <div className={css.vid}>{value} VID</div>
+        <div className={css.vid}>
+          <span>{value}</span> VID
+        </div>
         <Typography type="caption" weight="medium">
           <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} /> Ago
         </Typography>

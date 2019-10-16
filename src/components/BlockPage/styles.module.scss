@@ -1,5 +1,6 @@
 @import "colors";
 @import "vars";
+@import "mixins";
 
 .head {
   margin-bottom: 48px;
@@ -37,6 +38,8 @@
 
 .list {
   display: flex;
-  margin: 113px -30px 60px;
-  justify-content: center;
+  margin: 113px auto 60px;
+  & > div {
+    width: 100%;
+  }
 }
