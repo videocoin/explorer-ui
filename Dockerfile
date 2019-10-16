@@ -1,5 +1,14 @@
-FROM node:10.15.3-alpine as builder
-RUN apk add build-base git libc6-compat openssh-client
+FROM node:10.16.3-alpine as builder
+
+RUN apk add --no-cache --virtual .gyp \
+        build-base \
+        git \
+        libc6-compat \
+        openssh-client \
+        python \
+        make \
+        g++
+
 RUN apk upgrade libcurl
 
 COPY . /ui

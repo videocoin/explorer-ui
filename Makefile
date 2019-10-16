@@ -18,7 +18,7 @@ build:
 	yarn run build
 
 deps:
-	yarn
+	yarn --ignore-optional
 	cd src/ui-kit && yarn && cd -
 
 docker-build:
