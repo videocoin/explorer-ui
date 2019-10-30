@@ -1,4 +1,4 @@
-import { get } from 'lodash/fp';
+import { get, map } from 'lodash/fp';
 import { AccountEvent, Meta } from 'store/types';
 import { TRANSACTIONS_OFFSET } from 'const';
 import { ThunkAction } from 'redux-thunk';
@@ -96,10 +96,16 @@ export const fetchAccountTransactions = ({
   const res = await API.fetchAccountTransactions(hash, { limit, offset });
   const { transactions } = res.data;
   const hasMore = transactions.length === TRANSACTIONS_OFFSET;
+  const mappedTransactions = map<Transaction, Transaction>(
+    ({ value, ...rest }) => ({
+      value: (+value / 1e18).toString(),
+      ...rest
+    })
+  )(transactions);
   dispatch(
     setAccountTransactions({
       transactionsMeta: { page, offset, hasMore },
-      transactions
+      transactions: mappedTransactions
     })
   );
   return res;

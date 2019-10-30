@@ -18,8 +18,8 @@ import {
   SetSingleBlockAction
 } from 'store';
 import { connect } from 'react-redux';
-import ReactTimeAgo from 'react-time-ago';
 import PageLayout from 'components/Common/PageLayout';
+import timeAgo from 'utils/timeAgo';
 
 interface StateProps {
   isLoading: boolean;
@@ -123,9 +123,7 @@ const BlockPage = ({
           >
             {number}
           </Typography>
-          <Typography>
-            <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} /> Ago
-          </Typography>
+          <Typography>{timeAgo(timestamp)} Ago</Typography>
         </div>
         <Typography type="subtitleAlt" theme="white" weight="medium">
           {blockHash}

@@ -36,7 +36,14 @@ const Search = ({
   const [loading, setLoading] = useState(false);
   const onChange = (e: FormEvent<HTMLInputElement>): void =>
     setValue(e.currentTarget.value);
-  const handleSearch = async (): Promise<void> => {
+  const handleSearch = async (e: FormEvent): Promise<void> => {
+    e.preventDefault();
+    if (!value) return;
+    const wrongValue = !isAddress(value) && !isTransaction(value);
+    if (wrongValue) {
+      history.push('/no-results');
+      return;
+    }
     setLoading(true);
     try {
       if (isAddress(value)) {
@@ -56,23 +63,22 @@ const Search = ({
           await setSingleTransaction(transaction);
           history.push(`/transactions/${value}`);
         } else {
-          history.push('/no-results');
+          const res = await fetchBlock(value);
+          const { block } = res.data;
+          if (block) {
+            await setSingleBlock(block);
+            history.push(`/blocks/${value}`);
+          } else {
+            history.push('/no-results');
+          }
         }
-      }
-      const res = await fetchBlock(value);
-      const { block } = res.data;
-      if (block) {
-        await setSingleBlock(block);
-        history.push(`/blocks/${value}`);
-      } else {
-        history.push('/no-results');
       }
     } catch (e) {
       history.push('/no-results');
     }
   };
   return (
-    <div className={css.root}>
+    <form className={css.root} onSubmit={handleSearch}>
       <div className={css.input}>
         <Input
           label="Search by Blocks, Tx Hash, Stream Id, or Account"
@@ -80,10 +86,10 @@ const Search = ({
           onChange={onChange}
         />
       </div>
-      <button className={css.btn} onClick={handleSearch}>
+      <button className={css.btn} type="submit" disabled={!Boolean(value)}>
         {loading ? <Spinner size="sm" type="inline" /> : <Icon name="search" />}
       </button>
-    </div>
+    </form>
   );
 };
 

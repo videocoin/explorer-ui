@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
-import ReactTimeAgo from 'react-time-ago';
 import css from './styles.module.scss';
 import { Icon, Typography } from 'ui-kit';
 import { Link } from 'react-router-dom';
 import { FullTransaction, Transaction } from 'store';
+import timeAgo from 'utils/timeAgo';
 
 const TransactionRow = ({
   item
@@ -38,7 +38,7 @@ const TransactionRow = ({
           <span>{value}</span> VID
         </div>
         <Typography type="caption" weight="medium">
-          <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} /> Ago
+          {timeAgo(timestamp)} Ago
         </Typography>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Field, Icon, Table } from 'ui-kit';
 import css from './styles.module.scss';
 import { Transaction } from 'store';
-import ReactTimeAgo from 'react-time-ago';
+import timeAgo from 'utils/timeAgo';
 
 const fields: Field[] = [
   {
@@ -45,22 +45,20 @@ const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {
   const renderRow = (row: Transaction): ReactNode => (
     <tr key={row.hash} className={css.row}>
       <td className={css.protocolCell}>Protocol</td>
-      <td className={css.ageCell}>
-        <ReactTimeAgo timeStyle="twitter" date={new Date(row.timestamp)} />
-      </td>
+      <td className={css.ageCell}>{timeAgo(row.timestamp)} Ago</td>
       <td>
         <Link to={`/transactions/${row.hash}`} className={css.from}>
           <span>{row.hash}</span>
         </Link>
       </td>
       <td>
-        <Link to={`/transactions/${row.from}`} className={css.from}>
+        <Link to={`/account/${row.from}`} className={css.from}>
           <span>{row.from}</span>{' '}
           <Icon name="transaction" width={24} height={24} />
         </Link>
       </td>
       <td>
-        <Link to={`/transactions/${row.to}`} className={css.from}>
+        <Link to={`/account/${row.to}`} className={css.from}>
           <span>{row.to}</span>
         </Link>
       </td>

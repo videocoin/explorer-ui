@@ -49,16 +49,20 @@ const EventsTable = ({ data }: { data: AccountEvent[] }): ReactElement => {
   const renderRow = (row: AccountEvent): ReactNode => (
     <tr key={row.hash} className={css.row}>
       <td className={css.timeCell}>{row.createdAt}</td>
-      <td>{row.hash}</td>
+      <td>
+        <Link to={`/transactions/${row.hash}`} className={css.from}>
+          {row.hash}
+        </Link>
+      </td>
       <td>{row.type}</td>
       <td>
-        <Link to={`/transactions/${row.from}`} className={css.from}>
+        <Link to={`/account/${row.from}`} className={css.from}>
           <span>{row.from}</span>{' '}
           <Icon name="transaction" width={24} height={24} />
         </Link>
       </td>
       <td>
-        <Link to={`/transactions/${row.to}`} className={css.from}>
+        <Link to={`/account/${row.to}`} className={css.from}>
           <span>{row.to}</span>
         </Link>
       </td>

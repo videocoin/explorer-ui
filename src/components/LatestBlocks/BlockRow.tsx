@@ -3,10 +3,10 @@ import css from './styles.module.scss';
 import { Icon, Typography } from 'ui-kit';
 import { Link } from 'react-router-dom';
 import { Block } from 'store';
-import ReactTimeAgo from 'react-time-ago';
+import timeAgo from 'utils/timeAgo';
 
 const BlockRow = ({ item }: { item: Block }): ReactElement => {
-  const { size, hash, gasUsed, timestamp } = item;
+  const { hash, gasUsed, timestamp } = item;
   const link = '/blocks/' + hash;
   return (
     <div className={css.row}>
@@ -26,7 +26,7 @@ const BlockRow = ({ item }: { item: Block }): ReactElement => {
           <span>{gasUsed}</span> VID
         </div>
         <Typography type="caption" weight="medium">
-          <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} /> Ago
+          {timeAgo(timestamp)} Ago
         </Typography>
       </div>
     </div>

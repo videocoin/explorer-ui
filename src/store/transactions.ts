@@ -1,4 +1,4 @@
-import { get } from 'lodash/fp';
+import { get, map } from 'lodash/fp';
 import { TRANSACTIONS_OFFSET } from 'const';
 import { ThunkAction } from 'redux-thunk';
 import { Action } from 'redux';
@@ -102,7 +102,18 @@ export const fetchTransactions = ({
   const res = await API.fetchTransactions({ limit, offset });
   const { transactions } = res.data;
   const hasMore = transactions.length === TRANSACTIONS_OFFSET;
-  dispatch(setTransactions({ meta: { page, offset, hasMore }, transactions }));
+  const mappedTransactions = map<Transaction, Transaction>(
+    ({ value, ...rest }) => ({
+      value: (+value / 1e18).toString(),
+      ...rest
+    })
+  )(transactions);
+  dispatch(
+    setTransactions({
+      meta: { page, offset, hasMore },
+      transactions: mappedTransactions
+    })
+  );
   return res;
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, ReactElement, useCallback } from 'react';
+import React, { useEffect, ReactElement, useCallback, useRef } from 'react';
 import { connect } from 'react-redux';
 import css from './styles.module.scss';
 
@@ -18,14 +18,11 @@ import {
   Block,
   SetLatestBlocksAction
 } from 'store';
-import { Typography } from 'ui-kit';
-import Search from 'components/Search';
 import InfoBlocks from 'components/HomePage/InfoBlocks';
 import TransactionsList from 'components/LatestTransactions';
 import BlocksList from 'components/LatestBlocks';
-import TopBar from 'components/Common/TopBar';
 import PageLayout from 'components/Common/PageLayout';
-import Logo from 'components/Common/Logo';
+import { POLL_TIMEOUT } from 'const';
 
 interface StateProps {
   isLoading: boolean;
@@ -51,9 +48,10 @@ const HomePage: React.FC<HomePageProps> = ({
   setLatestTransactions,
   setLatestBlocks
 }): ReactElement => {
+  const timer = useRef<number>();
   const startPoll = useCallback(
     (timeout: number) => {
-      setTimeout(async () => {
+      timer.current = (setTimeout(async () => {
         try {
           const [blocksRes, transactionsRes] = await Promise.all([
             fetchBlocks({ limit: 5, offset: 0 }),
@@ -61,11 +59,9 @@ const HomePage: React.FC<HomePageProps> = ({
           ]);
           const { blocks } = blocksRes.data;
           const { transactions } = transactionsRes.data;
-
           if (transactions) {
             setLatestTransactions(transactions);
           }
-
           if (blocks) {
             setLatestBlocks(blocks);
           } else {
@@ -75,14 +71,17 @@ const HomePage: React.FC<HomePageProps> = ({
           console.log('ERROR', e.response);
           // Handle Error. There is a setError function defined in app.ts if you want to use it.
         } finally {
-          startPoll(5000000000);
+          startPoll(POLL_TIMEOUT);
         }
-      }, timeout);
+      }, timeout) as unknown) as number;
     },
     [setLatestBlocks, setLatestTransactions]
   );
   useEffect(() => {
     startPoll(0);
+    return () => {
+      clearTimeout(timer.current);
+    };
   }, [setLatestBlocks, setLatestTransactions, startPoll]);
 
   return (

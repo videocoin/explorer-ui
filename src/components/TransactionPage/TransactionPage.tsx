@@ -14,9 +14,9 @@ import {
   SetSingleTransactionAction
 } from 'store';
 import { connect } from 'react-redux';
-import ReactTimeAgo from 'react-time-ago';
 import PageLayout from 'components/Common/PageLayout';
 import decodeInput from 'utils/decodeInput';
+import timeAgo from 'utils/timeAgo';
 
 interface PathParamsType {
   hash: string;
@@ -57,7 +57,10 @@ const TransactionPage = ({
         const { transaction } = res.data;
 
         if (transaction) {
-          setSingleTransaction(transaction);
+          setSingleTransaction({
+            ...transaction,
+            value: transaction.value / 1e18
+          });
         } else {
           history.replace('/no-results');
           throw new Error('Error');
@@ -89,7 +92,8 @@ const TransactionPage = ({
     value,
     timestamp
   } = transaction;
-  const decodedInput = JSON.stringify(decodeInput(input));
+
+  const decodedInput = JSON.stringify(decodeInput(input), null, 4);
 
   const specs: TransactionSpec[] = [
     {
@@ -125,7 +129,7 @@ const TransactionPage = ({
     },
     {
       label: 'Input',
-      value: decodedInput
+      value: <pre>{decodedInput}</pre>
     }
   ];
   const renderSpec = ({
@@ -145,6 +149,7 @@ const TransactionPage = ({
       </li>
     );
   };
+
   return (
     <PageLayout title="Transaction" backTo="/transactions">
       <div className={css.head}>
@@ -157,9 +162,7 @@ const TransactionPage = ({
           >
             Protocol
           </Typography>
-          <Typography>
-            <ReactTimeAgo timeStyle="twitter" date={new Date(timestamp)} /> Ago
-          </Typography>
+          <Typography>{timeAgo(timestamp)} Ago</Typography>
         </div>
         <Typography type="subtitleAlt" theme="white" weight="medium">
           {transactionHash}
