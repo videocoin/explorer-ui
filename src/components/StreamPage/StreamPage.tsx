@@ -33,7 +33,7 @@ const StreamPage: React.FC<RouteComponentProps<PathParamsType>> = ({
   const renderSpec = ({ label, value }: BlockSpec): ReactNode => (
     <li key={label}>
       <Typography>{label}</Typography>
-      <Typography type="bodyAlt">{value}</Typography>
+      <Typography type="body">{value}</Typography>
     </li>
   );
   return (

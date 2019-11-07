@@ -110,7 +110,7 @@ const AccountPage = ({
       <div className={css.head}>
         <div>
           <Typography
-            type="subtitleAlt"
+            type="subtitle"
             theme="white"
             weight="medium"
             className={css.balance}
@@ -118,7 +118,7 @@ const AccountPage = ({
             {balance} VID
           </Typography>
         </div>
-        <Typography type="subtitleAlt" theme="white" weight="medium">
+        <Typography type="subtitle" theme="white" weight="medium">
           {hash}
         </Typography>
       </div>

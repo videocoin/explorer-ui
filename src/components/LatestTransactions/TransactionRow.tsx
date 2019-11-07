@@ -24,11 +24,11 @@ const TransactionRow = ({
           </Typography>
         </Link>
         <div className={css.hashFromTo}>
-          <Typography className={css.hash} type="caption" theme="primary">
+          <Typography className={css.hash} type="caption" theme="sunkissed">
             {from}
           </Typography>
           <Icon name="transaction" width={12} height={12} />
-          <Typography className={css.hash} type="caption" theme="primary">
+          <Typography className={css.hash} type="caption" theme="sunkissed">
             {to}
           </Typography>
         </div>
