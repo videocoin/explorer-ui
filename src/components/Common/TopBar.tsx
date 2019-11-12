@@ -5,6 +5,7 @@ import BackLink from 'components/BackLink';
 import Logo from 'components/Common/Logo';
 import css from './topBar.module.scss';
 import { Link } from 'react-router-dom';
+import { useBreakpoint } from 'components/BreakpointProvider';
 
 interface TopBarProps {
   title: string;
@@ -12,6 +13,7 @@ interface TopBarProps {
 }
 
 const TopBar = ({ title, backTo }: TopBarProps): ReactElement => {
+  const breakpoints = useBreakpoint();
   return (
     <div className={css.root}>
       <TopBarBase>
@@ -21,8 +23,12 @@ const TopBar = ({ title, backTo }: TopBarProps): ReactElement => {
 
         {Boolean(backTo) && <BackLink to={backTo} />}
         <div className={css.title}>
-          <Typography type="caption">VideoCoin Network</Typography>
-          <Typography type="smallTitle">{title}</Typography>
+          <Typography type={breakpoints.sm ? 'tiny' : 'caption'}>
+            VideoCoin Network
+          </Typography>
+          <Typography type={breakpoints.sm ? 'body' : 'smallTitle'}>
+            {title}
+          </Typography>
         </div>
         <Search />
       </TopBarBase>

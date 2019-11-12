@@ -62,7 +62,7 @@ const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {
           <span>{row.to}</span>
         </Link>
       </td>
-      <td>{row.value}</td>
+      <td className={css.valueCell}>{row.value}</td>
     </tr>
   );
   return (

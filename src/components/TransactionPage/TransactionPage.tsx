@@ -142,8 +142,8 @@ const TransactionPage = ({
     }
     return (
       <li key={label}>
-        <Typography>{label}</Typography>
-        <Typography type="body" theme={highlight ? 'primary' : 'light'}>
+        <Typography type="smallBodyThin">{label}</Typography>
+        <Typography type="body" theme={highlight ? 'sunkissed' : 'light'}>
           {value}
         </Typography>
       </li>
@@ -164,7 +164,7 @@ const TransactionPage = ({
           </Typography>
           <Typography>{timeAgo(timestamp)} Ago</Typography>
         </div>
-        <Typography type="subtitle" theme="white" weight="medium">
+        <Typography type="subtitle" theme="light">
           {transactionHash}
         </Typography>
       </div>

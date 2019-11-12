@@ -2,13 +2,21 @@
 @import "vars";
 @import "mixins";
 
+.head {
+  overflow-wrap: break-word;
+}
+
 .balance {
   background-color: $violet-sky;
   padding: 0 10px;
   box-shadow: $lowly;
   border-radius: 2px;
-  margin-right: 16px;
   display: inline-block;
+  max-width: 100%;
+  margin-bottom: 12px;
+  span {
+    overflow-wrap: break-word;
+  }
 }
 
 .pagination {

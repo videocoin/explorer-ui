@@ -9,8 +9,7 @@
     margin-bottom: 12px;
   }
   & > div:last-child {
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: break-word;
   }
 }
 

@@ -28,8 +28,13 @@
   }
 }
 .table {
+  @include tablet {
+    overflow-x: scroll;
+    & > table {
+      width: 1200px;
+    }
+  }
   @include mobile {
-    overflow-y: scroll;
     margin: 0 -24px;
   }
 }
@@ -38,4 +43,8 @@
 }
 .ageCell {
   width: 140px;
+}
+.valueCell,
+.sourceCell {
+  width: 115px;
 }

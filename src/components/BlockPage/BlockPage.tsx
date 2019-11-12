@@ -106,7 +106,7 @@ const BlockPage = ({
   ];
   const renderSpec = ({ label, value }: BlockSpec): ReactNode => (
     <li key={label}>
-      <Typography>{label}</Typography>
+      <Typography type="smallBodyThin">{label}</Typography>
       <Typography type="body">{value}</Typography>
     </li>
   );
@@ -125,7 +125,7 @@ const BlockPage = ({
           </Typography>
           <Typography>{timeAgo(timestamp)} Ago</Typography>
         </div>
-        <Typography type="subtitle" theme="white" weight="medium">
+        <Typography type="subtitle" theme="light">
           {blockHash}
         </Typography>
       </div>

@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosTransformer } from 'axios';
 import humps from 'humps';
 
-// eslint-disable-next-line no-undef
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {

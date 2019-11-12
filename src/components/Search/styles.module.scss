@@ -6,12 +6,48 @@
   width: 100%;
   max-width: 725px;
   margin-left: auto;
+  @include mobile {
+    width: auto;
+  }
+}
+
+.toggleBtn {
+  display: none;
+  margin-right: 2px;
+  @include mobile {
+    display: block;
+  }
+}
+
+.form {
+  max-width: 725px;
+  width: 100%;
   display: flex;
-  & > label {
+  & label {
     flex-grow: 1;
   }
   @include mobile {
-    width: auto;
+    position: absolute;
+    left: -22px;
+    top: -14px;
+    width: calc(100% + 44px);
+    background: #290f55;
+    height: 100px;
+    padding-bottom: 33px;
+    align-items: center;
+    padding-right: 24px;
+    & label {
+      & > input {
+        @include placeholder {
+          opacity: 1;
+          color: rgba($lightBody, 0.48);
+        }
+      }
+      & > div:nth-child(2),
+      & > div:last-child {
+        display: none;
+      }
+    }
   }
 }
 
@@ -27,6 +63,7 @@
   @include mobile {
     width: 36px;
     height: 36px;
+    flex-shrink: 0;
     svg {
       width: 15px;
       height: 15px;
@@ -38,7 +75,4 @@
   width: 100%;
   text-overflow: ellipsis;
   max-width: 100%;
-  @include mobile {
-    display: none;
-  }
 }

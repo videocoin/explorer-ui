@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 .row {
   cursor: pointer;
@@ -9,13 +9,18 @@
   bottom: 5px;
   text-align: right;
   @include mobile {
-    bottom: 70px
+    bottom: 70px;
   }
 }
 
 .table {
+  @include tablet {
+    overflow-x: scroll;
+    & > table {
+      width: 700px;
+    }
+  }
   @include mobile {
-    overflow-y: scroll;
     margin: 0 -24px;
   }
 }

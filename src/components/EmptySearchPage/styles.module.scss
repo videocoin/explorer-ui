@@ -1,3 +1,5 @@
+@import "mixins";
+
 .root {
   text-align: center;
   display: flex;
@@ -7,6 +9,9 @@
   flex: 1;
   height: 100%;
   margin-top: -70px;
+  @include mobile {
+    margin-top: 0;
+  }
   img {
     margin-bottom: 70px;
   }

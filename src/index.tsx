@@ -8,15 +8,24 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import './styles/index.scss';
+import { BreakpointProvider } from 'components/BreakpointProvider';
+import { BreakpointType } from 'types/common';
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
 
+export const queries: { [key in BreakpointType]: string } = {
+  sm: '(max-width: 767px)',
+  md: '(max-width: 1023px)'
+};
+
 render(
   <Provider store={store}>
-    <App />
+    <BreakpointProvider queries={queries}>
+      <App />
+    </BreakpointProvider>
   </Provider>,
   document.getElementById('root')
 );

@@ -3,6 +3,7 @@ import { map } from 'lodash/fp';
 import css from './styles.module.scss';
 import { Button, IconName } from 'ui-kit';
 import { Link } from 'react-router-dom';
+import { Typography } from 'ui-kit/src/components/Typography/Typography';
 
 interface List<T> {
   data: T[];
@@ -25,7 +26,9 @@ const List = <T extends { hash: string }>({
   return (
     <div className={css.list}>
       <div className={css.header}>
-        <div className={css.title}>{title}</div>
+        <Typography type="subtitleCaps" className={css.title}>
+          {title}
+        </Typography>
         <Link to={viewAll}>
           <Button icon={icon} theme="minimal">
             view all

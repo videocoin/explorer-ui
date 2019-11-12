@@ -1,4 +1,10 @@
-import React, { FormEvent, ReactElement, useState } from 'react';
+import React, {
+  FormEvent,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Icon, Input, Spinner } from 'ui-kit';
 import css from './styles.module.scss';
@@ -17,6 +23,8 @@ import {
 import { connect } from 'react-redux';
 import { fetchAccount, fetchBlock, fetchTransaction } from 'api/api';
 import isAddress from 'utils/isAddress';
+import { useBreakpoint } from 'components/BreakpointProvider';
+import useOnClickOutside from 'hooks/useOnclickOutside';
 
 interface DispatchProps {
   setSingleTransaction: (
@@ -32,8 +40,23 @@ const Search = ({
   setSingleBlock,
   setAccount
 }: RouteComponentProps & DispatchProps): ReactElement => {
+  const ref = useRef();
+  const breakpoints = useBreakpoint();
+  const [isVisible, setVisible] = useState(true);
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (ref.current) {
+      console.log('123');
+      setVisible(!breakpoints.sm);
+    }
+    return () => {
+      ref.current = null;
+    };
+  }, [breakpoints.sm]);
+  const showSearch = (): void => setVisible(true);
+  const hideSearch = (): void => setVisible(false);
+  useOnClickOutside(ref, hideSearch, false, !breakpoints.sm);
   const onChange = (e: FormEvent<HTMLInputElement>): void =>
     setValue(e.currentTarget.value);
   const handleSearch = async (e: FormEvent): Promise<void> => {
@@ -77,19 +100,37 @@ const Search = ({
       history.push('/no-results');
     }
   };
+
   return (
-    <form className={css.root} onSubmit={handleSearch}>
-      <div className={css.input}>
-        <Input
-          label="Search by Blocks, Tx Hash, Stream Id, or Account"
-          value={value}
-          onChange={onChange}
-        />
-      </div>
-      <button className={css.btn} type="submit" disabled={!Boolean(value)}>
-        {loading ? <Spinner size="sm" type="inline" /> : <Icon name="search" />}
+    <div className={css.root}>
+      <button className={css.toggleBtn} onClick={showSearch}>
+        <Icon name="search" />
       </button>
-    </form>
+      {isVisible && (
+        <form className={css.form} ref={ref} onSubmit={handleSearch}>
+          <div className={css.input}>
+            <Input
+              autoFocus={breakpoints.sm}
+              label={
+                breakpoints.md
+                  ? 'Search'
+                  : 'Search by Blocks, Tx Hash, Stream Id, or Account'
+              }
+              value={value}
+              placeholder="Block, Txn, Stream, or Account"
+              onChange={onChange}
+            />
+          </div>
+          <button className={css.btn} type="submit" disabled={!Boolean(value)}>
+            {loading ? (
+              <Spinner size="sm" type="inline" />
+            ) : (
+              <Icon name="search" />
+            )}
+          </button>
+        </form>
+      )}
+    </div>
   );
 };
 

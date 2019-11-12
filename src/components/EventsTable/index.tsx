@@ -1,5 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { uniqueId } from 'lodash/fp';
 import { Field, Icon, Table } from 'ui-kit';
 import css from './styles.module.scss';
 import { AccountEvent } from 'store/types';
@@ -35,19 +36,9 @@ const fields: Field[] = [
   }
 ];
 
-interface EventRow {
-  createdAt: string;
-  hash: string;
-  from: string;
-  to: string;
-  type: string;
-  value: string;
-  source: string;
-}
-
 const EventsTable = ({ data }: { data: AccountEvent[] }): ReactElement => {
   const renderRow = (row: AccountEvent): ReactNode => (
-    <tr key={row.hash} className={css.row}>
+    <tr key={uniqueId('event')} className={css.row}>
       <td className={css.timeCell}>{row.createdAt}</td>
       <td>
         <Link to={`/transactions/${row.hash}`} className={css.from}>

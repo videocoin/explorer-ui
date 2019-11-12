@@ -7,8 +7,11 @@
   z-index: 1000;
   overflow: hidden;
   white-space: nowrap;
+  @include tablet {
+    padding: 36px 48px;
+  }
   @include mobile {
-    padding: 15px 22px;
+    padding: 14px 22px;
     position: fixed;
     width: 100%;
     overflow: visible;
@@ -61,5 +64,10 @@
 }
 
 .title {
-  margin-right: 25px;
+  margin-right: 47px;
+  & > div:first-child {
+    @include mobile {
+      line-height: 1;
+    }
+  }
 }
