@@ -6,9 +6,9 @@ interface PathParamsType {
   hash: string;
 }
 
-const StreamPage: React.FC<
-  RouteComponentProps<PathParamsType>
-> = (): ReactElement => {
+const StreamPage: React.FC<RouteComponentProps<
+  PathParamsType
+>> = (): ReactElement => {
   return (
     <PageLayout title="Stream" backTo="/streams">
       Stream

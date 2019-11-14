@@ -101,7 +101,4 @@ const dispatchProps = {
   setLoading
 };
 
-export default connect(
-  mapStateToProps,
-  dispatchProps
-)(BlocksPage);
+export default connect(mapStateToProps, dispatchProps)(BlocksPage);

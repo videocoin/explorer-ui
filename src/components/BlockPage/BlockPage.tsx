@@ -1,5 +1,5 @@
 import React, { useEffect, ReactElement, ReactNode } from 'react';
-import { map, get } from 'lodash/fp';
+import { compose, map, get } from 'lodash/fp';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner, Typography } from 'ui-kit';
 import css from './styles.module.scss';
@@ -20,6 +20,7 @@ import {
 import { connect } from 'react-redux';
 import PageLayout from 'components/Common/PageLayout';
 import timeAgo from 'utils/timeAgo';
+import { convertToVID } from 'utils/convertBalance';
 
 interface StateProps {
   isLoading: boolean;
@@ -42,6 +43,7 @@ interface DispatchProps {
 }
 
 const BlockPage = ({
+  history,
   match,
   setSingleBlock,
   setLoading,
@@ -53,40 +55,53 @@ const BlockPage = ({
   const { hash } = match.params;
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      await setLoading(true);
       try {
+        await setSingleBlock(null);
         const res = await fetchBlock(hash);
         const { block } = res.data;
+        if (!block) {
+          history.push('/no-results');
+          return;
+        }
         const transactionsRes = await Promise.all(
           map(fetchTransaction)(block.transactions)
         );
-        const transactions = map(get('data.transaction'))(transactionsRes);
-        setSingleBlock({ ...block, transactions });
+        const transactions = compose(
+          map(({ value, ...rest }) => ({
+            ...rest,
+            value: convertToVID(value)
+          })),
+          map(get('data.transaction'))
+        )(transactionsRes);
+        await setSingleBlock({ ...block, transactions });
       } catch (e) {
         console.log('ERROR', e.response);
         // Handle Error. There is a setError function defined in app.ts if you want to use it.
       }
-
       setLoading(false);
     };
 
     fetchData();
     return () => {
       setSingleBlock(null);
+      setLoading(true);
     };
-  }, [hash, setLoading, setSingleBlock]);
-  if (!block)
+  }, [hash, history, setLoading, setSingleBlock]);
+
+  if (!block || isLoading) {
     return (
       <div className="content">
         <Spinner />
       </div>
     );
+  }
   const {
     size,
     timestamp,
     hash: blockHash,
     number,
     gasUsed,
+    gasLimit,
     transactions
   } = block;
 
@@ -97,7 +112,7 @@ const BlockPage = ({
     },
     {
       label: 'Wattage',
-      value: '5662/50000'
+      value: `${gasUsed}/${gasLimit}`
     },
     {
       label: 'Size',
@@ -149,7 +164,4 @@ const dispatchProps = {
   setLoading
 };
 
-export default connect(
-  mapStateToProps,
-  dispatchProps
-)(withRouter(BlockPage));
+export default connect(mapStateToProps, dispatchProps)(withRouter(BlockPage));

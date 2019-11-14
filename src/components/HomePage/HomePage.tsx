@@ -109,7 +109,4 @@ const dispatchProps = {
   setLatestTransactions
 };
 
-export default connect(
-  mapStateToProps,
-  dispatchProps
-)(HomePage);
+export default connect(mapStateToProps, dispatchProps)(HomePage);

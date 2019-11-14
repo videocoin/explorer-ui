@@ -67,9 +67,11 @@ export default function useOnClickOutside(
 
     return () => {
       events.forEach(event => {
-        document.removeEventListener(event, listener, getOptions(
-          event
-        ) as EventListenerOptions);
+        document.removeEventListener(
+          event,
+          listener,
+          getOptions(event) as EventListenerOptions
+        );
       });
     };
   }, [disableClickOutside, handler, listener]);

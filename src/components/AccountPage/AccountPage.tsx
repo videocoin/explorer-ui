@@ -180,7 +180,4 @@ const dispatchProps = {
   fetchAccountTransactions
 };
 
-export default connect(
-  mapStateToProps,
-  dispatchProps
-)(withRouter(AccountPage));
+export default connect(mapStateToProps, dispatchProps)(withRouter(AccountPage));

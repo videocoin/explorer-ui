@@ -1,6 +1,6 @@
-@import "colors";
-@import "vars";
-@import "mixins";
+@import 'colors';
+@import 'vars';
+@import 'mixins';
 
 .head {
   overflow-wrap: break-word;
@@ -24,7 +24,7 @@
   bottom: 5px;
   text-align: right;
   @include mobile {
-    bottom: 70px
+    bottom: 70px;
   }
 }
 
@@ -42,4 +42,3 @@
     }
   }
 }
-

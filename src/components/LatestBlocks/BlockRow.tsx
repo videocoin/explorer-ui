@@ -6,7 +6,7 @@ import { Block } from 'store';
 import timeAgo from 'utils/timeAgo';
 
 const BlockRow = ({ item }: { item: Block }): ReactElement => {
-  const { hash, gasUsed, timestamp } = item;
+  const { numTxs, hash, gasUsed, timestamp } = item;
   const link = '/blocks/' + hash;
   return (
     <div className={css.row}>
@@ -19,7 +19,7 @@ const BlockRow = ({ item }: { item: Block }): ReactElement => {
             {hash}
           </Typography>
         </Link>
-        <Typography type="caption">{609} Transactions</Typography>
+        <Typography type="caption">{numTxs} Transactions</Typography>
       </div>
       <div className={css.rowRight}>
         <div className={css.vid}>

@@ -95,7 +95,4 @@ const dispatchProps = {
   setLoading
 };
 
-export default connect(
-  mapStateToProps,
-  dispatchProps
-)(TransactionsPage);
+export default connect(mapStateToProps, dispatchProps)(TransactionsPage);

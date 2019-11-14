@@ -28,13 +28,10 @@ const BreakpointProvider = ({
     let isAttached = false;
 
     const handleQueryListener = (): void => {
-      const updatedMatches = keys.reduce(
-        (acc, media) => {
-          acc[media] = mediaQueryLists[media] && mediaQueryLists[media].matches;
-          return acc;
-        },
-        {} as Breakpoints
-      );
+      const updatedMatches = keys.reduce((acc, media) => {
+        acc[media] = mediaQueryLists[media] && mediaQueryLists[media].matches;
+        return acc;
+      }, {} as Breakpoints);
       setQueryMatch(updatedMatches);
     };
 

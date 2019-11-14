@@ -35,7 +35,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-  isLoading: false,
+  isLoading: true,
   error: null
 };
 

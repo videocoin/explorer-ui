@@ -26,6 +26,10 @@ import isAddress from 'utils/isAddress';
 import { useBreakpoint } from 'components/BreakpointProvider';
 import useOnClickOutside from 'hooks/useOnclickOutside';
 
+interface PathParamsType {
+  hash: string;
+}
+
 interface DispatchProps {
   setSingleTransaction: (
     payload: FullTransaction
@@ -38,8 +42,9 @@ const Search = ({
   history,
   setSingleTransaction,
   setSingleBlock,
-  setAccount
-}: RouteComponentProps & DispatchProps): ReactElement => {
+  setAccount,
+  match
+}: RouteComponentProps<PathParamsType> & DispatchProps): ReactElement => {
   const ref = useRef();
   const breakpoints = useBreakpoint();
   const [isVisible, setVisible] = useState(true);
@@ -47,7 +52,6 @@ const Search = ({
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (ref.current) {
-      console.log('123');
       setVisible(!breakpoints.sm);
     }
     return () => {
@@ -61,7 +65,10 @@ const Search = ({
     setValue(e.currentTarget.value);
   const handleSearch = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    if (!value) return;
+    if (!value || match.params.hash === value) {
+      setValue('');
+      return;
+    }
     const wrongValue = !isAddress(value) && !isTransaction(value);
     if (wrongValue) {
       history.push('/no-results');
@@ -99,6 +106,7 @@ const Search = ({
     } catch (e) {
       history.push('/no-results');
     }
+    setLoading(false);
   };
 
   return (
@@ -140,7 +148,4 @@ const dispatchProps = {
   setAccount
 };
 
-export default connect(
-  null,
-  dispatchProps
-)(withRouter(Search));
+export default connect(null, dispatchProps)(withRouter(Search));

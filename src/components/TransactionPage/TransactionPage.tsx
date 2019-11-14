@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import PageLayout from 'components/Common/PageLayout';
 import decodeInput from 'utils/decodeInput';
 import timeAgo from 'utils/timeAgo';
+import { convertToVID } from 'utils/convertBalance';
 
 interface PathParamsType {
   hash: string;
@@ -59,7 +60,7 @@ const TransactionPage = ({
         if (transaction) {
           setSingleTransaction({
             ...transaction,
-            value: transaction.value / 1e18
+            value: convertToVID(transaction.value)
           });
         } else {
           history.replace('/no-results');
