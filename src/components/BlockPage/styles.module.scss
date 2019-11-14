@@ -28,9 +28,14 @@
     align-items: baseline;
     margin-bottom: 16px;
     div:first-child {
-      width: 56px;
+      width: 84px;
       flex-shrink: 0;
       margin-right: 42px;
+    }
+    div:last-child {
+      overflow-wrap: break-word;
+      max-width: 100%;
+      min-width: 1px;
     }
   }
 }

@@ -19,6 +19,8 @@ export interface Block {
   gasLimit: string;
   size: number;
   transactions: string[] | Transaction[];
+  parentHash: string;
+  extraData: string;
 }
 
 export interface SetBlocksAction {

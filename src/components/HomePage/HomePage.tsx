@@ -18,7 +18,6 @@ import {
   Block,
   SetLatestBlocksAction
 } from 'store';
-import InfoBlocks from 'components/HomePage/InfoBlocks';
 import TransactionsList from 'components/LatestTransactions';
 import BlocksList from 'components/LatestBlocks';
 import PageLayout from 'components/Common/PageLayout';
@@ -87,7 +86,6 @@ const HomePage: React.FC<HomePageProps> = ({
   return (
     <PageLayout title="Block Explorer">
       <div className={css.root}>
-        <InfoBlocks />
         <div className={css.info}>
           <BlocksList data={blocks} />
           <TransactionsList data={transactions} />

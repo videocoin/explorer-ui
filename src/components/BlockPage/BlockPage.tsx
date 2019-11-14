@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import PageLayout from 'components/Common/PageLayout';
 import timeAgo from 'utils/timeAgo';
 import { convertToVID } from 'utils/convertBalance';
+import { Link } from 'react-router-dom';
 
 interface StateProps {
   isLoading: boolean;
@@ -33,7 +34,7 @@ interface PathParamsType {
 
 interface BlockSpec {
   label: string;
-  value: string | number;
+  value: string | number | ReactNode;
 }
 
 interface DispatchProps {
@@ -102,13 +103,15 @@ const BlockPage = ({
     number,
     gasUsed,
     gasLimit,
-    transactions
+    transactions,
+    parentHash,
+    extraData
   } = block;
 
   const specs: BlockSpec[] = [
     {
-      label: 'Value',
-      value: `${gasUsed} VID`
+      label: 'Parent hash',
+      value: <Link to={`/blocks/${parentHash}`}>{parentHash}</Link>
     },
     {
       label: 'Wattage',
@@ -117,6 +120,10 @@ const BlockPage = ({
     {
       label: 'Size',
       value: size
+    },
+    {
+      label: 'Extra data',
+      value: extraData
     }
   ];
   const renderSpec = ({ label, value }: BlockSpec): ReactNode => (

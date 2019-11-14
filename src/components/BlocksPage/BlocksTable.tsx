@@ -24,10 +24,6 @@ const fields: Field[] = [
   {
     name: 'size',
     label: 'Size'
-  },
-  {
-    name: 'vid',
-    label: 'VID'
   }
 ];
 
@@ -42,9 +38,10 @@ const BlocksPage = ({
       <td>{row.number}</td>
       <td>{row.hash}</td>
       <td>{row.numTxs}</td>
+      <td>
+        {row.gasUsed}/{row.gasLimit}
+      </td>
       <td>{row.size}</td>
-      <td>{row.size}</td>
-      <td>{row.gasUsed}</td>
     </tr>
   );
   return (
