@@ -6,7 +6,7 @@ import { Block } from 'store';
 import timeAgo from 'utils/timeAgo';
 
 const BlockRow = ({ item }: { item: Block }): ReactElement => {
-  const { numTxs, hash, gasUsed, timestamp } = item;
+  const { numTxs, hash, timestamp } = item;
   const link = '/blocks/' + hash;
   return (
     <div className={css.row}>

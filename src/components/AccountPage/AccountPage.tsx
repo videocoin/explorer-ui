@@ -25,6 +25,7 @@ import { AccountEvent, Meta } from 'store/types';
 import TransactionsTable from 'components/TransactionsPage/TransactionsTable';
 import EventsTable from 'components/EventsTable';
 import css from './styles.module.scss';
+import { convertToVID } from 'utils/convertBalance';
 
 interface PathParamsType {
   hash: string;
@@ -74,7 +75,7 @@ const AccountPage = ({
         const { account } = res.data;
 
         if (account) {
-          setAccount(account);
+          setAccount({ ...account, balance: convertToVID(account.balance) });
         } else {
           throw new Error('Error');
         }
