@@ -1,4 +1,4 @@
-@import "vars";
+@import 'vars';
 
 .row {
   cursor: pointer;
@@ -15,8 +15,8 @@
   div:last-child {
     font-size: 8px;
     line-height: 20px;
-    letter-spacing: .04px;
-    color: rgba($lightSmallTitle, .53);
+    letter-spacing: 0.04px;
+    color: rgba($lightSmallTitle, 0.53);
     text-transform: capitalize;
   }
 }

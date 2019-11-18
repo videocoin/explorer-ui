@@ -1,6 +1,6 @@
-@import "vars";
-@import "colors";
-@import "mixins";
+@import 'vars';
+@import 'colors';
+@import 'mixins';
 
 .root {
   width: 100%;
@@ -59,7 +59,7 @@
   border: none;
   margin-left: -5px;
   position: relative;
-  z-index: 1 ;
+  z-index: 1;
   @include mobile {
     width: 36px;
     height: 36px;

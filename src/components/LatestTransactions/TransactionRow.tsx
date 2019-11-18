@@ -38,7 +38,7 @@ const TransactionRow = ({
           <span>{value}</span> VID
         </div>
         <Typography type="caption" weight="medium">
-          {timeAgo(timestamp)} Ago
+          {timeAgo(timestamp)}
         </Typography>
       </div>
     </div>

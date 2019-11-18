@@ -45,7 +45,7 @@ const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {
   const renderRow = (row: Transaction): ReactNode => (
     <tr key={row.hash} className={css.row}>
       <td className={css.protocolCell}>Protocol</td>
-      <td className={css.ageCell}>{timeAgo(row.timestamp)} Ago</td>
+      <td className={css.ageCell}>{timeAgo(row.timestamp)}</td>
       <td>
         <Link to={`/transactions/${row.hash}`} className={css.from}>
           <span>{row.hash}</span>

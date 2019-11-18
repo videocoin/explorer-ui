@@ -23,7 +23,7 @@ const BlockRow = ({ item }: { item: Block }): ReactElement => {
       </div>
       <div className={css.rowRight}>
         <Typography type="caption" weight="medium">
-          {timeAgo(timestamp)} Ago
+          {timeAgo(timestamp)}
         </Typography>
       </div>
     </div>

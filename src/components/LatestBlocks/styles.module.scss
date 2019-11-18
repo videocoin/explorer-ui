@@ -1,5 +1,5 @@
-@import "vars";
-@import "colors";
+@import 'vars';
+@import 'colors';
 
 .row {
   display: flex;
@@ -14,7 +14,6 @@
   flex-shrink: 0;
   text-align: right;
   margin-left: auto;
-
 }
 .rowIcon {
   flex-shrink: 0;
@@ -35,11 +34,11 @@
   padding-left: 8px;
   padding-right: 8px;
   font-size: 10px;
-  letter-spacing: .25px;
+  letter-spacing: 0.25px;
   font-weight: 500;
   border-radius: 2px;
   text-align: center;
-  color: rgba($perfect-white, .87);
+  color: rgba($perfect-white, 0.87);
   max-width: 80px;
   overflow: hidden;
   white-space: nowrap;
@@ -62,7 +61,7 @@
 
 .vid {
   background-color: $grey-dawn-w4;
-  color: rgba($grey-dawn-b2, .72);
+  color: rgba($grey-dawn-b2, 0.72);
 }
 .hashFromTo {
   display: flex;
@@ -70,6 +69,6 @@
   svg {
     flex-shrink: 0;
     margin: 0 7px;
-    opacity: .24;
+    opacity: 0.24;
   }
 }

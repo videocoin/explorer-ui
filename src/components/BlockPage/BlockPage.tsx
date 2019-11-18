@@ -145,7 +145,7 @@ const BlockPage = ({
           >
             {number}
           </Typography>
-          <Typography>{timeAgo(timestamp)} Ago</Typography>
+          <Typography>{timeAgo(timestamp)}</Typography>
         </div>
         <Typography type="subtitle" theme="light">
           {blockHash}
