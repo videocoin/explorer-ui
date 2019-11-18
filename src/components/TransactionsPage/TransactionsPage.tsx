@@ -51,11 +51,12 @@ const TransactionsPage = ({
             // Handle Error. There is a setError function defined in app.ts if you want to use it.
           }
         } finally {
+          setLoading(false);
           startPoll(POLL_TIMEOUT);
         }
       }, timeout) as unknown) as number;
     },
-    [fetchTransactions, meta.page]
+    [fetchTransactions, meta.page, setLoading]
   );
 
   useEffect(() => {
