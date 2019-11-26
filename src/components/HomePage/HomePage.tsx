@@ -53,8 +53,8 @@ const HomePage: React.FC<HomePageProps> = ({
       timer.current = (setTimeout(async () => {
         try {
           const [blocksRes, transactionsRes] = await Promise.all([
-            fetchBlocks({ limit: 5, offset: 0 }),
-            fetchTransactions({ limit: 5, offset: 0 })
+            fetchBlocks({ limit: 5 }),
+            fetchTransactions({ limit: 5 })
           ]);
           const { blocks } = blocksRes.data;
           const { transactions } = transactionsRes.data;

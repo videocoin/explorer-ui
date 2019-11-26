@@ -5,7 +5,7 @@ import React, {
   Fragment,
   useCallback
 } from 'react';
-import { Pagination, Spinner } from 'ui-kit';
+import { Spinner } from 'ui-kit';
 import BlocksTable from './BlocksTable';
 import {
   Block,
@@ -22,7 +22,10 @@ import { connect } from 'react-redux';
 import css from './styles.module.scss';
 import { Meta } from 'store/types';
 import PageLayout from 'components/Common/PageLayout';
+import { Pagination } from 'components/Pagination/Pagination';
 import { POLL_TIMEOUT } from 'const';
+import getTime from 'utils/getTime';
+import { first, last } from 'lodash/fp';
 
 interface StateProps {
   isLoading: boolean;
@@ -31,7 +34,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  fetchBlocks: ({ page }: { page: number }) => void;
+  fetchBlocks: ({ before, after }: { before?: number; after?: number }) => void;
   setLoading: (payload: boolean) => SetLoadingAction;
   setError: (payload: Error | null) => SetErrorAction;
 }
@@ -50,19 +53,14 @@ const BlocksPage = ({
     (timeout: number) => {
       timer.current = (setTimeout(async () => {
         try {
-          try {
-            await fetchBlocks({ page: meta.page });
-          } catch (e) {
-            console.log('ERROR', e.response);
-            // Handle Error. There is a setError function defined in app.ts if you want to use it.
-          }
+          await fetchBlocks({ before: meta.before, after: meta.after });
         } finally {
           setLoading(false);
           startPoll(POLL_TIMEOUT);
         }
       }, timeout) as unknown) as number;
     },
-    [fetchBlocks, meta.page, setLoading]
+    [fetchBlocks, meta.after, meta.before, setLoading]
   );
 
   useEffect(() => {
@@ -70,10 +68,21 @@ const BlocksPage = ({
     return () => {
       clearTimeout(timer.current);
     };
-  }, [blocks.length, startPoll]);
+  }, [startPoll]);
 
-  const handlePageChange = (page: number): void => {
-    fetchBlocks({ page });
+  const handleNext = (): void => {
+    clearTimeout(timer.current);
+    fetchBlocks({
+      before: getTime(last(blocks).timestamp),
+      after: null
+    });
+  };
+  const handlePrev = (): void => {
+    clearTimeout(timer.current);
+    fetchBlocks({
+      after: getTime(first(blocks).timestamp),
+      before: null
+    });
   };
   return (
     <PageLayout title="Latest Blocks">
@@ -83,7 +92,7 @@ const BlocksPage = ({
         <Fragment>
           <BlocksTable data={blocks} />
           <div className={css.pagination}>
-            <Pagination onChange={handlePageChange} max={!meta.hasMore} />
+            <Pagination onPrev={handlePrev} onNext={handleNext} />
           </div>
         </Fragment>
       )}

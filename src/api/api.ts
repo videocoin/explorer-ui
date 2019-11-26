@@ -2,7 +2,8 @@ import api from './index';
 import { AxiosPromise } from 'axios';
 
 export function fetchBlocks(params: {
-  offset: number;
+  before?: number;
+  after?: number;
   limit: number;
 }): AxiosPromise {
   return api(`/blocks`, { params });
@@ -13,7 +14,8 @@ export function fetchBlock(hash: string): AxiosPromise {
 }
 
 export function fetchTransactions(params: {
-  offset: number;
+  before?: number;
+  after?: number;
   limit: number;
 }): AxiosPromise {
   return api(`/transactions`, { params });
@@ -30,8 +32,9 @@ export function fetchAccount(hash: string): AxiosPromise {
 export function fetchAccountTransactions(
   hash: string,
   params: {
-    offset: number;
     limit: number;
+    before: number;
+    after: number;
   }
 ): AxiosPromise {
   return api(`/address/${hash}`, { params });
@@ -39,8 +42,8 @@ export function fetchAccountTransactions(
 export function fetchAccountActions(
   hash: string,
   params: {
-    offset: number;
     limit: number;
+    after: number;
   }
 ): AxiosPromise {
   return api(`/actions/${hash}`, { params });

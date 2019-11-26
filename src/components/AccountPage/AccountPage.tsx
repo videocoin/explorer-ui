@@ -1,7 +1,7 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Pagination, Spinner, Typography } from 'ui-kit';
-import { eq } from 'lodash/fp';
+import { Spinner, Typography } from 'ui-kit';
+import { eq, first, last } from 'lodash/fp';
 import { fetchAccount } from 'api/api';
 import {
   Account,
@@ -24,8 +24,10 @@ import PageLayout from 'components/Common/PageLayout';
 import { AccountEvent, Meta } from 'store/types';
 import TransactionsTable from 'components/TransactionsPage/TransactionsTable';
 import EventsTable from 'components/EventsTable';
-import css from './styles.module.scss';
+import { Pagination } from 'components/Pagination/Pagination';
 import { convertToVID } from 'utils/convertBalance';
+import css from './styles.module.scss';
+import getTime from 'utils/getTime';
 
 interface PathParamsType {
   hash: string;
@@ -43,12 +45,22 @@ interface DispatchProps {
   setAccount: (payload: Account) => SetAccountAction;
   fetchAccountTransactions: ({
     hash,
-    page
+    before,
+    after
   }: {
     hash: string;
-    page: number;
+    before?: number;
+    after?: number;
   }) => void;
-  fetchAccountActions: ({ hash, page }: { hash: string; page: number }) => void;
+  fetchAccountActions: ({
+    hash,
+    after,
+    before
+  }: {
+    hash: string;
+    after?: number;
+    before?: number;
+  }) => void;
 }
 
 type AccountPageProps = StateProps & DispatchProps;
@@ -70,8 +82,8 @@ const AccountPage = ({
     const fetchData = async (): Promise<void> => {
       try {
         const res = await fetchAccount(hash);
-        await fetchAccountTransactions({ hash, page: 1 });
-        await fetchAccountActions({ hash, page: 1 });
+        await fetchAccountTransactions({ hash });
+        await fetchAccountActions({ hash });
         const { account } = res.data;
 
         if (account) {
@@ -96,16 +108,37 @@ const AccountPage = ({
       </div>
     );
 
-  const handleTransactionPageChange = (page: number): void => {
-    fetchAccountTransactions({ hash, page });
-  };
-  const handleActionsPageChange = (page: number): void => {
-    fetchAccountActions({ hash, page });
-  };
   const switchTab = (tab: string) => () => setTab(tab);
   const isActiveTab = eq(tab);
   const { balance } = account;
-
+  const handleTransactionsNext = (): void => {
+    fetchAccountTransactions({
+      hash,
+      before: getTime(last(transactions).timestamp),
+      after: null
+    });
+  };
+  const handleTransactionsPrev = (): void => {
+    fetchAccountActions({
+      hash,
+      after: getTime(first(transactions).timestamp),
+      before: null
+    });
+  };
+  const handleEventsNext = (): void => {
+    fetchAccountActions({
+      hash,
+      before: getTime(last(transactions).timestamp),
+      after: null
+    });
+  };
+  const handleEventsPrev = (): void => {
+    fetchAccountTransactions({
+      hash,
+      after: getTime(first(transactions).timestamp),
+      before: null
+    });
+  };
   return (
     <PageLayout title="Account" backTo="/blocks">
       <div className={css.head}>
@@ -142,12 +175,11 @@ const AccountPage = ({
       {tab === 'events' && (
         <>
           <EventsTable data={actions} />
-          <div className={css.pagination}>
-            <Pagination
-              onChange={handleActionsPageChange}
-              max={!actionsMeta.hasMore}
-            />
-          </div>
+          {actions.length >= 20 && (
+            <div className={css.pagination}>
+              <Pagination onPrev={handleEventsPrev} onNext={handleEventsNext} />
+            </div>
+          )}
         </>
       )}
       {tab === 'transactions' && (
@@ -155,8 +187,8 @@ const AccountPage = ({
           <TransactionsTable data={transactions} />
           <div className={css.pagination}>
             <Pagination
-              onChange={handleTransactionPageChange}
-              max={!transactionsMeta.hasMore}
+              onPrev={handleTransactionsPrev}
+              onNext={handleTransactionsNext}
             />
           </div>
         </>

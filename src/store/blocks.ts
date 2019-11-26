@@ -78,8 +78,6 @@ const initialState: BlocksState = {
   latest: [],
   block: null,
   meta: {
-    page: 1,
-    offset: 0,
     hasMore: false
   }
 };
@@ -110,17 +108,18 @@ export function blocksReducer(
 }
 
 export const fetchBlocks = ({
-  page = 1,
+  before,
+  after,
   limit = BLOCKS_OFFSET
 }: {
   limit?: number;
-  page?: number;
+  before?: number;
+  after?: number;
 }): ThunkAction<void, BlocksState, null, Action<string>> => async dispatch => {
-  const offset = (page - 1) * BLOCKS_OFFSET;
-  const res = await API.fetchBlocks({ limit, offset });
+  const res = await API.fetchBlocks({ limit, before, after });
   const { blocks } = res.data;
   const hasMore = blocks.length === BLOCKS_OFFSET;
-  dispatch(setBlocks({ meta: { page, offset, hasMore }, blocks }));
+  dispatch(setBlocks({ meta: { before, after, hasMore }, blocks }));
   return res;
 };
 

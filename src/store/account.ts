@@ -72,28 +72,29 @@ const initialState: AccountState = {
   actions: [],
   transactions: [],
   actionsMeta: {
-    page: 1,
-    offset: 0,
     hasMore: false
   },
   transactionsMeta: {
-    page: 1,
-    offset: 0,
     hasMore: false
   }
 };
 
 export const fetchAccountTransactions = ({
   hash,
-  page = 1,
+  before,
+  after,
   limit = TRANSACTIONS_OFFSET
 }: {
   hash: string;
   limit?: number;
-  page?: number;
+  before?: number;
+  after?: number;
 }): ThunkAction<void, AccountState, null, Action<string>> => async dispatch => {
-  const offset = (page - 1) * TRANSACTIONS_OFFSET;
-  const res = await API.fetchAccountTransactions(hash, { limit, offset });
+  const res = await API.fetchAccountTransactions(hash, {
+    limit,
+    before,
+    after
+  });
   const { transactions } = res.data;
   const hasMore = transactions.length === TRANSACTIONS_OFFSET;
   const mappedTransactions = map<Transaction, Transaction>(
@@ -104,7 +105,7 @@ export const fetchAccountTransactions = ({
   )(transactions);
   dispatch(
     setAccountTransactions({
-      transactionsMeta: { page, offset, hasMore },
+      transactionsMeta: { before, after, hasMore },
       transactions: mappedTransactions
     })
   );
@@ -112,20 +113,24 @@ export const fetchAccountTransactions = ({
 };
 export const fetchAccountActions = ({
   hash,
-  page = 1,
-  limit = TRANSACTIONS_OFFSET
+  limit = TRANSACTIONS_OFFSET,
+  after,
+  before
 }: {
   hash: string;
   limit?: number;
-  page?: number;
+  before?: number;
+  after?: number;
 }): ThunkAction<void, AccountState, null, Action<string>> => async dispatch => {
-  const offset = (page - 1) * TRANSACTIONS_OFFSET;
-  const res = await API.fetchAccountActions(hash, { limit, offset });
+  const res = await API.fetchAccountActions(hash, {
+    limit,
+    after: 1565789425
+  });
   const { actions } = res.data;
   const hasMore = actions.length === TRANSACTIONS_OFFSET;
   dispatch(
     setAccountActions({
-      actionsMeta: { page, offset, hasMore },
+      actionsMeta: { before, after, hasMore },
       actions
     })
   );

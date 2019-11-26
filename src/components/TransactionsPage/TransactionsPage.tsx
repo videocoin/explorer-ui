@@ -1,5 +1,6 @@
 import React, { ReactElement, useCallback, useEffect, useRef } from 'react';
-import { Pagination, Spinner } from 'ui-kit';
+import { Spinner } from 'ui-kit';
+import { first, last } from 'lodash/fp';
 import TransactionsTable from './TransactionsTable';
 import {
   getTransactions,
@@ -17,6 +18,8 @@ import { Meta } from 'store/types';
 import css from './styles.module.scss';
 import PageLayout from 'components/Common/PageLayout';
 import { POLL_TIMEOUT } from 'const';
+import { Pagination } from 'components/Pagination/Pagination';
+import getTime from 'utils/getTime';
 
 interface StateProps {
   transactions: Transaction[];
@@ -25,7 +28,13 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  fetchTransactions: ({ page }: { page: number }) => void;
+  fetchTransactions: ({
+    before,
+    after
+  }: {
+    before?: number;
+    after?: number;
+  }) => void;
   setLoading: (payload: boolean) => SetLoadingAction;
   setError: (payload: Error | null) => SetErrorAction;
 }
@@ -44,19 +53,14 @@ const TransactionsPage = ({
     (timeout: number) => {
       timer.current = (setTimeout(async () => {
         try {
-          try {
-            await fetchTransactions({ page: meta.page });
-          } catch (e) {
-            console.log('ERROR', e.response);
-            // Handle Error. There is a setError function defined in app.ts if you want to use it.
-          }
+          await fetchTransactions({ before: meta.before, after: meta.after });
         } finally {
           setLoading(false);
           startPoll(POLL_TIMEOUT);
         }
       }, timeout) as unknown) as number;
     },
-    [fetchTransactions, meta.page, setLoading]
+    [fetchTransactions, meta.after, meta.before, setLoading]
   );
 
   useEffect(() => {
@@ -64,10 +68,21 @@ const TransactionsPage = ({
     return () => {
       clearTimeout(timer.current);
     };
-  }, [transactions.length, startPoll]);
+  }, [startPoll]);
 
-  const handlePageChange = (page: number): void => {
-    fetchTransactions({ page });
+  const handleNext = (): void => {
+    clearTimeout(timer.current);
+    fetchTransactions({
+      before: getTime(last(transactions).timestamp),
+      after: null
+    });
+  };
+  const handlePrev = (): void => {
+    clearTimeout(timer.current);
+    fetchTransactions({
+      after: getTime(first(transactions).timestamp),
+      before: null
+    });
   };
   return (
     <PageLayout title="Transactions">
@@ -77,7 +92,7 @@ const TransactionsPage = ({
         <>
           <TransactionsTable data={transactions} />
           <div className={css.pagination}>
-            <Pagination onChange={handlePageChange} max={!meta.hasMore} />
+            <Pagination onPrev={handlePrev} onNext={handleNext} />
           </div>
         </>
       )}

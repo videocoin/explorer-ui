@@ -1,0 +1,30 @@
+@import '../../styles/vars';
+
+.root {
+  align-items: center;
+  background: $violet-sky-b1;
+  border-radius: 8px;
+  height: 56px;
+  display: inline-flex;
+  overflow: hidden;
+  box-shadow: $lowly;
+  svg {
+    fill: $violet-sky-w4;
+  }
+  button {
+    width: 32px;
+    background: $violet-sky;
+    height: 100%;
+    border: none;
+    &:disabled {
+      background: transparent;
+      svg {
+        opacity: 0.12;
+      }
+    }
+  }
+  div {
+    width: 90px;
+    text-align: center;
+  }
+}

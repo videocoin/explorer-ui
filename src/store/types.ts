@@ -1,6 +1,6 @@
 export interface Meta {
-  page: number;
-  offset: number;
+  before?: number;
+  after?: number;
   hasMore: boolean;
 }
 

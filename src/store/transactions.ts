@@ -87,19 +87,20 @@ interface TransactionsState {
 }
 
 export const fetchTransactions = ({
-  page = 1,
+  before,
+  after,
   limit = TRANSACTIONS_OFFSET
 }: {
   limit?: number;
-  page?: number;
+  before?: number;
+  after?: number;
 }): ThunkAction<
   void,
   TransactionsState,
   null,
   Action<string>
 > => async dispatch => {
-  const offset = (page - 1) * TRANSACTIONS_OFFSET;
-  const res = await API.fetchTransactions({ limit, offset });
+  const res = await API.fetchTransactions({ limit, before, after });
   const { transactions } = res.data;
   const hasMore = transactions.length === TRANSACTIONS_OFFSET;
   const mappedTransactions = map<Transaction, Transaction>(
@@ -110,7 +111,7 @@ export const fetchTransactions = ({
   )(transactions);
   dispatch(
     setTransactions({
-      meta: { page, offset, hasMore },
+      meta: { before, after, hasMore },
       transactions: mappedTransactions
     })
   );
@@ -121,8 +122,6 @@ const initialState: TransactionsState = {
   transactions: [],
   latest: [],
   meta: {
-    page: 1,
-    offset: 0,
     hasMore: false
   },
   transaction: null
