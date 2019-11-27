@@ -10,23 +10,39 @@ import getTime from 'utils/getTime';
 import { first, last } from 'lodash/fp';
 import useRequest from 'api/useRequest';
 
-const BlocksPage = (): ReactElement => {
-  const [meta, setMeta] = useState({
-    before: null,
-    after: null
-  });
-  const [shouldPoll, setShouldPoll] = useState(true);
-  const { data } = useRequest<{ blocks: Block[] }>(
-    {
-      url: '/blocks',
-      params: {
-        before: meta.before,
-        after: meta.after
-      }
+interface StateProps {
+  isLoading: boolean;
+  blocks: Block[];
+  meta: Meta;
+}
+
+interface DispatchProps {
+  fetchBlocks: ({ before, after }: { before?: number; after?: number }) => void;
+  setLoading: (payload: boolean) => SetLoadingAction;
+  setError: (payload: Error | null) => SetErrorAction;
+}
+
+type BlocksPageProps = StateProps & DispatchProps;
+
+const BlocksPage = ({
+  setLoading,
+  blocks,
+  fetchBlocks,
+  isLoading
+}: BlocksPageProps): ReactElement => {
+  const timer = useRef<number>();
+  const startPoll = useCallback(
+    (timeout: number) => {
+      timer.current = (setTimeout(async () => {
+        try {
+          await fetchBlocks({});
+        } finally {
+          setLoading(false);
+          startPoll(POLL_TIMEOUT);
+        }
+      }, timeout) as unknown) as number;
     },
-    {
-      refreshInterval: shouldPoll ? POLL_TIMEOUT : 0
-    }
+    [fetchBlocks, setLoading]
   );
 
   const handleNext = (): void => {
@@ -51,13 +67,13 @@ const BlocksPage = (): ReactElement => {
       {!data ? (
         <Spinner />
       ) : (
-        <Fragment>
-          <BlocksTable data={data.blocks} />
-          <div className={css.pagination}>
-            <Pagination onPrev={handlePrev} onNext={handleNext} />
-          </div>
-        </Fragment>
-      )}
+          <Fragment>
+            <BlocksTable data={data.blocks} />
+            <div className={css.pagination}>
+              <Pagination onPrev={handlePrev} onNext={handleNext} />
+            </div>
+          </Fragment>
+        )}
     </PageLayout>
   );
 };
