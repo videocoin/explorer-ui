@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Field, Icon, Table } from 'ui-kit';
 import css from './styles.module.scss';
-import { Transaction } from 'store';
+import { Transaction } from 'types/common';
 import timeAgo from 'utils/timeAgo';
 
 const fields: Field[] = [
@@ -31,15 +31,6 @@ const fields: Field[] = [
     label: 'VID'
   }
 ];
-
-interface TransactionRow {
-  type: string;
-  age: string;
-  hash: string;
-  from: string;
-  to: string;
-  vid: number;
-}
 
 const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {
   const renderRow = (row: Transaction): ReactNode => (

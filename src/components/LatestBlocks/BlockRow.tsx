@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import css from './styles.module.scss';
 import { Icon, Typography } from 'ui-kit';
 import { Link } from 'react-router-dom';
-import { Block } from 'store';
+import { Block } from 'types/common';
 import timeAgo from 'utils/timeAgo';
 
 const BlockRow = ({ item }: { item: Block }): ReactElement => {

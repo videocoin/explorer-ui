@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { uniqueId } from 'lodash/fp';
 import { Field, Icon, Table } from 'ui-kit';
 import css from './styles.module.scss';
-import { AccountEvent } from 'store/types';
+import { AccountEvent } from 'types/common';
 
 const fields: Field[] = [
   {

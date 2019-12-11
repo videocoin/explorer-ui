@@ -9,18 +9,6 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Icon, Input, Spinner } from 'ui-kit';
 import css from './styles.module.scss';
 import isTransaction from 'utils/isTransaction';
-import {
-  setSingleTransaction,
-  setSingleBlock,
-  FullTransaction,
-  SetSingleTransactionAction,
-  Block,
-  SetSingleBlockAction,
-  setAccount,
-  SetAccountAction,
-  Account
-} from 'store';
-import { connect } from 'react-redux';
 import { fetchAccount, fetchBlock, fetchTransaction } from 'api/api';
 import isAddress from 'utils/isAddress';
 import { useBreakpoint } from 'components/BreakpointProvider';
@@ -30,21 +18,10 @@ interface PathParamsType {
   hash: string;
 }
 
-interface DispatchProps {
-  setSingleTransaction: (
-    payload: FullTransaction
-  ) => SetSingleTransactionAction;
-  setSingleBlock: (payload: Block) => SetSingleBlockAction;
-  setAccount: (payload: Account) => SetAccountAction;
-}
-
 const Search = ({
   history,
-  setSingleTransaction,
-  setSingleBlock,
-  setAccount,
   match
-}: RouteComponentProps<PathParamsType> & DispatchProps): ReactElement => {
+}: RouteComponentProps<PathParamsType>): ReactElement => {
   const ref = useRef();
   const breakpoints = useBreakpoint();
   const [isVisible, setVisible] = useState(true);
@@ -80,7 +57,6 @@ const Search = ({
         const res = await fetchAccount(value);
         const { account } = res.data;
         if (account) {
-          await setAccount(account);
           history.push(`/account/${value}`);
         } else {
           history.push('/no-results');
@@ -90,13 +66,11 @@ const Search = ({
         const res = await fetchTransaction(value);
         const { transaction } = res.data;
         if (transaction) {
-          await setSingleTransaction(transaction);
           history.push(`/transactions/${value}`);
         } else {
           const res = await fetchBlock(value);
           const { block } = res.data;
           if (block) {
-            await setSingleBlock(block);
             history.push(`/blocks/${value}`);
           } else {
             history.push('/no-results');
@@ -142,10 +116,4 @@ const Search = ({
   );
 };
 
-const dispatchProps = {
-  setSingleTransaction,
-  setSingleBlock,
-  setAccount
-};
-
-export default connect(null, dispatchProps)(withRouter(Search));
+export default withRouter(Search);

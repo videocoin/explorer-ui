@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Field, Table } from 'ui-kit';
 import css from './styles.module.scss';
-import { Block } from 'store';
+import { Block } from 'types/common';
 
 const fields: Field[] = [
   {

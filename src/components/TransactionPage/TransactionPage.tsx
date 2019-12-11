@@ -1,23 +1,14 @@
-import React, { ReactElement, ReactNode, useEffect } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { map } from 'lodash/fp';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Spinner, Typography } from 'ui-kit';
 import css from './styles.module.scss';
-import { fetchTransaction } from 'api/api';
-import {
-  FullTransaction,
-  getTransaction,
-  ReduxStore,
-  SetErrorAction,
-  SetLoadingAction,
-  setSingleTransaction,
-  SetSingleTransactionAction
-} from 'store';
-import { connect } from 'react-redux';
+import { FullTransaction } from 'types/common';
 import PageLayout from 'components/Common/PageLayout';
 import decodeInput from 'utils/decodeInput';
 import timeAgo from 'utils/timeAgo';
 import { convertToVID } from 'utils/convertBalance';
+import useRequest from 'api/useRequest';
 
 interface PathParamsType {
   hash: string;
@@ -29,59 +20,36 @@ interface TransactionSpec {
   highlight?: boolean;
 }
 
-interface StateProps {
-  transaction: FullTransaction;
-}
-
-interface DispatchProps {
-  setSingleTransaction: (
-    payload: FullTransaction
-  ) => SetSingleTransactionAction;
-  setLoading: (payload: boolean) => SetLoadingAction;
-  setError: (payload: Error | null) => SetErrorAction;
-}
-
-type TransactionPageProps = StateProps & DispatchProps;
-
 const TransactionPage = ({
   match,
-  history,
-  setSingleTransaction,
-  transaction
-}: RouteComponentProps<PathParamsType> &
-  TransactionPageProps): ReactElement => {
+  history
+}: RouteComponentProps<PathParamsType>): ReactElement => {
   const { hash } = match.params;
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        const res = await fetchTransaction(hash);
-        const { transaction } = res.data;
+  const { data } = useRequest<{ transaction: FullTransaction }>({
+    url: `/transaction/${hash}`
+  });
 
-        if (transaction) {
-          setSingleTransaction({
-            ...transaction,
-            value: convertToVID(transaction.value)
-          });
-        } else {
-          history.replace('/no-results');
-          throw new Error('Error');
-        }
-      } catch (e) {
-        console.log('ERROR', e.response);
-      }
-    };
-    fetchData();
-    return () => {
-      setSingleTransaction(null);
-    };
-  }, [hash, history, setSingleTransaction]);
-
-  if (!transaction)
+  if (!data) {
     return (
-      <div className="content">
+      <PageLayout title="Transaction" backTo="/transactions">
         <Spinner />
-      </div>
+      </PageLayout>
     );
+  }
+  if (!data.transaction) {
+    setTimeout(() => {
+      history.replace('/no-results');
+    }, 100);
+    return (
+      <PageLayout title="Transaction" backTo="/transactions">
+        <Spinner />
+      </PageLayout>
+    );
+  }
+  const transaction = {
+    ...data.transaction,
+    value: convertToVID(data.transaction.value)
+  };
 
   const {
     hash: transactionHash,
@@ -174,15 +142,4 @@ const TransactionPage = ({
   );
 };
 
-const mapStateToProps = (state: ReduxStore): StateProps => ({
-  transaction: getTransaction(state)
-});
-
-const dispatchProps = {
-  setSingleTransaction
-};
-
-export default connect(
-  mapStateToProps,
-  dispatchProps
-)(withRouter(TransactionPage));
+export default withRouter(TransactionPage);

@@ -1,105 +1,47 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Spinner, Typography } from 'ui-kit';
-import { eq, first, last } from 'lodash/fp';
-import { fetchAccount } from 'api/api';
-import {
-  Account,
-  setAccount,
-  getAccount,
-  ReduxStore,
-  SetAccountAction,
-  setAccountTransactions,
-  setAccountActions,
-  fetchAccountActions,
-  fetchAccountTransactions,
-  getAccountActions,
-  getAccountActionsMeta,
-  getAccountTransactions,
-  getAccountTransactionsMeta,
-  Transaction
-} from 'store';
-import { connect } from 'react-redux';
+import { eq, first, last, map } from 'lodash/fp';
+import { Account, Transaction, AccountEvent } from 'types/common';
 import PageLayout from 'components/Common/PageLayout';
-import { AccountEvent, Meta } from 'store/types';
 import TransactionsTable from 'components/TransactionsPage/TransactionsTable';
 import EventsTable from 'components/EventsTable';
 import { Pagination } from 'components/Pagination/Pagination';
 import { convertToVID } from 'utils/convertBalance';
 import css from './styles.module.scss';
 import getTime from 'utils/getTime';
+import useRequest from 'api/useRequest';
 
 interface PathParamsType {
   hash: string;
 }
 
-interface StateProps {
-  account: Account;
-  transactions: Transaction[];
-  actions: AccountEvent[];
-  transactionsMeta: Meta;
-  actionsMeta: Meta;
-}
-
-interface DispatchProps {
-  setAccount: (payload: Account) => SetAccountAction;
-  fetchAccountTransactions: ({
-    hash,
-    before,
-    after
-  }: {
-    hash: string;
-    before?: number;
-    after?: number;
-  }) => void;
-  fetchAccountActions: ({
-    hash,
-    after,
-    before
-  }: {
-    hash: string;
-    after?: number;
-    before?: number;
-  }) => void;
-}
-
-type AccountPageProps = StateProps & DispatchProps;
-
 const AccountPage = ({
-  match,
-  setAccount,
-  account,
-  transactions,
-  transactionsMeta,
-  fetchAccountTransactions,
-  fetchAccountActions,
-  actionsMeta,
-  actions
-}: RouteComponentProps<PathParamsType> & AccountPageProps): ReactElement => {
+  match
+}: RouteComponentProps<PathParamsType>): ReactElement => {
+  const [transactionsMeta, setTransactionsMeta] = useState({
+    before: null,
+    after: null
+  });
+  const [actionsMeta, setActionsMeta] = useState({
+    before: null,
+    after: null
+  });
   const { hash } = match.params;
+  const { data: account } = useRequest<{ account: Account }>({
+    url: `/account/${hash}`,
+    params: {
+      before: transactionsMeta.before,
+      after: transactionsMeta.after
+    }
+  });
+  const { data: transactions } = useRequest<{ transactions: Transaction[] }>({
+    url: `/address/${hash}`
+  });
+  const { data: actions } = useRequest<{ actions: AccountEvent[] }>({
+    url: `/actions/${hash}`
+  });
   const [tab, setTab] = useState('transactions');
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        const res = await fetchAccount(hash);
-        await fetchAccountTransactions({ hash });
-        await fetchAccountActions({ hash });
-        const { account } = res.data;
-
-        if (account) {
-          setAccount({ ...account, balance: convertToVID(account.balance) });
-        } else {
-          throw new Error('Error');
-        }
-      } catch (e) {
-        console.log('ERROR', e.response);
-      }
-    };
-    fetchData();
-    return () => {
-      setAccount(null);
-    };
-  }, [fetchAccountActions, fetchAccountTransactions, hash, setAccount]);
 
   if (!account)
     return (
@@ -107,38 +49,43 @@ const AccountPage = ({
         <Spinner />
       </div>
     );
-
+  const mappedAccount = {
+    ...account,
+    balance: convertToVID(account.account.balance)
+  };
   const switchTab = (tab: string) => () => setTab(tab);
   const isActiveTab = eq(tab);
-  const { balance } = account;
+  const { balance } = mappedAccount;
   const handleTransactionsNext = (): void => {
-    fetchAccountTransactions({
-      hash,
-      before: getTime(last(transactions).timestamp),
+    setTransactionsMeta({
+      before: getTime(last(transactions.transactions).timestamp),
       after: null
     });
   };
   const handleTransactionsPrev = (): void => {
-    fetchAccountActions({
-      hash,
-      after: getTime(first(transactions).timestamp),
+    setTransactionsMeta({
+      after: getTime(first(transactions.transactions).timestamp),
       before: null
     });
   };
   const handleEventsNext = (): void => {
-    fetchAccountActions({
-      hash,
-      before: getTime(last(transactions).timestamp),
+    setActionsMeta({
+      before: getTime(last(actions.actions).timestamp),
       after: null
     });
   };
   const handleEventsPrev = (): void => {
-    fetchAccountTransactions({
-      hash,
-      after: getTime(first(transactions).timestamp),
+    setActionsMeta({
+      after: getTime(first(actions.actions).timestamp),
       before: null
     });
   };
+  const mappedTransactions = map<Transaction, Transaction>(
+    ({ value, ...rest }) => ({
+      value: (+value / 1e18).toString(),
+      ...rest
+    })
+  )(transactions && transactions.transactions);
   return (
     <PageLayout title="Account" backTo="/blocks">
       <div className={css.head}>
@@ -174,8 +121,8 @@ const AccountPage = ({
       </div>
       {tab === 'events' && (
         <>
-          <EventsTable data={actions} />
-          {actions.length >= 20 && (
+          <EventsTable data={actions.actions} />
+          {actions.actions.length >= 20 && (
             <div className={css.pagination}>
               <Pagination onPrev={handleEventsPrev} onNext={handleEventsNext} />
             </div>
@@ -184,7 +131,7 @@ const AccountPage = ({
       )}
       {tab === 'transactions' && (
         <>
-          <TransactionsTable data={transactions} />
+          <TransactionsTable data={mappedTransactions} />
           <div className={css.pagination}>
             <Pagination
               onPrev={handleTransactionsPrev}
@@ -197,20 +144,4 @@ const AccountPage = ({
   );
 };
 
-const mapStateToProps = (state: ReduxStore): StateProps => ({
-  account: getAccount(state),
-  transactions: getAccountTransactions(state),
-  transactionsMeta: getAccountTransactionsMeta(state),
-  actions: getAccountActions(state),
-  actionsMeta: getAccountActionsMeta(state)
-});
-
-const dispatchProps = {
-  setAccount,
-  setAccountTransactions,
-  setAccountActions,
-  fetchAccountActions,
-  fetchAccountTransactions
-};
-
-export default connect(mapStateToProps, dispatchProps)(withRouter(AccountPage));
+export default withRouter(AccountPage);

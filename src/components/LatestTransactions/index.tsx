@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import List from 'components/List';
 import Row from './TransactionRow';
-import { FullTransaction, Transaction } from 'store';
+import { FullTransaction, Transaction } from 'types/common';
 
 const LatestTransactions = ({
   data

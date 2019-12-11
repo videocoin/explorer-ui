@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import css from './styles.module.scss';
 import { Icon, Typography } from 'ui-kit';
 import { Link } from 'react-router-dom';
-import { FullTransaction, Transaction } from 'store';
+import { FullTransaction, Transaction } from 'types/common';
 import timeAgo from 'utils/timeAgo';
 
 const TransactionRow = ({

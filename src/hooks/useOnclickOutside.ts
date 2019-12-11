@@ -58,7 +58,7 @@ export default function useOnClickOutside(
 
   useEffect(() => {
     if (!handler || disableClickOutside) {
-      return () => {};
+      return () => null;
     }
 
     events.forEach(event => {

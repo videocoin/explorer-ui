@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import List from 'components/List';
 import Row from './BlockRow';
-import { Block } from 'store';
+import { Block } from 'types/common';
 
 const LatestBlocks = ({ data }: { data: Block[] }): ReactElement => {
   return (

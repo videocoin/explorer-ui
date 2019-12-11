@@ -1,32 +1,17 @@
-import React, { useEffect, ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, useCallback } from 'react';
 import { compose, map, get } from 'lodash/fp';
+import useSWR from 'swr';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner, Typography } from 'ui-kit';
 import css from './styles.module.scss';
 import TransactionsList from 'components/LatestTransactions';
-import { fetchBlock, fetchTransaction } from 'api/api';
-import {
-  Block,
-  FullTransaction,
-  getBlock,
-  getIsLoading,
-  ReduxStore,
-  SetErrorAction,
-  setLoading,
-  SetLoadingAction,
-  setSingleBlock,
-  SetSingleBlockAction
-} from 'store';
-import { connect } from 'react-redux';
+import { fetchTransaction } from 'api/api';
+import { Block, FullTransaction } from 'types/common';
 import PageLayout from 'components/Common/PageLayout';
 import timeAgo from 'utils/timeAgo';
 import { convertToVID } from 'utils/convertBalance';
 import { Link } from 'react-router-dom';
-
-interface StateProps {
-  isLoading: boolean;
-  block: Block;
-}
+import useRequest from 'api/useRequest';
 
 interface PathParamsType {
   hash: string;
@@ -37,65 +22,66 @@ interface BlockSpec {
   value: string | number | ReactNode;
 }
 
-interface DispatchProps {
-  setSingleBlock: (payload: Block) => SetSingleBlockAction;
-  setLoading: (payload: boolean) => SetLoadingAction;
-  setError: (payload: Error | null) => SetErrorAction;
-}
-
 const BlockPage = ({
   history,
-  match,
-  setSingleBlock,
-  setLoading,
-  block,
-  isLoading
-}: RouteComponentProps<PathParamsType> &
-  DispatchProps &
-  StateProps): ReactElement => {
+  match
+}: RouteComponentProps<PathParamsType>): ReactElement => {
   const { hash } = match.params;
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        await setSingleBlock(null);
-        const res = await fetchBlock(hash);
-        const { block } = res.data;
-        if (!block) {
-          history.push('/no-results');
-          return;
-        }
-        const transactionsRes = await Promise.all(
-          map(fetchTransaction)(block.transactions)
-        );
-        const transactions = compose(
+  const { data: block } = useRequest<{ block: Block }>({
+    url: `/block/${hash}`
+  });
+  const fetchTransactions = useCallback(async () => {
+    if (!block) {
+      return;
+    }
+    try {
+      const transactionsRes = await Promise.all(
+        map(fetchTransaction)(block.block.transactions as [])
+      );
+      return {
+        data: compose(
           map(({ value, ...rest }) => ({
             ...rest,
             value: convertToVID(value)
           })),
           map(get('data.transaction'))
-        )(transactionsRes);
-        await setSingleBlock({ ...block, transactions });
-      } catch (e) {
-        console.log('ERROR', e.response);
-        // Handle Error. There is a setError function defined in app.ts if you want to use it.
-      }
-      setLoading(false);
-    };
-
-    fetchData();
-    return () => {
-      setSingleBlock(null);
-      setLoading(true);
-    };
-  }, [hash, history, setLoading, setSingleBlock]);
-
-  if (!block || isLoading) {
+        )(transactionsRes)
+      };
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      return { data: undefined, error };
+    }
+  }, [block]);
+  const { data } = useSWR([block], fetchTransactions);
+  if (!block || !data) {
     return (
-      <div className="content">
+      <PageLayout title="Individual Block" backTo="/blocks">
         <Spinner />
-      </div>
+      </PageLayout>
     );
   }
+
+  if (!block.block) {
+    setTimeout(() => {
+      history.replace('/no-results');
+    }, 100);
+    return (
+      <PageLayout title="Transaction" backTo="/transactions">
+        <Spinner />
+      </PageLayout>
+    );
+  }
+
+  if (!block) {
+    return (
+      <PageLayout title="Individual Block" backTo="/blocks">
+        <Spinner />
+      </PageLayout>
+    );
+  }
+  const { data: transactions } = data;
+
   const {
     size,
     timestamp,
@@ -103,10 +89,9 @@ const BlockPage = ({
     number,
     gasUsed,
     gasLimit,
-    transactions,
     parentHash,
     extraData
-  } = block;
+  } = block.block;
 
   const specs: BlockSpec[] = [
     {
@@ -126,6 +111,7 @@ const BlockPage = ({
       value: extraData
     }
   ];
+
   const renderSpec = ({ label, value }: BlockSpec): ReactNode => (
     <li key={label}>
       <Typography type="smallBodyThin">{label}</Typography>
@@ -161,14 +147,4 @@ const BlockPage = ({
   );
 };
 
-const mapStateToProps = (state: ReduxStore): StateProps => ({
-  isLoading: getIsLoading(state),
-  block: getBlock(state)
-});
-
-const dispatchProps = {
-  setSingleBlock,
-  setLoading
-};
-
-export default connect(mapStateToProps, dispatchProps)(withRouter(BlockPage));
+export default withRouter(BlockPage);

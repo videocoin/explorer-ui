@@ -1,110 +1,46 @@
-import React, { useEffect, ReactElement, useCallback, useRef } from 'react';
-import { connect } from 'react-redux';
+import React, { ReactElement } from 'react';
 import css from './styles.module.scss';
-
-import { fetchBlocks, fetchTransactions } from 'api/api';
-import {
-  setLatestBlocks,
-  setLoading,
-  SetLoadingAction,
-  getIsLoading,
-  getLatestBlocks,
-  ReduxStore,
-  SetErrorAction,
-  getLatestTransactions,
-  Transaction,
-  setLatestTransactions,
-  SetLatestTransactionsAction,
-  Block,
-  SetLatestBlocksAction
-} from 'store';
+import { Spinner } from 'ui-kit';
+import { Transaction, Block } from 'types/common';
 import TransactionsList from 'components/LatestTransactions';
 import BlocksList from 'components/LatestBlocks';
 import PageLayout from 'components/Common/PageLayout';
 import { POLL_TIMEOUT } from 'const';
+import useRequest from 'api/useRequest';
 
-interface StateProps {
-  isLoading: boolean;
-  blocks: Block[];
-  transactions: Transaction[];
-}
-
-interface DispatchProps {
-  setLatestBlocks: (payload: Block[]) => SetLatestBlocksAction;
-  setLatestTransactions: (
-    payload: Transaction[]
-  ) => SetLatestTransactionsAction;
-  setLoading: (payload: boolean) => SetLoadingAction;
-  setError: (payload: Error | null) => SetErrorAction;
-}
-
-type HomePageProps = StateProps & DispatchProps;
-
-const HomePage: React.FC<HomePageProps> = ({
-  blocks,
-  setLoading,
-  transactions,
-  setLatestTransactions,
-  setLatestBlocks
-}): ReactElement => {
-  const timer = useRef<number>();
-  const startPoll = useCallback(
-    (timeout: number) => {
-      timer.current = (setTimeout(async () => {
-        try {
-          const [blocksRes, transactionsRes] = await Promise.all([
-            fetchBlocks({ limit: 5 }),
-            fetchTransactions({ limit: 5 })
-          ]);
-          const { blocks } = blocksRes.data;
-          const { transactions } = transactionsRes.data;
-          if (transactions) {
-            setLatestTransactions(transactions);
-          }
-          if (blocks) {
-            setLatestBlocks(blocks);
-          } else {
-            throw new Error('Error');
-          }
-        } catch (e) {
-          console.log('ERROR', e.response);
-          // Handle Error. There is a setError function defined in app.ts if you want to use it.
-        } finally {
-          startPoll(POLL_TIMEOUT);
-        }
-      }, timeout) as unknown) as number;
+const HomePage: React.FC = (): ReactElement => {
+  const { data: blocks } = useRequest<{ blocks: Block[] }>(
+    {
+      url: '/blocks',
+      params: { limit: 5 }
     },
-    [setLatestBlocks, setLatestTransactions]
+    { refreshInterval: POLL_TIMEOUT }
   );
-  useEffect(() => {
-    startPoll(0);
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, [setLatestBlocks, setLatestTransactions, startPoll]);
+  const { data: transactions } = useRequest<{ transactions: Transaction[] }>(
+    {
+      url: '/transactions',
+      params: { limit: 5 }
+    },
+    { refreshInterval: POLL_TIMEOUT }
+  );
+  if (!blocks || !transactions) {
+    return (
+      <PageLayout title="Block Explorer">
+        <Spinner />
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout title="Block Explorer">
       <div className={css.root}>
         <div className={css.info}>
-          <BlocksList data={blocks} />
-          <TransactionsList data={transactions} />
+          <BlocksList data={blocks.blocks} />
+          <TransactionsList data={transactions.transactions} />
         </div>
       </div>
     </PageLayout>
   );
 };
 
-const mapStateToProps = (state: ReduxStore): StateProps => ({
-  isLoading: getIsLoading(state),
-  blocks: getLatestBlocks(state),
-  transactions: getLatestTransactions(state)
-});
-
-const dispatchProps = {
-  setLatestBlocks,
-  setLoading,
-  setLatestTransactions
-};
-
-export default connect(mapStateToProps, dispatchProps)(HomePage);
+export default HomePage;
