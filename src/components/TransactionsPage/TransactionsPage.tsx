@@ -79,17 +79,17 @@ const TransactionsPage = ({
       {!data ? (
         <Spinner />
       ) : (
-          <>
-            <TransactionsTable data={mappedTransactions} />
-            <div className={css.pagination}>
-              <Pagination
-                disabled={!data}
-                onPrev={handlePrev}
-                onNext={handleNext}
-              />
-            </div>
-          </>
-        )}
+        <>
+          <TransactionsTable data={mappedTransactions} />
+          <div className={css.pagination}>
+            <Pagination
+              disabled={!data}
+              onPrev={handlePrev}
+              onNext={handleNext}
+            />
+          </div>
+        </>
+      )}
     </PageLayout>
   );
 };

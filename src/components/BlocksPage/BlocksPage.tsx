@@ -67,13 +67,13 @@ const BlocksPage = ({
       {!data ? (
         <Spinner />
       ) : (
-          <Fragment>
-            <BlocksTable data={data.blocks} />
-            <div className={css.pagination}>
-              <Pagination onPrev={handlePrev} onNext={handleNext} />
-            </div>
-          </Fragment>
-        )}
+        <Fragment>
+          <BlocksTable data={data.blocks} />
+          <div className={css.pagination}>
+            <Pagination onPrev={handlePrev} onNext={handleNext} />
+          </div>
+        </Fragment>
+      )}
     </PageLayout>
   );
 };
