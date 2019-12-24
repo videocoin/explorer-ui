@@ -10,45 +10,23 @@ import { Pagination } from 'components/Pagination/Pagination';
 import getTime from 'utils/getTime';
 import useRequest from 'api/useRequest';
 
-interface StateProps {
-  transactions: Transaction[];
-  meta: Meta;
-  isLoading: boolean;
-}
-
-interface DispatchProps {
-  fetchTransactions: ({
-    before,
-    after
-  }: {
-    before?: number;
-    after?: number;
-  }) => void;
-  setLoading: (payload: boolean) => SetLoadingAction;
-  setError: (payload: Error | null) => SetErrorAction;
-}
-
-type TransactionsPageProps = StateProps & DispatchProps;
-
-const TransactionsPage = ({
-  fetchTransactions,
-  transactions,
-  setLoading,
-  isLoading
-}: TransactionsPageProps): ReactElement => {
-  const timer = useRef<number>();
-  const startPoll = useCallback(
-    (timeout: number) => {
-      timer.current = (setTimeout(async () => {
-        try {
-          await fetchTransactions({});
-        } finally {
-          setLoading(false);
-          startPoll(POLL_TIMEOUT);
-        }
-      }, timeout) as unknown) as number;
+const TransactionsPage = (): ReactElement => {
+  const [meta, setMeta] = useState({
+    before: null,
+    after: null
+  });
+  const [shouldPoll, setShouldPoll] = useState(true);
+  const { data } = useRequest<{ transactions: Transaction[] }>(
+    {
+      url: '/transactions',
+      params: {
+        before: meta.before,
+        after: meta.after
+      }
     },
-    [fetchTransactions, setLoading]
+    {
+      refreshInterval: shouldPoll ? POLL_TIMEOUT : 0
+    }
   );
 
   const handleNext = (): void => {
