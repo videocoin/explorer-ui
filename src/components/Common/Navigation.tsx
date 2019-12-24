@@ -13,7 +13,7 @@ const Navigation = (): ReactElement => (
       <NavLink exact icon="dashboard" label="Dashboard" to="/" />
       <NavLink icon="block" label="Blocks" to="/blocks" />
       <NavLink icon="transactions" label="Transactions" to="/transactions" />
-      {/*<NavLink icon="stream" label="Streams1" to="/streams" />*/}
+      <NavLink icon="workers2" label="Workers" to="/workers" />
     </div>
   </>
 );

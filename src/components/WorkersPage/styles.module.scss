@@ -1,0 +1,99 @@
+@import "colors";
+@import "vars";
+@import "mixins";
+
+.top {
+    display: flex;
+    padding-top: 20px;
+    @include tablet {
+        flex-direction: column;
+    }
+}
+.left {
+    flex: 1;
+}
+.right {
+    flex: 1;
+    height: 350px;
+    margin-left: 54px;
+    border-radius: 16px;
+    overflow: hidden;
+    @include tablet {
+        margin-left: 0;
+    }
+}
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    @include mobile {
+        margin-bottom: 16px;
+    }
+}
+
+.card {
+    height: 72px;
+    width: 100%;
+    padding: 0 20px;
+    max-width: 236px;
+    margin-bottom: 36px;
+    box-shadow: $lofty;
+    background-color: $violet-sky-b3;
+    border: 1px solid  $violet-sky-b1;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mobile {
+        max-width: 100%;
+        margin-bottom: 16px;
+    }
+    & > div {
+        display: flex;
+        align-items: baseline;
+        & > *:first-child {
+            margin-right: 12px;
+        }
+    }
+    &:first-child {
+        margin-right: 59px;
+        @include mobile {
+            margin-right: 0;
+        }
+    }
+}
+
+.title {
+    padding-left: 8px;
+    border-bottom: 1px solid $grey-dawn-w2;
+    margin-bottom: 21px;
+}
+.nodes {
+    margin-top: 48px;
+    thead {
+        @include tablet {
+            display: none;
+        }
+    }
+}
+.leaderboard {
+    table {
+        width: 100%;
+    }
+    td {
+        padding: 20px;
+        span:first-child {
+            margin-right: 8px;
+        }
+        &:first-child {
+            width: 1px;
+        }
+        &:last-child {
+            width: 1px;
+            text-align: right;
+            white-space: nowrap;
+            @include mobile {
+                display: none;
+            }
+        }
+    }
+}

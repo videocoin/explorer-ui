@@ -11,6 +11,7 @@ import StreamsPage from 'components/StreamsPage/StreamsPage';
 import StreamPage from 'components/StreamPage/StreamPage';
 import AccountPage from 'components/AccountPage/AccountPage';
 import EmptySearchPage from 'components/EmptySearchPage';
+import WorkersPage from 'components/WorkersPage';
 
 const App: React.FC = (): ReactElement => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = (): ReactElement => {
               <Route exact path="/blocks" component={BlocksPage} />
               <Route exact path="/blocks/:hash" component={BlockPage} />
               <Route exact path="/transactions" component={TransactionsPage} />
+              <Route exact path="/workers" component={WorkersPage} />
               <Route
                 exact
                 path="/transactions/:hash"
