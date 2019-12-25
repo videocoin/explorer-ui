@@ -29,14 +29,10 @@ const BlocksPage = (): ReactElement => {
       refreshInterval: shouldPoll ? POLL_TIMEOUT : 0
     }
   );
-  useEffect(() => {
-    if (!shouldPoll) {
-      setLastItem(last(data?.blocks));
-    }
-  }, [data, shouldPoll]);
   const handleNext = (): void => {
     setShouldPoll(false);
     if (!data) return;
+    setLastItem(last(data?.blocks));
     setMeta({
       before: getTime(last(data.blocks).timestamp),
       after: null

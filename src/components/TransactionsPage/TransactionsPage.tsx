@@ -33,6 +33,7 @@ const TransactionsPage = (): ReactElement => {
   const handleNext = (): void => {
     setShouldPoll(false);
     if (!data) return;
+    setLastItem(last(data?.transactions));
     setMeta({
       before: getTime(last(data.transactions).timestamp),
       after: null
@@ -47,11 +48,6 @@ const TransactionsPage = (): ReactElement => {
       before: null
     });
   };
-  useEffect(() => {
-    if (!shouldPoll) {
-      setLastItem(last(data?.transactions));
-    }
-  }, [data, shouldPoll]);
   const mappedTransactions = map<Transaction, Transaction>(
     ({ value, ...rest }) => ({
       value: (+value / 1e18).toString(),
