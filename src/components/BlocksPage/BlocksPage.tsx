@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, useState } from 'react';
+import React, { ReactElement, Fragment, useState, useEffect } from 'react';
 import { Spinner } from 'ui-kit';
 import BlocksTable from './BlocksTable';
 import { Block } from 'types/common';
@@ -7,7 +7,7 @@ import PageLayout from 'components/Common/PageLayout';
 import { Pagination } from 'components/Pagination/Pagination';
 import { POLL_TIMEOUT } from 'const';
 import getTime from 'utils/getTime';
-import { first, last } from 'lodash/fp';
+import { last } from 'lodash/fp';
 import useRequest from 'api/useRequest';
 
 const BlocksPage = (): ReactElement => {
@@ -15,6 +15,7 @@ const BlocksPage = (): ReactElement => {
     before: null,
     after: null
   });
+  const [lastItem, setLastItem] = useState();
   const [shouldPoll, setShouldPoll] = useState(true);
   const { data } = useRequest<{ blocks: Block[] }>(
     {
@@ -28,7 +29,11 @@ const BlocksPage = (): ReactElement => {
       refreshInterval: shouldPoll ? POLL_TIMEOUT : 0
     }
   );
-
+  useEffect(() => {
+    if (!shouldPoll) {
+      setLastItem(last(data?.blocks));
+    }
+  }, [data, shouldPoll]);
   const handleNext = (): void => {
     setShouldPoll(false);
     if (!data) return;
@@ -38,10 +43,11 @@ const BlocksPage = (): ReactElement => {
     });
   };
   const handlePrev = (): void => {
+    if (!lastItem) return;
     setShouldPoll(false);
     if (!data) return;
     setMeta({
-      after: getTime(first(data.blocks).timestamp),
+      after: getTime(lastItem.timestamp),
       before: null
     });
   };

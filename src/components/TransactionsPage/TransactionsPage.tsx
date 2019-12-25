@@ -1,6 +1,6 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { Spinner } from 'ui-kit';
-import { first, last, map } from 'lodash/fp';
+import { last, map } from 'lodash/fp';
 import TransactionsTable from './TransactionsTable';
 import { Transaction } from 'types/common';
 import css from './styles.module.scss';
@@ -15,6 +15,7 @@ const TransactionsPage = (): ReactElement => {
     before: null,
     after: null
   });
+  const [lastItem, setLastItem] = useState();
   const [shouldPoll, setShouldPoll] = useState(true);
   const { data } = useRequest<{ transactions: Transaction[] }>(
     {
@@ -38,13 +39,19 @@ const TransactionsPage = (): ReactElement => {
     });
   };
   const handlePrev = (): void => {
+    if (!lastItem) return;
     setShouldPoll(false);
     if (!data) return;
     setMeta({
-      after: getTime(first(data.transactions).timestamp),
+      after: getTime(lastItem.timestamp),
       before: null
     });
   };
+  useEffect(() => {
+    if (!shouldPoll) {
+      setLastItem(last(data?.transactions));
+    }
+  }, [data, shouldPoll]);
   const mappedTransactions = map<Transaction, Transaction>(
     ({ value, ...rest }) => ({
       value: (+value / 1e18).toString(),
