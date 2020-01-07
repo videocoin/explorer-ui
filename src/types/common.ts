@@ -59,3 +59,18 @@ export interface Block {
   parentHash: string;
   extraData: string;
 }
+
+export interface Worker {
+  id: string;
+  name: string;
+  status: string;
+  systemInfo: {
+    cpuCores: number;
+    cpuFreq: number;
+    cpuUsage: number;
+    memUsage: number;
+    memTotal: number;
+    latitude: number;
+    longitude: number;
+  };
+}

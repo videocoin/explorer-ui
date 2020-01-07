@@ -1,5 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
+import cn from 'classnames';
 import { Field, Table, Typography } from 'ui-kit';
+import { Worker } from 'types/common';
 import css from './styles.module.scss';
 import { useBreakpoint } from 'components/BreakpointProvider';
 
@@ -7,10 +9,6 @@ const fields: Field[] = [
   {
     name: 'status',
     label: 'Status'
-  },
-  {
-    name: 'reputation',
-    label: 'Reputation'
   },
   {
     name: 'title',
@@ -26,38 +24,34 @@ const fields: Field[] = [
   }
 ];
 
-const WorkersTable = ({ data }: { data: any[] }): ReactElement => {
+const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
   const { md } = useBreakpoint();
-  const renderRow = (row: any): ReactNode => {
+  const renderRow = (row: Worker): ReactNode => {
     if (md) {
       return (
-        <tr key={row.hash} className={css.row}>
+        <tr key={row.id} className={css.row}>
           <td>
             <div className={css.statusMark} />
           </td>
           <td>
-            <Typography type="smallBody">Worker Name</Typography>
-            <Typography type="caption">Excellent Reputation</Typography>
+            <Typography type="smallBody">{row.name}</Typography>
           </td>
           <td>
-            <div className={css.status}>Busy</div>
+            <div className={css.status}>{row.status.toLowerCase()}</div>
           </td>
         </tr>
       );
     }
     return (
-      <tr key={row.hash} className={css.row}>
+      <tr key={row.id} className={css.row}>
         <td>
           <div className={css.status}>
-            <div className={css.statusMark} />
-            <div>Busy</div>
+            <div className={cn(css.statusMark, css[row.status])} />
+            <div>{row.status.toLowerCase()}</div>
           </div>
         </td>
         <td>
-          <Typography type="body">Excellent</Typography>
-        </td>
-        <td>
-          <Typography type="body">Lonely Beowolf</Typography>
+          <Typography type="body">{row.name}</Typography>
         </td>
         <td>
           <Typography type="body">1,345</Typography>
