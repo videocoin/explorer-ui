@@ -2,7 +2,7 @@
 import axios, { AxiosTransformer } from 'axios';
 import humps from 'humps';
 
-const baseURL = process.env.REACT_APP_BASE_URL;
+const baseURL = process.env.REACT_APP_TXLOG_URL;
 
 const defaultTransformers = (transformRequest: any): AxiosTransformer[] => {
   if (!transformRequest) {

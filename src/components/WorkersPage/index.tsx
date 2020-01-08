@@ -8,11 +8,11 @@ import WorkersTable from './WorkersTable';
 import useRequest from 'api/useRequest';
 import { POLL_TIMEOUT } from 'const';
 import { Worker } from 'types/common';
-const minersURL = process.env.REACT_APP_MINERS_URL;
+const apiURL = process.env.REACT_APP_API_URL;
 const WorkersPage = () => {
   const { data } = useRequest<{ items: Worker[] }>(
     {
-      url: `${minersURL}/miners/all`
+      url: `${apiURL}/miners/all`
     },
     {
       refreshInterval: POLL_TIMEOUT
