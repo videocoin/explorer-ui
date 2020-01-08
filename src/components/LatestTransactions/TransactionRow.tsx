@@ -4,6 +4,7 @@ import { Icon, Typography } from 'ui-kit';
 import { Link } from 'react-router-dom';
 import { FullTransaction, Transaction } from 'types/common';
 import timeAgo from 'utils/timeAgo';
+import { convertToVID } from 'utils/convertBalance';
 
 const TransactionRow = ({
   item
@@ -35,7 +36,7 @@ const TransactionRow = ({
       </div>
       <div className={css.rowRight}>
         <div className={css.vid}>
-          <span>{value}</span> VID
+          <span>{convertToVID(value)}</span> VID
         </div>
         <Typography type="caption" weight="medium">
           {timeAgo(timestamp)}
