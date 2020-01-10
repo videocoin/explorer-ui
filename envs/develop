@@ -1,0 +1,2 @@
+export REACT_APP_VC_API_URL='https://studio.dev.videocoin.network/api/v1'
+export REACT_APP_VC_TXLOG_API_URL='https://txlog.dev.kili.videocoin.network/api/v1'
