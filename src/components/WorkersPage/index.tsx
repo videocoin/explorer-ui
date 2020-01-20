@@ -40,7 +40,7 @@ const WorkersPage = () => {
           </div>
         </div>
         <div className={css.right}>
-          <WorkersMap data={activeWorkers} />
+          <WorkersMap data={items} />
         </div>
       </div>
       <div className={css.nodes}>

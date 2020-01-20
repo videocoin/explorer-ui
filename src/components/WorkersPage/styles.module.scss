@@ -136,5 +136,8 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: $sunkissed-orange;
+  background-color: $grey-dawn-b2;
+  &.ONLINE {
+    background-color:$sunkissed-orange;
+  }
 }
