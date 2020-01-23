@@ -1,2 +1,3 @@
-export REACT_APP_VC_API_URL='https://studio.dev.videocoin.network/api/v1'
-export REACT_APP_VC_TXLOG_API_URL='https://txlog.dev.kili.videocoin.network/api/v1'
+export REACT_APP_API_URL='https://studio.dev.videocoin.network/api/v1'
+export REACT_APP_TXLOG_URL='https://txlog.dev.kili.videocoin.network/api/v1'
+export REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
