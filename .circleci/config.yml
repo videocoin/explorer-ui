@@ -54,6 +54,7 @@ jobs:
       - run:
           name: release
           command: |
+            source .circleci/init.sh
             make release
       - save_cache:
           key: v1-repo-{{ .Branch }}-{{ .Revision }}
