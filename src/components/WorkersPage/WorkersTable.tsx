@@ -11,22 +11,19 @@ const fields: Field[] = [
     label: 'Status'
   },
   {
-    name: 'title',
-    label: 'Title'
+    name: 'name',
+    label: 'Name'
   },
   {
-    name: 'vid',
-    label: 'VID Staked'
-  },
-  {
-    name: 'work',
-    label: 'Probability of Work'
+    name: 'selfStaked',
+    label: 'Stake'
   }
 ];
 
 const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
   const { md } = useBreakpoint();
   const renderRow = (row: Worker): ReactNode => {
+    const { id, name, status, cryptoInfo } = row;
     if (md) {
       return (
         <tr key={row.id} className={css.row}>
@@ -34,32 +31,28 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
             <div className={css.statusMark} />
           </td>
           <td>
-            <Typography type="smallBody">{row.name}</Typography>
+            <Typography type="smallBody">{name}</Typography>
           </td>
           <td>
-            <div className={css.status}>{row.status.toLowerCase()}</div>
+            <div className={css.status}>{status.toLowerCase()}</div>
           </td>
         </tr>
       );
     }
     return (
-      <tr key={row.id} className={css.row}>
+      <tr key={id} className={css.row}>
         <td>
           <div className={css.status}>
-            <div className={cn(css.statusMark, css[row.status])} />
-            <div>{row.status.toLowerCase()}</div>
+            <div className={cn(css.statusMark, css[status])} />
+            <div>{status.toLowerCase()}</div>
           </div>
         </td>
         <td>
-          <Typography type="body">{row.name}</Typography>
+          <Typography type="body">{name}</Typography>
         </td>
         <td>
-          <Typography type="body">1,345</Typography>
+          <Typography type="body">{cryptoInfo.selfStake}</Typography>
           <Typography type="smallBodyThin">VID</Typography>
-        </td>
-        <td>
-          <Typography type="body">57.89</Typography>
-          <Typography type="smallBodyThin">%</Typography>
         </td>
       </tr>
     );

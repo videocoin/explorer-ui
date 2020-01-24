@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import React from 'react';
 import PageLayout from 'components/Common/PageLayout';
-import { filter, getOr } from 'lodash/fp';
+import { compose, map, filter, getOr } from 'lodash/fp';
 import css from './styles.module.scss';
 import { Typography } from 'ui-kit';
 import WorkersMap from './WorkersMap';
@@ -8,7 +9,29 @@ import WorkersTable from './WorkersTable';
 import useRequest from 'api/useRequest';
 import { POLL_TIMEOUT } from 'const';
 import { Worker } from 'types/common';
+import { convertToVID } from 'utils/convertBalance';
 const apiURL = process.env.REACT_APP_API_URL;
+
+function hashCode(s: string): number {
+  let hash = 0;
+  let ch;
+  if (s.length === 0) return hash;
+
+  for (let i = 0, l = s.length; i < l; i++) {
+    ch = s.charCodeAt(i);
+    hash = (hash << 5) - hash + ch;
+    hash |= 0;
+  }
+  return hash;
+}
+
+function randomOffset(seedString: string): number {
+  let seed = hashCode(seedString);
+  const x = Math.sin(seed++) * 10000;
+
+  return (x - Math.floor(x)) / 10 - 0.05;
+}
+
 const WorkersPage = () => {
   const { data } = useRequest<{ items: Worker[] }>(
     {
@@ -18,8 +41,27 @@ const WorkersPage = () => {
       refreshInterval: POLL_TIMEOUT
     }
   );
-  const items = getOr([], 'items', data);
+  const items = compose(
+    map<Worker, Worker>(({ id, systemInfo, cryptoInfo, ...rest }) => {
+      const offset = randomOffset(id);
+      return {
+        ...rest,
+        id,
+        cryptoInfo: {
+          ...cryptoInfo,
+          selfStake: convertToVID(cryptoInfo.selfStake).toString() || '0'
+        },
+        systemInfo: {
+          ...systemInfo,
+          latitude: systemInfo.latitude + offset,
+          longitude: systemInfo.longitude + offset
+        }
+      };
+    }),
+    getOr([], 'items')
+  )(data as any);
   const activeWorkers = filter<Worker>({ status: 'ONLINE' })(items);
+
   return (
     <PageLayout title="Worker Nodes">
       <div className={css.top}>
