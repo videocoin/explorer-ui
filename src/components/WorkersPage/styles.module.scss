@@ -133,11 +133,24 @@
 }
 
 .marker {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background-color: $grey-dawn-b2;
+  background-color: $grey-dawn-w4;
   &.ONLINE {
     background-color:$sunkissed-orange;
   }
+}
+
+.tooltip {
+  font-size: 12px;
+  line-height: 1.2;
+  background-color: $perfect-white;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  margin: 0.4rem;
+  padding: 0.8rem;
+  transition: opacity 0.3s;
+  z-index: 2147483647;
 }

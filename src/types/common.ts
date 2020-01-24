@@ -73,4 +73,9 @@ export interface Worker {
     latitude: number;
     longitude: number;
   };
+  cryptoInfo: {
+    address: string;
+    balance: string;
+    selfStake: string;
+  };
 }
