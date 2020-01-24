@@ -22,7 +22,11 @@ deps:
 	cd src/ui-kit && yarn && cd -
 
 docker-build:
-	docker build -t gcr.io/${GCP_PROJECT}/${NAME}:${VERSION} -f Dockerfile .
+	docker build -t gcr.io/${GCP_PROJECT}/${NAME}:${VERSION} \
+	--build-arg REACT_APP_API_URL=${REACT_APP_API_URL} \
+	--build-arg REACT_APP_TXLOG_URL=${REACT_APP_TXLOG_URL} \
+	--build-arg REACT_APP_GOOGLE_MAP_KEY=${REACT_APP_GOOGLE_MAP_KEY} \
+	-f Dockerfile .
 
 docker-push:
 	docker push gcr.io/${GCP_PROJECT}/${NAME}:${VERSION}
