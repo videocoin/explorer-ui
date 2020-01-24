@@ -1,5 +1,9 @@
 FROM node:10.16.3-alpine as builder
 
+ARG REACT_APP_API_URL
+ARG REACT_APP_TXLOG_URL
+ARG REACT_APP_GOOGLE_MAP_KEY
+
 RUN apk add --no-cache --virtual .gyp \
         build-base \
         git \
