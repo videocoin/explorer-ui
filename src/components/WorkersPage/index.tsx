@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React from 'react';
+import React, { useMemo } from 'react';
 import PageLayout from 'components/Common/PageLayout';
-import { compose, map, filter, getOr } from 'lodash/fp';
+import { compose, map, filter, random, getOr } from 'lodash/fp';
 import css from './styles.module.scss';
 import { Typography } from 'ui-kit';
 import WorkersMap from './WorkersMap';
@@ -12,24 +12,10 @@ import { Worker } from 'types/common';
 import { convertToVID } from 'utils/convertBalance';
 const apiURL = process.env.REACT_APP_API_URL;
 
-function hashCode(s: string): number {
-  let hash = 0;
-  let ch;
-  if (s.length === 0) return hash;
-
-  for (let i = 0, l = s.length; i < l; i++) {
-    ch = s.charCodeAt(i);
-    hash = (hash << 5) - hash + ch;
-    hash |= 0;
-  }
-  return hash;
-}
-
-function randomOffset(seedString: string): number {
-  let seed = hashCode(seedString);
-  const x = Math.sin(seed++) * 10000;
-
-  return (x - Math.floor(x)) / 10 - 0.05;
+function randomOffset(radius: number): [number, number] {
+  const lat = random(-radius, radius);
+  const lng = random(-radius, radius);
+  return [lat, lng];
 }
 
 const WorkersPage = () => {
@@ -41,25 +27,28 @@ const WorkersPage = () => {
       refreshInterval: POLL_TIMEOUT
     }
   );
-  const items = compose(
-    map<Worker, Worker>(({ id, systemInfo, cryptoInfo, ...rest }) => {
-      const offset = randomOffset(id);
-      return {
-        ...rest,
-        id,
-        cryptoInfo: {
-          ...cryptoInfo,
-          selfStake: convertToVID(cryptoInfo.selfStake).toString() || '0'
-        },
-        systemInfo: {
-          ...systemInfo,
-          latitude: systemInfo.latitude + offset,
-          longitude: systemInfo.longitude + offset
-        }
-      };
-    }),
-    getOr([], 'items')
-  )(data as any);
+  const items = useMemo(() => {
+    if (!data) return [];
+    return compose(
+      map<Worker, Worker>(({ id, systemInfo, cryptoInfo, ...rest }) => {
+        const [latOffset, lngOffset] = randomOffset(data.items.length / 200);
+        return {
+          ...rest,
+          id,
+          cryptoInfo: {
+            ...cryptoInfo,
+            selfStake: convertToVID(cryptoInfo.selfStake).toString() || '0'
+          },
+          systemInfo: {
+            ...systemInfo,
+            latitude: systemInfo.latitude + latOffset,
+            longitude: systemInfo.longitude + lngOffset
+          }
+        };
+      }),
+      getOr([], 'items')
+    )(data as any);
+  }, [data]);
   const activeWorkers = filter<Worker>({ status: 'ONLINE' })(items);
 
   return (
