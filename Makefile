@@ -35,4 +35,3 @@ release: docker-build docker-push
 
 deploy:
 	ENV=${ENV} deploy/deploy.sh
-
