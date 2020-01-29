@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo } from 'react';
 import PageLayout from 'components/Common/PageLayout';
-import { compose, map, filter, random, getOr } from 'lodash/fp';
+import { compose, map, filter, eq, random, getOr } from 'lodash/fp';
 import css from './styles.module.scss';
 import { Typography } from 'ui-kit';
 import WorkersMap from './WorkersMap';
 import WorkersTable from './WorkersTable';
 import useRequest from 'api/useRequest';
-import { POLL_TIMEOUT } from 'const';
+import { POLL_TIMEOUT, WorkerStatus } from 'const';
 import { Worker } from 'types/common';
 import { convertToVID } from 'utils/convertBalance';
 const apiURL = process.env.REACT_APP_API_URL;
@@ -49,7 +49,10 @@ const WorkersPage = () => {
       getOr([], 'items')
     )(data as any);
   }, [data]);
-  const activeWorkers = filter<Worker>({ status: 'ONLINE' })(items);
+  const activeWorkers = filter<Worker>(
+    ({ status }) =>
+      eq(WorkerStatus.IDLE)(status) || eq(WorkerStatus.BUSY)(status)
+  )(items);
 
   return (
     <PageLayout title="Worker Nodes">
