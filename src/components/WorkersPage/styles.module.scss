@@ -137,8 +137,11 @@
   height: 12px;
   border-radius: 50%;
   background-color: $grey-dawn-w4;
-  &.ONLINE {
-    background-color:$sunkissed-orange;
+  &.BUSY {
+    background-color: $minty-green;
+  }
+  &.IDLE {
+    background-color: $sunkissed-orange;
   }
 }
 
