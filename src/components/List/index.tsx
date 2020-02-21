@@ -1,9 +1,8 @@
 import React, { FC, ReactElement } from 'react';
 import { map } from 'lodash/fp';
 import css from './styles.module.scss';
-import { Button, IconName } from 'ui-kit';
+import { Button, IconName, Typography } from 'ui-kit';
 import { Link } from 'react-router-dom';
-import { Typography } from 'ui-kit/src/components/Typography/Typography';
 
 interface List<T> {
   data: T[];

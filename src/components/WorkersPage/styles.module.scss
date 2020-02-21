@@ -13,7 +13,7 @@
   flex: 1;
 }
 .right {
-  flex: 1;
+  flex: 3;
   height: 350px;
   margin-left: 54px;
   border-radius: 16px;
@@ -35,6 +35,7 @@
   width: 100%;
   padding: 0 20px;
   max-width: 236px;
+  min-width: 236px;
   margin-bottom: 36px;
   box-shadow: $lofty;
   background-color: $violet-sky-b3;
@@ -75,6 +76,14 @@
     }
   }
 }
+.table {
+  th {
+    padding: 20px 44px;
+    @include mobile {
+      padding: 20px 24px;
+    }
+  }
+}
 .leaderboard {
   table {
     width: 100%;
@@ -85,10 +94,10 @@
       margin-right: 8px;
     }
     &:first-child {
-      width: 1px;
+      //width: 1px;
     }
     &:last-child {
-      width: 1px;
+      //width: 1px;
       text-align: right;
       white-space: nowrap;
       @include mobile {
@@ -99,10 +108,17 @@
 }
 .row {
   td {
+    padding: 20px 44px;
+    max-width: 100%;
+    white-space: nowrap;
+    @include mobile {
+      padding: 20px 24px;
+    }
+    &:nth-child(2) {
+      width: 100%;
+      text-align: left;
+    }
     div {
-      &:first-child:not(:last-child) {
-        margin-right: 8px;
-      }
       display: inline-block;
     }
   }
@@ -110,6 +126,7 @@
 .status {
   text-transform: capitalize;
   display: flex !important;
+  flex-direction: column;
   align-items: center;
 }
 .statusMark {
@@ -117,9 +134,10 @@
   width: 18px;
   height: 18px;
   border: 1px solid $grey-dawn-w1;
-  margin-right: 13px;
-  flex-shrink: 0;
-  margin-right: 5px;
+  margin-bottom: 2px;
+  @include mobile {
+    margin-bottom: 0;
+  }
   &.BUSY {
     background-color: $minty-green;
   }
@@ -136,13 +154,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: $grey-dawn-w4;
-  &.BUSY {
-    background-color: $minty-green;
-  }
-  &.IDLE {
-    background-color: $sunkissed-orange;
-  }
+  background-color: $sunkissed-orange;
 }
 
 .tooltip {
