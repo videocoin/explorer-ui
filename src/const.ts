@@ -9,3 +9,10 @@ export enum WorkerStatus {
   IDLE = 'IDLE',
   BUSY = 'BUSY'
 }
+
+export const readableWorkerStatus: Record<WorkerStatus, string> = {
+  [WorkerStatus.BUSY]: 'Active',
+  [WorkerStatus.IDLE]: 'Awaiting Work',
+  [WorkerStatus.NEW]: 'New',
+  [WorkerStatus.OFFLINE]: 'Offline'
+};

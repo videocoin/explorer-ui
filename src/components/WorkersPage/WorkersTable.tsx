@@ -4,6 +4,7 @@ import { Field, Table, Typography } from 'ui-kit';
 import { Worker } from 'types/common';
 import css from './styles.module.scss';
 import { useBreakpoint } from 'components/BreakpointProvider';
+import { readableWorkerStatus } from 'const';
 
 const fields: Field[] = [
   {
@@ -13,28 +14,26 @@ const fields: Field[] = [
   {
     name: 'name',
     label: 'Name'
-  },
-  {
-    name: 'selfStaked',
-    label: 'Stake'
   }
 ];
 
 const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
   const { md } = useBreakpoint();
   const renderRow = (row: Worker): ReactNode => {
-    const { id, name, status, cryptoInfo } = row;
+    const { id, name, status } = row;
     if (md) {
       return (
         <tr key={row.id} className={css.row}>
           <td>
-            <div className={css.statusMark} />
+            <div className={css.status}>
+              <div className={cn(css.statusMark, css[status])} />
+            </div>
           </td>
           <td>
             <Typography type="smallBody">{name}</Typography>
           </td>
           <td>
-            <div className={css.status}>{status.toLowerCase()}</div>
+            <div className={css.status}>{readableWorkerStatus[status]}</div>
           </td>
         </tr>
       );
@@ -44,15 +43,11 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
         <td>
           <div className={css.status}>
             <div className={cn(css.statusMark, css[status])} />
-            <div>{status.toLowerCase()}</div>
+            <Typography type="tiny">{status.toLowerCase()}</Typography>
           </div>
         </td>
         <td>
           <Typography type="body">{name}</Typography>
-        </td>
-        <td>
-          <Typography type="body">{cryptoInfo.selfStake}</Typography>
-          <Typography type="smallBodyThin">VID</Typography>
         </td>
       </tr>
     );

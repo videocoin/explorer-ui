@@ -1,3 +1,5 @@
+import { WorkerStatus } from 'const';
+
 export type BreakpointType = 'sm' | 'md';
 export interface Breakpoints {
   sm?: boolean;
@@ -63,7 +65,7 @@ export interface Block {
 export interface Worker {
   id: string;
   name: string;
-  status: string;
+  status: WorkerStatus;
   systemInfo: {
     cpuCores: number;
     cpuFreq: number;

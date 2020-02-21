@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo } from 'react';
 import PageLayout from 'components/Common/PageLayout';
-import { compose, map, filter, eq, random, getOr } from 'lodash/fp';
+import {
+  reject,
+  compose,
+  map,
+  flatten,
+  random,
+  getOr,
+  groupBy
+} from 'lodash/fp';
 import css from './styles.module.scss';
 import { Typography } from 'ui-kit';
 import WorkersMap from './WorkersMap';
@@ -29,7 +37,8 @@ const WorkersPage = () => {
   );
   const items = useMemo(() => {
     if (!data) return [];
-    return compose(
+    const groupedByStatus = compose(
+      groupBy('status'),
       map<Worker, Worker>(({ id, systemInfo, cryptoInfo, ...rest }) => {
         const [latOffset, lngOffset] = randomOffset(data.items.length / 200);
         return {
@@ -48,23 +57,26 @@ const WorkersPage = () => {
       }),
       getOr([], 'items')
     )(data as any);
-  }, [data]);
-  const activeWorkers = filter<Worker>(
-    ({ status }) =>
-      eq(WorkerStatus.IDLE)(status) || eq(WorkerStatus.BUSY)(status)
-  )(items);
 
+    return flatten([
+      groupedByStatus[WorkerStatus.BUSY] || [],
+      groupedByStatus[WorkerStatus.IDLE] || [],
+      groupedByStatus[WorkerStatus.NEW],
+      groupedByStatus[WorkerStatus.OFFLINE]
+    ]);
+  }, [data]);
+
+  const mapItems = reject<Worker>(({ systemInfo }) => {
+    return (
+      Math.floor(systemInfo.latitude) < 1 &&
+      Math.floor(systemInfo.longitude) < 1
+    );
+  })(items);
   return (
     <PageLayout title="Worker Nodes">
       <div className={css.top}>
         <div className={css.left}>
           <div className={css.cards}>
-            <div className={css.card}>
-              <div>
-                <Typography type="subtitle">{activeWorkers.length}</Typography>{' '}
-                <Typography>Active Worker Nodes</Typography>
-              </div>
-            </div>
             <div className={css.card}>
               <div>
                 <Typography type="subtitle">{items.length}</Typography>{' '}
@@ -74,7 +86,7 @@ const WorkersPage = () => {
           </div>
         </div>
         <div className={css.right}>
-          <WorkersMap data={items} />
+          <WorkersMap data={mapItems} />
         </div>
       </div>
       <div className={css.nodes}>
