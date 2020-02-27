@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, useCallback } from 'react';
 import { compose, map, get } from 'lodash/fp';
 import useSWR from 'swr';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { useParams, useHistory } from 'react-router-dom';
 import { Spinner, Typography } from 'ui-kit';
 import css from './styles.module.scss';
 import TransactionsList from 'components/LatestTransactions';
@@ -13,20 +13,15 @@ import { convertToVID } from 'utils/convertBalance';
 import { Link } from 'react-router-dom';
 import useRequest from 'api/useRequest';
 
-interface PathParamsType {
-  hash: string;
-}
-
 interface BlockSpec {
   label: string;
   value: string | number | ReactNode;
 }
 
-const BlockPage = ({
-  history,
-  match
-}: RouteComponentProps<PathParamsType>): ReactElement => {
-  const { hash } = match.params;
+const BlockPage = (): ReactElement => {
+  const history = useHistory();
+  const { hash } = useParams();
+
   const { data: block } = useRequest<{ block: Block }>({
     url: `/block/${hash}`
   });
@@ -80,6 +75,7 @@ const BlockPage = ({
       </PageLayout>
     );
   }
+
   const { data: transactions } = data;
 
   const {
@@ -147,4 +143,4 @@ const BlockPage = ({
   );
 };
 
-export default withRouter(BlockPage);
+export default BlockPage;

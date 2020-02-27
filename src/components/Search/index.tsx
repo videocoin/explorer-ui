@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState
 } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Icon, Input, Spinner } from 'ui-kit';
 import css from './styles.module.scss';
 import isTransaction from 'utils/isTransaction';
@@ -14,14 +14,9 @@ import isAddress from 'utils/isAddress';
 import { useBreakpoint } from 'components/BreakpointProvider';
 import useOnClickOutside from 'hooks/useOnclickOutside';
 
-interface PathParamsType {
-  hash: string;
-}
-
-const Search = ({
-  history,
-  match
-}: RouteComponentProps<PathParamsType>): ReactElement => {
+const Search = (): ReactElement => {
+  const { hash } = useParams();
+  const history = useHistory();
   const ref = useRef();
   const breakpoints = useBreakpoint();
   const [isVisible, setVisible] = useState(true);
@@ -42,7 +37,7 @@ const Search = ({
     setValue(e.currentTarget.value);
   const handleSearch = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    if (!value || match.params.hash === value) {
+    if (!value || hash === value) {
       setValue('');
       return;
     }
@@ -116,4 +111,4 @@ const Search = ({
   );
 };
 
-export default withRouter(Search);
+export default Search;

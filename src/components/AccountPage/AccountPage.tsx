@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Spinner, Typography } from 'ui-kit';
 import { eq, first, last, map } from 'lodash/fp';
 import { Account, Transaction, AccountEvent } from 'types/common';
@@ -12,13 +12,8 @@ import css from './styles.module.scss';
 import getTime from 'utils/getTime';
 import useRequest from 'api/useRequest';
 
-interface PathParamsType {
-  hash: string;
-}
-
-const AccountPage = ({
-  match
-}: RouteComponentProps<PathParamsType>): ReactElement => {
+const AccountPage = (): ReactElement => {
+  const { hash } = useParams();
   const [transactionsMeta, setTransactionsMeta] = useState({
     before: null,
     after: null
@@ -27,7 +22,6 @@ const AccountPage = ({
     before: null,
     after: null
   });
-  const { hash } = match.params;
   const { data: account } = useRequest<{ account: Account }>({
     url: `/account/${hash}`,
     params: {
@@ -53,6 +47,7 @@ const AccountPage = ({
     ...account,
     balance: convertToVID(account.account.balance)
   };
+
   const switchTab = (tab: string) => () => setTab(tab);
   const isActiveTab = eq(tab);
   const { balance } = mappedAccount;
@@ -144,4 +139,4 @@ const AccountPage = ({
   );
 };
 
-export default withRouter(AccountPage);
+export default AccountPage;

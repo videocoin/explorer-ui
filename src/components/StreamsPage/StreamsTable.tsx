@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Field, Icon, Table } from 'ui-kit';
 import css from './styles.module.scss';
 
@@ -38,7 +38,8 @@ const demoData: StreamRow[] = [
   }
 ];
 
-const StreamsTable = ({ history }: RouteComponentProps): ReactElement => {
+const StreamsTable = (): ReactElement => {
+  const history = useHistory();
   const goToBlock = (id: string): (() => void) => () =>
     history.push(`/streams/${id}`);
   const renderRow = (row: StreamRow): ReactNode => (
@@ -61,4 +62,4 @@ const StreamsTable = ({ history }: RouteComponentProps): ReactElement => {
   );
 };
 
-export default withRouter(StreamsTable);
+export default StreamsTable;

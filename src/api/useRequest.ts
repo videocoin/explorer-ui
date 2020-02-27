@@ -2,7 +2,7 @@ import useSWR, { ConfigInterface, responseInterface } from 'swr';
 import { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import api from './index';
 
-export type GetRequest = AxiosRequestConfig | null;
+export type GetRequest = AxiosRequestConfig | any;
 
 interface Return<Data, Error>
   extends Pick<

@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { map } from 'lodash/fp';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { Spinner, Typography } from 'ui-kit';
 import css from './styles.module.scss';
 import { FullTransaction } from 'types/common';
@@ -10,21 +10,15 @@ import timeAgo from 'utils/timeAgo';
 import { convertToVID } from 'utils/convertBalance';
 import useRequest from 'api/useRequest';
 
-interface PathParamsType {
-  hash: string;
-}
-
 interface TransactionSpec {
   label: string;
   value: string | ReactNode;
   highlight?: boolean;
 }
 
-const TransactionPage = ({
-  match,
-  history
-}: RouteComponentProps<PathParamsType>): ReactElement => {
-  const { hash } = match.params;
+const TransactionPage = (): ReactElement => {
+  const { hash } = useParams();
+  const history = useHistory();
   const { data } = useRequest<{ transaction: FullTransaction }>({
     url: `/transaction/${hash}`
   });
@@ -142,4 +136,4 @@ const TransactionPage = ({
   );
 };
 
-export default withRouter(TransactionPage);
+export default TransactionPage;

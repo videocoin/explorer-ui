@@ -1,12 +1,10 @@
 import React, { ReactElement } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Icon } from 'ui-kit';
 import css from './index.module.scss';
 
-const BackLink = ({
-  to = '/',
-  history
-}: { to?: string } & RouteComponentProps): ReactElement => {
+const BackLink = ({ to = '/' }: { to?: string }): ReactElement => {
+  const history = useHistory();
   const onClick = (): void => {
     if (history.length) {
       history.goBack();
@@ -21,4 +19,4 @@ const BackLink = ({
   );
 };
 
-export default withRouter(BackLink);
+export default BackLink;

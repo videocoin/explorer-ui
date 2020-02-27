@@ -49,6 +49,15 @@ export interface Transactions {
   [key: string]: Transaction;
 }
 
+export interface BlockRow {
+  number: string;
+  hash: string;
+  timestamp: string;
+  numTxs: string;
+  gasUsed: string;
+  gasLimit: string;
+  size: number;
+}
 export interface Block {
   number: string;
   hash: string;

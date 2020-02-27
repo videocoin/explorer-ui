@@ -1,8 +1,8 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Field, Table } from 'ui-kit';
 import css from './styles.module.scss';
-import { Block } from 'types/common';
+import { BlockRow } from 'types/common';
 
 const fields: Field[] = [
   {
@@ -27,13 +27,12 @@ const fields: Field[] = [
   }
 ];
 
-const BlocksPage = ({
-  history,
-  data
-}: RouteComponentProps & { data: Block[] }): ReactElement => {
-  const goToBlock = (hash: string): (() => void) => () =>
+const BlocksTable = ({ data }: { data: BlockRow[] }): ReactElement => {
+  const history = useHistory();
+  const goToBlock = (hash: string): (() => void) => () => {
     history.push(`/blocks/${hash}`);
-  const renderRow = (row: Block): ReactNode => (
+  };
+  const renderRow = (row: BlockRow): ReactNode => (
     <tr key={row.number} className={css.row} onClick={goToBlock(row.hash)}>
       <td>{row.number}</td>
       <td>{row.hash}</td>
@@ -45,10 +44,10 @@ const BlocksPage = ({
     </tr>
   );
   return (
-    <div className={css.table}>
+    <div data-testid="blocksTable" className={css.table}>
       <Table fields={fields} data={data} renderRow={renderRow} />
     </div>
   );
 };
 
-export default withRouter(BlocksPage);
+export default BlocksTable;

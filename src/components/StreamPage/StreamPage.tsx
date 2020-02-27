@@ -1,14 +1,7 @@
 import React, { ReactElement } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
 import PageLayout from 'components/Common/PageLayout';
 
-interface PathParamsType {
-  hash: string;
-}
-
-const StreamPage: React.FC<RouteComponentProps<
-  PathParamsType
->> = (): ReactElement => {
+const StreamPage = (): ReactElement => {
   return (
     <PageLayout title="Stream" backTo="/streams">
       Stream
@@ -16,4 +9,4 @@ const StreamPage: React.FC<RouteComponentProps<
   );
 };
 
-export default withRouter(StreamPage);
+export default StreamPage;
