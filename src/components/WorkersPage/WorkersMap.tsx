@@ -11,7 +11,7 @@ import {
   GetTriggerPropsArg,
   Ref
 } from 'react-popper-tooltip/dist/types';
-const apiKey = process.env.REACT_APP_GOOGLE_MAP_KEY;
+const apiKey = process.env.GOOGLE_MAP_KEY;
 
 const Tooltip = ({
   tooltipRef,
