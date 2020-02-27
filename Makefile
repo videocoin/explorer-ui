@@ -23,8 +23,8 @@ deps:
 
 docker-build:
 	docker build -t gcr.io/${GCP_PROJECT}/${NAME}:${VERSION} \
-	--build-arg REACT_APP_API_URL=${REACT_APP_API_URL} \
-	--build-arg REACT_APP_TXLOG_URL=${REACT_APP_TXLOG_URL} \
+	--build-arg REACT_APP_CLOUD_API_URL=${REACT_APP_CLOUD_API_URL} \
+	--build-arg REACT_APP_TXLOG_API_URL=${REACT_APP_TXLOG_API_URL} \
 	--build-arg REACT_APP_GOOGLE_MAP_KEY=${REACT_APP_GOOGLE_MAP_KEY} \
 	-f Dockerfile .
 
