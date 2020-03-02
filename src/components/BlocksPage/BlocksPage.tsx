@@ -6,22 +6,22 @@ import css from './styles.module.scss';
 import PageLayout from 'components/Common/PageLayout';
 import { Pagination } from 'components/Pagination/Pagination';
 import { POLL_TIMEOUT } from 'const';
-import getTime from 'utils/getTime';
 import { first, last } from 'lodash/fp';
 import useRequest from 'api/useRequest';
 
 const BlocksPage = (): ReactElement => {
   const [meta, setMeta] = useState({
-    before: null,
-    after: null
+    cursor: null,
+    prev: false
   });
   const [shouldPoll, setShouldPoll] = useState(true);
   const { data } = useRequest<{ blocks: Block[] }>(
     {
       url: '/blocks',
       params: {
-        before: meta.before,
-        after: meta.after
+        limit: 10,
+        'cursor.block': meta.cursor,
+        ...(meta.prev && { prev: true })
       }
     },
     {
@@ -33,16 +33,20 @@ const BlocksPage = (): ReactElement => {
     setShouldPoll(false);
     if (!data) return;
     setMeta({
-      before: getTime(last(data.blocks).timestamp),
-      after: null
+      cursor: last(data.blocks)
+        ? last(data.blocks).cursor?.block
+        : meta.cursor + 1,
+      prev: false
     });
   };
   const handlePrev = (): void => {
     setShouldPoll(false);
     if (!data) return;
     setMeta({
-      after: getTime(first(data.blocks).timestamp),
-      before: null
+      cursor: first(data.blocks)
+        ? first(data.blocks).cursor?.block
+        : meta.cursor,
+      prev: true
     });
   };
 
@@ -54,7 +58,11 @@ const BlocksPage = (): ReactElement => {
         <Fragment>
           <BlocksTable data={data.blocks} />
           <div className={css.pagination}>
-            <Pagination onPrev={handlePrev} onNext={handleNext} />
+            <Pagination
+              disabledNext={!meta.cursor || !data.blocks.length}
+              onPrev={handlePrev}
+              onNext={handleNext}
+            />
           </div>
         </Fragment>
       )}
