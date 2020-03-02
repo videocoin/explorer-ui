@@ -7,21 +7,23 @@ import css from './styles.module.scss';
 import PageLayout from 'components/Common/PageLayout';
 import { POLL_TIMEOUT } from 'const';
 import { Pagination } from 'components/Pagination/Pagination';
-import getTime from 'utils/getTime';
 import useRequest from 'api/useRequest';
 
 const TransactionsPage = (): ReactElement => {
   const [meta, setMeta] = useState({
-    before: null,
-    after: null
+    cursor: null,
+    index: null,
+    prev: false
   });
   const [shouldPoll, setShouldPoll] = useState(true);
   const { data } = useRequest<{ transactions: Transaction[] }>(
     {
       url: '/transactions',
       params: {
-        before: meta.before,
-        after: meta.after
+        limit: 10,
+        'cursor.block': meta.cursor,
+        'cursor.index': meta.index,
+        ...(meta.prev && { prev: true })
       }
     },
     {
@@ -32,17 +34,21 @@ const TransactionsPage = (): ReactElement => {
   const handleNext = (): void => {
     setShouldPoll(false);
     if (!data) return;
+    const lastTransaction = last(data.transactions);
     setMeta({
-      before: getTime(last(data.transactions).timestamp),
-      after: null
+      cursor: lastTransaction ? lastTransaction.cursor?.block : meta.cursor + 1,
+      index: lastTransaction ? lastTransaction.cursor?.index : meta.index,
+      prev: false
     });
   };
   const handlePrev = (): void => {
     setShouldPoll(false);
     if (!data) return;
+    const firstTransaction = first(data.transactions);
     setMeta({
-      after: getTime(first(data.transactions).timestamp),
-      before: null
+      cursor: firstTransaction ? firstTransaction.cursor?.block : meta.cursor,
+      index: firstTransaction ? firstTransaction.cursor?.index : meta.index,
+      prev: true
     });
   };
   const mappedTransactions = map<Transaction, Transaction>(
@@ -61,6 +67,7 @@ const TransactionsPage = (): ReactElement => {
           <TransactionsTable data={mappedTransactions} />
           <div className={css.pagination}>
             <Pagination
+              disabledNext={!meta.cursor || !data.transactions.length}
               disabled={!data}
               onPrev={handlePrev}
               onNext={handleNext}

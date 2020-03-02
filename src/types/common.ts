@@ -25,6 +25,10 @@ export interface AccountEvent {
   type: string;
   value: string;
   timestamp: string;
+  cursor: {
+    block: string;
+    index: string;
+  };
 }
 
 export interface Transaction {
@@ -33,6 +37,10 @@ export interface Transaction {
   to: string;
   timestamp: string;
   value: string;
+  cursor: {
+    block: string;
+    index: string;
+  };
 }
 
 export interface FullTransaction extends Transaction {
@@ -69,6 +77,9 @@ export interface Block {
   transactions: string[] | Transaction[];
   parentHash: string;
   extraData: string;
+  cursor: {
+    block: string;
+  };
 }
 
 export interface Worker {
