@@ -63,7 +63,7 @@ jest.mock('react-router-dom', () => ({
   })
 }));
 
-export const queries: { [key in BreakpointType]: string } = {
+const queries: { [key in BreakpointType]: string } = {
   sm: '(max-width: 767px)',
   md: '(max-width: 1023px)'
 };

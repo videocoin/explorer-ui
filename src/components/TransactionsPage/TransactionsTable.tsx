@@ -57,7 +57,7 @@ const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {
     </tr>
   );
   return (
-    <div className={css.table}>
+    <div data-testid="transactionsTable" className={css.table}>
       <Table fields={fields} data={data} renderRow={renderRow} />
     </div>
   );
