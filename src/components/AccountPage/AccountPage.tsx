@@ -107,11 +107,9 @@ const AccountPage = (): ReactElement => {
     })
   )(transactions && transactions.transactions);
 
-  console.log(actions);
-
   return (
     <PageLayout title="Account" backTo="/blocks">
-      <div className={css.head}>
+      <div data-testid="accountHead" className={css.head}>
         <div>
           <Typography
             type="subtitle"
@@ -119,7 +117,7 @@ const AccountPage = (): ReactElement => {
             weight="medium"
             className={css.balance}
           >
-            <span>{balance}</span> VID
+            <span data-testid="accountBalance">{balance}</span> VID
           </Typography>
         </div>
         <Typography type="subtitle" theme="light">
