@@ -26,7 +26,7 @@ function randomOffset(radius: number): [number, number] {
   return [lat, lng];
 }
 
-const WorkersPage = () => {
+const Body = () => {
   const { data } = useRequest<{ items: Worker[] }>(
     {
       url: `${apiURL}/miners/all`
@@ -73,7 +73,7 @@ const WorkersPage = () => {
     );
   })(items);
   return (
-    <PageLayout title="Worker Nodes">
+    <>
       <div className={css.top}>
         <div className={css.left}>
           <div className={css.cards}>
@@ -95,8 +95,14 @@ const WorkersPage = () => {
         </div>
         <WorkersTable data={items} />
       </div>
-    </PageLayout>
+    </>
   );
 };
+
+const WorkersPage = () => (
+  <PageLayout title="Worker Nodes">
+    <Body />
+  </PageLayout>
+);
 
 export default WorkersPage;

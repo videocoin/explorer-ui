@@ -1,5 +1,4 @@
 import React, { ReactElement, useState } from 'react';
-import { Spinner } from 'ui-kit';
 import { first, last, map } from 'lodash/fp';
 import TransactionsTable from './TransactionsTable';
 import { Transaction } from 'types/common';
@@ -9,7 +8,7 @@ import { POLL_TIMEOUT } from 'const';
 import { Pagination } from 'components/Pagination/Pagination';
 import useRequest from 'api/useRequest';
 
-const TransactionsPage = (): ReactElement => {
+const Body = (): ReactElement => {
   const [meta, setMeta] = useState({
     cursor: null,
     index: null,
@@ -59,24 +58,24 @@ const TransactionsPage = (): ReactElement => {
   )(data && data.transactions);
 
   return (
-    <PageLayout title="Transactions">
-      {!data ? (
-        <Spinner />
-      ) : (
-        <>
-          <TransactionsTable data={mappedTransactions} />
-          <div className={css.pagination}>
-            <Pagination
-              disabledNext={!meta.cursor || !data.transactions.length}
-              disabled={!data}
-              onPrev={handlePrev}
-              onNext={handleNext}
-            />
-          </div>
-        </>
-      )}
-    </PageLayout>
+    <>
+      <TransactionsTable data={mappedTransactions} />
+      <div className={css.pagination}>
+        <Pagination
+          disabledNext={!meta.cursor || !data.transactions.length}
+          disabled={!data}
+          onPrev={handlePrev}
+          onNext={handleNext}
+        />
+      </div>
+    </>
   );
 };
+
+const TransactionsPage = () => (
+  <PageLayout title="Transactions">
+    <Body />
+  </PageLayout>
+);
 
 export default TransactionsPage;

@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { map } from 'lodash/fp';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import { Spinner, Typography } from 'ui-kit';
+import { Typography } from 'ui-kit';
 import css from './styles.module.scss';
 import { FullTransaction } from 'types/common';
 import PageLayout from 'components/Common/PageLayout';
@@ -16,29 +16,18 @@ interface TransactionSpec {
   highlight?: boolean;
 }
 
-const TransactionPage = (): ReactElement => {
+const Body = (): ReactElement => {
   const { hash } = useParams();
   const history = useHistory();
   const { data } = useRequest<{ transaction: FullTransaction }>({
     url: `/transaction/${hash}`
   });
 
-  if (!data) {
-    return (
-      <PageLayout title="Transaction" backTo="/transactions">
-        <Spinner />
-      </PageLayout>
-    );
-  }
   if (!data.transaction) {
     setTimeout(() => {
       history.replace('/no-results');
     }, 100);
-    return (
-      <PageLayout title="Transaction" backTo="/transactions">
-        <Spinner />
-      </PageLayout>
-    );
+    return null;
   }
   const transaction = {
     ...data.transaction,
@@ -114,7 +103,7 @@ const TransactionPage = (): ReactElement => {
   };
 
   return (
-    <PageLayout title="Transaction" backTo="/transactions">
+    <>
       <div className={css.head}>
         <div>
           <Typography
@@ -132,8 +121,14 @@ const TransactionPage = (): ReactElement => {
         </Typography>
       </div>
       <ul className={css.spec}>{map(renderSpec)(specs)}</ul>
-    </PageLayout>
+    </>
   );
 };
+
+const TransactionPage = () => (
+  <PageLayout title="Transaction" backTo="/transactions">
+    <Body />
+  </PageLayout>
+);
 
 export default TransactionPage;

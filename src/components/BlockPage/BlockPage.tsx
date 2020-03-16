@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode, useCallback } from 'react';
 import { compose, map, get } from 'lodash/fp';
 import useSWR from 'swr';
 import { useParams, useHistory } from 'react-router-dom';
-import { Spinner, Typography } from 'ui-kit';
+import { Typography } from 'ui-kit';
 import css from './styles.module.scss';
 import TransactionsList from 'components/LatestTransactions';
 import { fetchTransaction } from 'api/api';
@@ -18,7 +18,7 @@ interface BlockSpec {
   value: string | number | ReactNode;
 }
 
-const BlockPage = (): ReactElement => {
+const Body = (): ReactElement => {
   const history = useHistory();
   const { hash } = useParams();
 
@@ -49,34 +49,15 @@ const BlockPage = (): ReactElement => {
     }
   }, [block]);
   const { data } = useSWR([block], fetchTransactions);
-  if (!block || !data) {
-    return (
-      <PageLayout title="Individual Block" backTo="/blocks">
-        <Spinner />
-      </PageLayout>
-    );
-  }
 
   if (!block.block) {
     setTimeout(() => {
       history.replace('/no-results');
     }, 100);
-    return (
-      <PageLayout title="Transaction" backTo="/transactions">
-        <Spinner />
-      </PageLayout>
-    );
+    return null;
   }
 
-  if (!block) {
-    return (
-      <PageLayout title="Individual Block" backTo="/blocks">
-        <Spinner />
-      </PageLayout>
-    );
-  }
-
-  const { data: transactions } = data;
+  const transactions = data?.data || [];
 
   const {
     size,
@@ -116,7 +97,7 @@ const BlockPage = (): ReactElement => {
   );
 
   return (
-    <PageLayout title="Individual Block" backTo="/blocks">
+    <>
       <div className={css.head}>
         <div>
           <Typography
@@ -139,8 +120,14 @@ const BlockPage = (): ReactElement => {
           <TransactionsList data={transactions as FullTransaction[]} />
         </div>
       )}
-    </PageLayout>
+    </>
   );
 };
+
+const BlockPage = () => (
+  <PageLayout title="Individual Block" backTo="/blocks">
+    <Body />
+  </PageLayout>
+);
 
 export default BlockPage;

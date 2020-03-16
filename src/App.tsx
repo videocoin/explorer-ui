@@ -33,8 +33,6 @@ const App: React.FC = (): ReactElement => {
                 path="/transactions/:hash"
                 component={TransactionPage}
               />
-              <Route exact path="/streams" component={StreamsPage} />
-              <Route exact path="/streams/:hash" component={StreamPage} />
               <Route exact path="/account/:hash" component={AccountPage} />
               <Route exact path="/no-results" component={EmptySearchPage} />
             </Switch>

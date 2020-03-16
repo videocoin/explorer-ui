@@ -11,7 +11,7 @@ import { convertToVID } from 'utils/convertBalance';
 import css from './styles.module.scss';
 import useRequest from 'api/useRequest';
 
-const AccountPage = (): ReactElement => {
+const Body = (): ReactElement => {
   const { hash } = useParams();
   const [transactionsMeta, setTransactionsMeta] = useState({
     cursor: null,
@@ -46,12 +46,6 @@ const AccountPage = (): ReactElement => {
   });
   const [tab, setTab] = useState('transactions');
 
-  if (!account)
-    return (
-      <div className="content">
-        <Spinner />
-      </div>
-    );
   const mappedAccount = {
     ...account,
     balance: convertToVID(account.account.balance)
@@ -108,7 +102,7 @@ const AccountPage = (): ReactElement => {
   )(transactions && transactions.transactions);
 
   return (
-    <PageLayout title="Account" backTo="/blocks">
+    <>
       <div data-testid="accountHead" className={css.head}>
         <div>
           <Typography
@@ -176,8 +170,14 @@ const AccountPage = (): ReactElement => {
           )}
         </>
       )}
-    </PageLayout>
+    </>
   );
 };
+
+const AccountPage = () => (
+  <PageLayout title="Account" backTo="/blocks">
+    <Body />
+  </PageLayout>
+);
 
 export default AccountPage;

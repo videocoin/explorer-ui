@@ -1,4 +1,4 @@
-import React, { ReactElement, Fragment, useState } from 'react';
+import React, { Suspense, ReactElement, useState } from 'react';
 import { Spinner } from 'ui-kit';
 import BlocksTable from './BlocksTable';
 import { Block } from 'types/common';
@@ -9,7 +9,7 @@ import { POLL_TIMEOUT } from 'const';
 import { first, last } from 'lodash/fp';
 import useRequest from 'api/useRequest';
 
-const BlocksPage = (): ReactElement => {
+const Body = (): ReactElement => {
   const [meta, setMeta] = useState({
     cursor: null,
     prev: false
@@ -49,25 +49,24 @@ const BlocksPage = (): ReactElement => {
       prev: true
     });
   };
-
   return (
-    <PageLayout title="Latest Blocks">
-      {!data ? (
-        <Spinner />
-      ) : (
-        <Fragment>
-          <BlocksTable data={data.blocks} />
-          <div className={css.pagination}>
-            <Pagination
-              disabledNext={!meta.cursor || !data.blocks.length}
-              onPrev={handlePrev}
-              onNext={handleNext}
-            />
-          </div>
-        </Fragment>
-      )}
-    </PageLayout>
+    <div>
+      <BlocksTable data={data.blocks} />
+      <div className={css.pagination}>
+        <Pagination
+          disabledNext={!meta.cursor || !data.blocks.length}
+          onPrev={handlePrev}
+          onNext={handleNext}
+        />
+      </div>
+    </div>
   );
 };
+
+const BlocksPage = () => (
+  <PageLayout title="Latest Blocks">
+    <Body />
+  </PageLayout>
+);
 
 export default BlocksPage;

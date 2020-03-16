@@ -29,6 +29,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
     AxiosResponse<Data>,
     AxiosError<Error>
   >(request && JSON.stringify(request), () => api(request || {}), {
+    suspense: true,
     ...config,
     initialData: initialData && {
       status: 200,
