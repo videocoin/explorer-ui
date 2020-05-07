@@ -19,12 +19,12 @@ const api = axios.create({
   baseURL,
   transformRequest: [
     (data: any) => humps.decamelizeKeys(data),
-    ...defaultTransformers(axios.defaults.transformRequest)
+    ...defaultTransformers(axios.defaults.transformRequest),
   ],
   transformResponse: [
     ...defaultTransformers(axios.defaults.transformResponse),
-    (data: any) => humps.camelizeKeys(data)
-  ]
+    (data: any) => humps.camelizeKeys(data),
+  ],
 });
 
 export default api;

@@ -9,14 +9,14 @@ import css from './styles.module.scss';
 import {
   GetTooltipPropsArg,
   GetTriggerPropsArg,
-  Ref
+  Ref,
 } from 'react-popper-tooltip/dist/types';
 const apiKey = process.env.REACT_APP_GOOGLE_MAP_KEY;
 
 const Tooltip = ({
   tooltipRef,
   getTooltipProps,
-  item
+  item,
 }: {
   tooltipRef: Ref;
   getTooltipProps: (arg?: GetTooltipPropsArg) => GetTooltipPropsArg;
@@ -25,13 +25,13 @@ const Tooltip = ({
   <div
     {...getTooltipProps({
       ref: tooltipRef,
-      className: css.tooltip
+      className: css.tooltip,
     })}
   >
     <ul>
       <li>Status: {item.status}</li>
       <li>Name: {item.name}</li>
-      <li>Stake: {item.cryptoInfo.selfStake}</li>
+      <li>Stake: {item.selfStake}</li>
     </ul>
   </div>
 );
@@ -39,7 +39,7 @@ const Tooltip = ({
 const Point = ({
   getTriggerProps,
   triggerRef,
-  item
+  item,
 }: {
   getTriggerProps: (arg?: GetTriggerPropsArg) => GetTriggerPropsArg;
   triggerRef: Ref;
@@ -47,7 +47,7 @@ const Point = ({
 }) => (
   <div
     {...getTriggerProps({
-      ref: triggerRef
+      ref: triggerRef,
     })}
   >
     <div className={cn(css.marker, [css[item.status]])} />
@@ -58,9 +58,9 @@ const Marker = ({ item }: { lat: number; lng: number; item: Worker }) => {
   return (
     <TooltipTrigger
       placement="top"
-      tooltip={tooltip => <Tooltip item={item} {...tooltip} />}
+      tooltip={(tooltip) => <Tooltip item={item} {...tooltip} />}
     >
-      {trigger => <Point item={item} {...trigger} />}
+      {(trigger) => <Point item={item} {...trigger} />}
     </TooltipTrigger>
   );
 };
@@ -69,14 +69,14 @@ const WorkersMap = ({ data }: { data: Worker[] }) => {
   const props = {
     center: {
       lat: 40,
-      lng: 10
+      lng: 10,
     },
-    zoom: 1
+    zoom: 1,
   };
   const mapOptions = {
     disableDefaultUI: true,
     minZoom: 1,
-    styles: mapStyle
+    styles: mapStyle,
   };
   const renderMarker = (item: Worker) => (
     <Marker

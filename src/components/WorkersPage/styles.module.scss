@@ -78,6 +78,7 @@
 }
 .table {
   th {
+    white-space: nowrap;
     padding: 20px 44px;
     @include mobile {
       padding: 20px 24px;
@@ -107,6 +108,7 @@
   }
 }
 .row {
+
   td {
     padding: 20px 44px;
     max-width: 100%;

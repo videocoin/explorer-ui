@@ -20,15 +20,15 @@ const transactionData = {
     '5d974a6600000000000000000000000000000000000000000000000000000000005d4bb2',
   gas: '27139',
   gasPrice: '10000000000',
-  status: '1'
+  status: '1',
 };
 
 const mockHistoryPush = jest.fn();
 jest.mock('swr', () =>
   jest.fn(() => ({
     data: {
-      data: []
-    }
+      data: [],
+    },
   }))
 );
 jest.mock('api/useRequest', () =>
@@ -49,25 +49,25 @@ jest.mock('api/useRequest', () =>
           '5d974a6600000000000000000000000000000000000000000000000000000000005d4bb2',
         gas: '27139',
         gasPrice: '10000000000',
-        status: '1'
-      }
-    }
+        status: '1',
+      },
+    },
   }))
 );
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
-    replace: mockHistoryPush
+    replace: mockHistoryPush,
   }),
   useParams: () => ({
-    hash: '0x8e65d4f5143dbb387d24f6792a4493e97d73f0f1032d7f4237a67273915bbc3f'
-  })
+    hash: '0x8e65d4f5143dbb387d24f6792a4493e97d73f0f1032d7f4237a67273915bbc3f',
+  }),
 }));
 
 const queries: { [key in BreakpointType]: string } = {
   sm: '(max-width: 767px)',
-  md: '(max-width: 1023px)'
+  md: '(max-width: 1023px)',
 };
 
 describe('Transaction Page', () => {

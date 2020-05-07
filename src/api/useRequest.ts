@@ -36,8 +36,8 @@ export default function useRequest<Data = unknown, Error = unknown>(
       statusText: 'InitialData',
       config: request,
       headers: {},
-      data: initialData
-    }
+      data: initialData,
+    },
   });
 
   return {
@@ -45,6 +45,6 @@ export default function useRequest<Data = unknown, Error = unknown>(
     response,
     error,
     isValidating,
-    revalidate
+    revalidate,
   };
 }

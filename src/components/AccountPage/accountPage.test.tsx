@@ -10,8 +10,8 @@ import { convertToVID } from 'utils/convertBalance';
 jest.mock('swr', () =>
   jest.fn(() => ({
     data: {
-      data: []
-    }
+      data: [],
+    },
   }))
 );
 jest.mock('api/useRequest', () =>
@@ -19,7 +19,7 @@ jest.mock('api/useRequest', () =>
     data: {
       account: {
         balance:
-          '904625697166532776746648320380374280103671755200316906505327930336821325312'
+          '904625697166532776746648320380374280103671755200316906505327930336821325312',
       },
       transactions: [
         {
@@ -28,23 +28,23 @@ jest.mock('api/useRequest', () =>
           from: '0x419aB3069F85bB1386b74524EcD582545c31250b',
           to: '0x0000000000000000000000000000000000000100',
           timestamp: '2020-03-11T11:28:02Z',
-          value: '0'
-        }
+          value: '0',
+        },
       ],
-      actions: []
-    }
+      actions: [],
+    },
   }))
 );
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useParams: () => ({
-    hash: '0x8e65d4f5143dbb387d24f6792a4493e97d73f0f1032d7f4237a67273915bbc3f'
-  })
+    hash: '0x8e65d4f5143dbb387d24f6792a4493e97d73f0f1032d7f4237a67273915bbc3f',
+  }),
 }));
 
 const queries: { [key in BreakpointType]: string } = {
   sm: '(max-width: 767px)',
-  md: '(max-width: 1023px)'
+  md: '(max-width: 1023px)',
 };
 
 describe('Account page', () => {

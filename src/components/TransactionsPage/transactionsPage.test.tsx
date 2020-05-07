@@ -10,8 +10,8 @@ const mockHistoryPush = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
-    push: mockHistoryPush
-  })
+    push: mockHistoryPush,
+  }),
 }));
 
 describe('Blocks page', () => {
@@ -26,8 +26,8 @@ describe('Blocks page', () => {
       value: '0',
       cursor: {
         block: '741310',
-        index: '0'
-      }
+        index: '0',
+      },
     },
     {
       hash:
@@ -38,9 +38,9 @@ describe('Blocks page', () => {
       value: '1',
       cursor: {
         block: '741311',
-        index: '0'
-      }
-    }
+        index: '0',
+      },
+    },
   ];
   beforeEach(() => {
     wrapper = render(

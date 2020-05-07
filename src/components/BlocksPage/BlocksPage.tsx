@@ -12,7 +12,7 @@ import useRequest from 'api/useRequest';
 const Body = (): ReactElement => {
   const [meta, setMeta] = useState({
     cursor: null,
-    prev: false
+    prev: false,
   });
   const [shouldPoll, setShouldPoll] = useState(true);
   const { data } = useRequest<{ blocks: Block[] }>(
@@ -21,11 +21,11 @@ const Body = (): ReactElement => {
       params: {
         limit: 10,
         'cursor.block': meta.cursor,
-        ...(meta.prev && { prev: true })
-      }
+        ...(meta.prev && { prev: true }),
+      },
     },
     {
-      refreshInterval: shouldPoll ? POLL_TIMEOUT : 0
+      refreshInterval: shouldPoll ? POLL_TIMEOUT : 0,
     }
   );
 
@@ -36,7 +36,7 @@ const Body = (): ReactElement => {
       cursor: last(data.blocks)
         ? last(data.blocks).cursor?.block
         : meta.cursor + 1,
-      prev: false
+      prev: false,
     });
   };
   const handlePrev = (): void => {
@@ -46,7 +46,7 @@ const Body = (): ReactElement => {
       cursor: first(data.blocks)
         ? first(data.blocks).cursor?.block
         : meta.cursor,
-      prev: true
+      prev: true,
     });
   };
   return (

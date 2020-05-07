@@ -4,7 +4,7 @@ import Row from './TransactionRow';
 import { FullTransaction, Transaction } from 'types/common';
 
 const LatestTransactions = ({
-  data
+  data,
 }: {
   data: Transaction[] | FullTransaction[];
 }): ReactElement => {

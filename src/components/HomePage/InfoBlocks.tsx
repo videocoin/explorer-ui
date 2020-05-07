@@ -21,20 +21,20 @@ const InfoBlocks = (): ReactElement => {
   const info: InfoBlock[] = [
     {
       value: '84569',
-      label: 'Block Height'
+      label: 'Block Height',
     },
     {
       value: '124',
-      label: 'Total Streams'
+      label: 'Total Streams',
     },
     {
       value: '$0.45',
-      label: 'per VID'
+      label: 'per VID',
     },
     {
       value: '1.5M',
-      label: 'Transactions'
-    }
+      label: 'Transactions',
+    },
   ];
   const renderBlock = (block: InfoBlock): ReactElement => (
     <Block key={block.label} {...block} />

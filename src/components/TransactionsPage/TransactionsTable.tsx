@@ -8,28 +8,28 @@ import timeAgo from 'utils/timeAgo';
 const fields: Field[] = [
   {
     name: 'type',
-    label: 'Type'
+    label: 'Type',
   },
   {
     name: 'age',
-    label: 'Age'
+    label: 'Age',
   },
   {
     name: 'hash',
-    label: 'Transaction Hash'
+    label: 'Transaction Hash',
   },
   {
     name: 'from',
-    label: 'From'
+    label: 'From',
   },
   {
     name: 'to',
-    label: 'To'
+    label: 'To',
   },
   {
     name: 'vid',
-    label: 'VID'
-  }
+    label: 'VID',
+  },
 ];
 
 const TransactionsTable = ({ data }: { data: Transaction[] }): ReactElement => {

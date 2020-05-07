@@ -11,14 +11,14 @@ const Body: React.FC = (): ReactElement => {
   const { data: blocks } = useRequest<{ blocks: Block[] }>(
     {
       url: '/blocks',
-      params: { limit: 5 }
+      params: { limit: 5 },
     },
     { refreshInterval: POLL_TIMEOUT }
   );
   const { data: transactions } = useRequest<{ transactions: Transaction[] }>(
     {
       url: '/transactions',
-      params: { limit: 5 }
+      params: { limit: 5 },
     },
     { refreshInterval: POLL_TIMEOUT }
   );

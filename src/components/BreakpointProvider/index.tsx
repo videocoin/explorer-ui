@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useEffect,
   ReactElement,
-  ContextType
+  ContextType,
 } from 'react';
 import { Breakpoints, BreakpointType } from 'types/common';
 
@@ -15,7 +15,7 @@ const BreakpointContext = createContext(defaultValue);
 
 const BreakpointProvider = ({
   children,
-  queries
+  queries,
 }: {
   children: ReactNode;
   queries: { [key in keyof Breakpoints]: string };
@@ -47,7 +47,7 @@ const BreakpointProvider = ({
       });
       setQueryMatch(matches);
       isAttached = true;
-      keys.forEach(media => {
+      keys.forEach((media) => {
         if (typeof queries[media] === 'string') {
           mediaQueryLists[media].addListener(handleQueryListener);
         }
@@ -56,7 +56,7 @@ const BreakpointProvider = ({
 
     return () => {
       if (isAttached) {
-        keys.forEach(media => {
+        keys.forEach((media) => {
           if (typeof queries[media] === 'string') {
             mediaQueryLists[media].removeListener(handleQueryListener);
           }

@@ -16,15 +16,15 @@ const Body = (): ReactElement => {
   const [transactionsMeta, setTransactionsMeta] = useState({
     cursor: null,
     index: null,
-    prev: false
+    prev: false,
   });
   const [actionsMeta, setActionsMeta] = useState({
     cursor: null,
     index: null,
-    prev: false
+    prev: false,
   });
   const { data: account } = useRequest<{ account: Account }>({
-    url: `/account/${hash}`
+    url: `/account/${hash}`,
   });
   const { data: transactions } = useRequest<{ transactions: Transaction[] }>({
     url: `/address/${hash}`,
@@ -32,8 +32,8 @@ const Body = (): ReactElement => {
       limit: 10,
       'cursor.block': transactionsMeta.cursor,
       'cursor.index': transactionsMeta.index,
-      ...(transactionsMeta.prev && { prev: true })
-    }
+      ...(transactionsMeta.prev && { prev: true }),
+    },
   });
   const { data: actions } = useRequest<{ actions: AccountEvent[] }>({
     url: `/actions/${hash}`,
@@ -41,14 +41,14 @@ const Body = (): ReactElement => {
       limit: 10,
       'cursor.block': actionsMeta.cursor,
       'cursor.index': actionsMeta.index,
-      ...(actionsMeta.prev && { prev: true })
-    }
+      ...(actionsMeta.prev && { prev: true }),
+    },
   });
   const [tab, setTab] = useState('transactions');
 
   const mappedAccount = {
     ...account,
-    balance: convertToVID(account.account.balance)
+    balance: convertToVID(account.account.balance),
   };
 
   const switchTab = (tab: string) => () => setTab(tab);
@@ -63,7 +63,7 @@ const Body = (): ReactElement => {
       index: lastTransaction
         ? lastTransaction.cursor?.index
         : transactionsMeta.index,
-      prev: false
+      prev: false,
     });
   };
   const handleTransactionsPrev = (): void => {
@@ -75,7 +75,7 @@ const Body = (): ReactElement => {
       index: firstTransaction
         ? firstTransaction.cursor?.index
         : transactionsMeta.index,
-      prev: true
+      prev: true,
     });
   };
   const handleEventsNext = (): void => {
@@ -83,7 +83,7 @@ const Body = (): ReactElement => {
     setActionsMeta({
       cursor: lastAction ? lastAction.cursor?.block : actionsMeta.cursor + 1,
       index: lastAction ? lastAction.cursor?.index : actionsMeta.index,
-      prev: false
+      prev: false,
     });
   };
   const handleEventsPrev = (): void => {
@@ -91,13 +91,13 @@ const Body = (): ReactElement => {
     setActionsMeta({
       cursor: firstAction ? firstAction.cursor?.block : actionsMeta.cursor,
       index: firstAction ? firstAction.cursor?.index : actionsMeta.index,
-      prev: true
+      prev: true,
     });
   };
   const mappedTransactions = map<Transaction, Transaction>(
     ({ value, ...rest }) => ({
       value: (+value / 1e18).toString(),
-      ...rest
+      ...rest,
     })
   )(transactions && transactions.transactions);
 

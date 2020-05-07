@@ -95,9 +95,8 @@ export interface Worker {
     latitude: number;
     longitude: number;
   };
-  cryptoInfo: {
-    address: string;
-    balance: string;
-    selfStake: string;
-  };
+  selfStake: number;
+  delegatedStake: number;
+  reward: number;
+  totalStake: number;
 }

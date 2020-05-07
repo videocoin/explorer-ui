@@ -7,7 +7,7 @@ import timeAgo from 'utils/timeAgo';
 import { convertToVID } from 'utils/convertBalance';
 
 const TransactionRow = ({
-  item
+  item,
 }: {
   item: Transaction | FullTransaction;
 }): ReactElement => {

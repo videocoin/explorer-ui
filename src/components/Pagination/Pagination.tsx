@@ -15,7 +15,7 @@ export const Pagination = ({
   onPrev,
   onNext,
   disabledNext = false,
-  disabledPrev = false
+  disabledPrev = false,
 }: PaginationProps) => (
   <div className={css.root}>
     <button type="button" onClick={onPrev} disabled={disabled || disabledNext}>

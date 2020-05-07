@@ -23,7 +23,7 @@ const Body = (): ReactElement => {
   const { hash } = useParams();
 
   const { data: block } = useRequest<{ block: Block }>({
-    url: `/block/${hash}`
+    url: `/block/${hash}`,
   });
   const fetchTransactions = useCallback(async () => {
     if (!block) {
@@ -37,10 +37,10 @@ const Body = (): ReactElement => {
         data: compose(
           map(({ value, ...rest }) => ({
             ...rest,
-            value: convertToVID(value)
+            value: convertToVID(value),
           })),
           map(get('data.transaction'))
-        )(transactionsRes)
+        )(transactionsRes),
       };
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -67,26 +67,26 @@ const Body = (): ReactElement => {
     gasUsed,
     gasLimit,
     parentHash,
-    extraData
+    extraData,
   } = block.block;
 
   const specs: BlockSpec[] = [
     {
       label: 'Parent hash',
-      value: <Link to={`/blocks/${parentHash}`}>{parentHash}</Link>
+      value: <Link to={`/blocks/${parentHash}`}>{parentHash}</Link>,
     },
     {
       label: 'Wattage',
-      value: `${gasUsed}/${gasLimit}`
+      value: `${gasUsed}/${gasLimit}`,
     },
     {
       label: 'Size',
-      value: size
+      value: size,
     },
     {
       label: 'Extra data',
-      value: extraData
-    }
+      value: extraData,
+    },
   ];
 
   const renderSpec = ({ label, value }: BlockSpec): ReactNode => (

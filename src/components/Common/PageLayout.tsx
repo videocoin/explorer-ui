@@ -11,7 +11,7 @@ interface PageLayoutProps {
 const PageLayout = ({
   children,
   title,
-  backTo
+  backTo,
 }: PageLayoutProps): ReactElement => {
   return (
     <div>

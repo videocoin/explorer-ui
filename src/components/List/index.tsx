@@ -17,7 +17,7 @@ const List = <T extends { hash: string }>({
   viewAll,
   icon,
   title,
-  rowComponent: RowComponent
+  rowComponent: RowComponent,
 }: List<T>): ReactElement => {
   const renderRow = (item: T): ReactElement => (
     <RowComponent key={item.hash} item={item} />

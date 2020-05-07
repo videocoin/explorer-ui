@@ -8,7 +8,7 @@ import { BreakpointType } from 'types/common';
 
 export const queries: { [key in BreakpointType]: string } = {
   sm: '(max-width: 767px)',
-  md: '(max-width: 1023px)'
+  md: '(max-width: 1023px)',
 };
 
 render(

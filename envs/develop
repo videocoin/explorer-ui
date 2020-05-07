@@ -1,3 +1,3 @@
 export REACT_APP_CLOUD_API_URL='https://studio.dev.videocoin.network/api/v1'
-export REACT_APP_TXLOG_API_URL='https://txlog.dev.kili.videocoin.network/api/v1'
+export REACT_APP_TXLOG_API_URL='https://symphony.dev.videocoin.net/api/v1'
 export REACT_APP_GOOGLE_MAP_KEY=AIzaSyBobmovyr-n1lFcSuQAQPwqjp0xa7_8DbM

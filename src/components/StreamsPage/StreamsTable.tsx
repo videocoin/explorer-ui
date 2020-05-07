@@ -6,20 +6,20 @@ import css from './styles.module.scss';
 const fields: Field[] = [
   {
     name: 'status',
-    label: 'Status'
+    label: 'Status',
   },
   {
     name: 'id',
-    label: 'Stream ID'
+    label: 'Stream ID',
   },
   {
     name: 'txns',
-    label: 'Txns'
+    label: 'Txns',
   },
   {
     name: 'duration',
-    label: 'Stream Duration'
-  }
+    label: 'Stream Duration',
+  },
 ];
 
 interface StreamRow {
@@ -34,8 +34,8 @@ const demoData: StreamRow[] = [
     status: 'streaming',
     id: '0x819e8adbdedcd931588c7359d0fddbbdca02212352bc080cabb5b49de0dc4f9b',
     txns: 12,
-    duration: '12:23 min'
-  }
+    duration: '12:23 min',
+  },
 ];
 
 const StreamsTable = (): ReactElement => {

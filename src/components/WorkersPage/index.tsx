@@ -8,7 +8,7 @@ import {
   flatten,
   random,
   getOr,
-  groupBy
+  groupBy,
 } from 'lodash/fp';
 import css from './styles.module.scss';
 import { Typography } from 'ui-kit';
@@ -29,30 +29,28 @@ function randomOffset(radius: number): [number, number] {
 const Body = () => {
   const { data } = useRequest<{ items: Worker[] }>(
     {
-      url: `${apiURL}/miners/all`
+      url: `${apiURL}/miners/all`,
     },
     {
-      refreshInterval: POLL_TIMEOUT
+      refreshInterval: POLL_TIMEOUT,
     }
   );
+  console.log(data);
   const items = useMemo(() => {
     if (!data) return [];
     const groupedByStatus = compose(
       groupBy('status'),
-      map<Worker, Worker>(({ id, systemInfo, cryptoInfo, ...rest }) => {
+      map<Worker, Worker>(({ id, selfStake, systemInfo, ...rest }) => {
         const [latOffset, lngOffset] = randomOffset(data.items.length / 200);
         return {
           ...rest,
           id,
-          cryptoInfo: {
-            ...cryptoInfo,
-            selfStake: convertToVID(cryptoInfo.selfStake).toString() || '0'
-          },
+          selfStake: convertToVID(selfStake) || 0,
           systemInfo: {
             ...systemInfo,
             latitude: systemInfo.latitude + latOffset,
-            longitude: systemInfo.longitude + lngOffset
-          }
+            longitude: systemInfo.longitude + lngOffset,
+          },
         };
       }),
       getOr([], 'items')
@@ -61,8 +59,8 @@ const Body = () => {
     return flatten([
       groupedByStatus[WorkerStatus.BUSY] || [],
       groupedByStatus[WorkerStatus.IDLE] || [],
-      groupedByStatus[WorkerStatus.NEW],
-      groupedByStatus[WorkerStatus.OFFLINE]
+      groupedByStatus[WorkerStatus.NEW] || [],
+      groupedByStatus[WorkerStatus.OFFLINE] || [],
     ]);
   }, [data]);
 

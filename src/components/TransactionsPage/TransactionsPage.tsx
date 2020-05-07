@@ -12,7 +12,7 @@ const Body = (): ReactElement => {
   const [meta, setMeta] = useState({
     cursor: null,
     index: null,
-    prev: false
+    prev: false,
   });
   const [shouldPoll, setShouldPoll] = useState(true);
   const { data } = useRequest<{ transactions: Transaction[] }>(
@@ -22,11 +22,11 @@ const Body = (): ReactElement => {
         limit: 10,
         'cursor.block': meta.cursor,
         'cursor.index': meta.index,
-        ...(meta.prev && { prev: true })
-      }
+        ...(meta.prev && { prev: true }),
+      },
     },
     {
-      refreshInterval: shouldPoll ? POLL_TIMEOUT : 0
+      refreshInterval: shouldPoll ? POLL_TIMEOUT : 0,
     }
   );
 
@@ -37,7 +37,7 @@ const Body = (): ReactElement => {
     setMeta({
       cursor: lastTransaction ? lastTransaction.cursor?.block : meta.cursor + 1,
       index: lastTransaction ? lastTransaction.cursor?.index : meta.index,
-      prev: false
+      prev: false,
     });
   };
   const handlePrev = (): void => {
@@ -47,13 +47,13 @@ const Body = (): ReactElement => {
     setMeta({
       cursor: firstTransaction ? firstTransaction.cursor?.block : meta.cursor,
       index: firstTransaction ? firstTransaction.cursor?.index : meta.index,
-      prev: true
+      prev: true,
     });
   };
   const mappedTransactions = map<Transaction, Transaction>(
     ({ value, ...rest }) => ({
       value: (+value / 1e18).toString(),
-      ...rest
+      ...rest,
     })
   )(data && data.transactions);
 

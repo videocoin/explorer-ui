@@ -13,7 +13,7 @@ function getSignatureMap(): object {
       reduce(
         contracts,
         (accum: any, methods, contract) => {
-          each(methods, method => {
+          each(methods, (method) => {
             if (method.type !== 'function') return;
 
             const abiVer = { ver, contract };

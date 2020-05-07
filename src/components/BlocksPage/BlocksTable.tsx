@@ -7,24 +7,24 @@ import { BlockRow } from 'types/common';
 const fields: Field[] = [
   {
     name: 'id',
-    label: 'Block #'
+    label: 'Block #',
   },
   {
     name: 'hash',
-    label: 'Block Hash'
+    label: 'Block Hash',
   },
   {
     name: 'txns',
-    label: 'Txns'
+    label: 'Txns',
   },
   {
     name: 'wattage',
-    label: 'Wattage'
+    label: 'Wattage',
   },
   {
     name: 'size',
-    label: 'Size'
-  }
+    label: 'Size',
+  },
 ];
 
 const BlocksTable = ({ data }: { data: BlockRow[] }): ReactElement => {

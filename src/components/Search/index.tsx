@@ -3,7 +3,7 @@ import React, {
   ReactElement,
   useEffect,
   useRef,
-  useState
+  useState,
 } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Icon, Input, Spinner } from 'ui-kit';

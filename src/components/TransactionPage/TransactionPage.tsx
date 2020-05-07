@@ -20,7 +20,7 @@ const Body = (): ReactElement => {
   const { hash } = useParams();
   const history = useHistory();
   const { data } = useRequest<{ transaction: FullTransaction }>({
-    url: `/transaction/${hash}`
+    url: `/transaction/${hash}`,
   });
 
   if (!data.transaction) {
@@ -31,7 +31,7 @@ const Body = (): ReactElement => {
   }
   const transaction = {
     ...data.transaction,
-    value: convertToVID(data.transaction.value)
+    value: convertToVID(data.transaction.value),
   };
 
   const {
@@ -42,7 +42,7 @@ const Body = (): ReactElement => {
     to,
     input,
     value,
-    timestamp
+    timestamp,
   } = transaction;
 
   const decodedInput = JSON.stringify(decodeInput(input), null, 4);
@@ -50,44 +50,44 @@ const Body = (): ReactElement => {
   const specs: TransactionSpec[] = [
     {
       label: 'Amount',
-      value: `${value} VID`
+      value: `${value} VID`,
     },
     {
       label: 'From',
       value: <Link to={`/account/${from}`}>{from}</Link>,
-      highlight: true
+      highlight: true,
     },
     {
       label: 'To',
       value: <Link to={`/account/${to}`}>{to}</Link>,
-      highlight: true
+      highlight: true,
     },
     {
       label: '',
-      value: ''
+      value: '',
     },
     {
       label: 'Block',
       value: <Link to={`/blocks/${blockHash}`}>{blockHash}</Link>,
-      highlight: true
+      highlight: true,
     },
     {
       label: 'Nonce',
-      value: nonce
+      value: nonce,
     },
     {
       label: 'Wattage',
-      value: '23000/50000'
+      value: '23000/50000',
     },
     {
       label: 'Input',
-      value: <pre>{decodedInput}</pre>
-    }
+      value: <pre>{decodedInput}</pre>,
+    },
   ];
   const renderSpec = ({
     label,
     value,
-    highlight = false
+    highlight = false,
   }: TransactionSpec): ReactNode => {
     if (!label) {
       return <li key={label} className={css.empty} />;

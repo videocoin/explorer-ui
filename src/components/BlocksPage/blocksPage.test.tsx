@@ -9,8 +9,8 @@ const mockHistoryPush = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
-    push: mockHistoryPush
-  })
+    push: mockHistoryPush,
+  }),
 }));
 
 describe('Blocks page', () => {
@@ -24,7 +24,7 @@ describe('Blocks page', () => {
       numTxs: '1',
       gasUsed: '27139',
       gasLimit: '8000000',
-      size: 753
+      size: 753,
     },
     {
       hash:
@@ -34,8 +34,8 @@ describe('Blocks page', () => {
       numTxs: '1',
       gasUsed: '27139',
       gasLimit: '8000000',
-      size: 753
-    }
+      size: 753,
+    },
   ];
   beforeEach(() => {
     wrapper = render(<BlocksTable data={data} />);

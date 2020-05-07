@@ -12,8 +12,8 @@ jest.mock('react-router-dom', () => ({
   useHistory: () => ({
     length: 10,
     goBack: mockHistoryBack,
-    replace: mockHistoryReplace
-  })
+    replace: mockHistoryReplace,
+  }),
 }));
 
 describe('BackLink', () => {

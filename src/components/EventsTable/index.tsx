@@ -8,32 +8,32 @@ import { AccountEvent } from 'types/common';
 const fields: Field[] = [
   {
     name: 'createdAt',
-    label: 'Timestamp'
+    label: 'Timestamp',
   },
   {
     name: 'hash',
-    label: 'Hash'
+    label: 'Hash',
   },
   {
     name: 'type',
-    label: 'Type'
+    label: 'Type',
   },
   {
     name: 'from',
-    label: 'From'
+    label: 'From',
   },
   {
     name: 'to',
-    label: 'To'
+    label: 'To',
   },
   {
     name: 'value',
-    label: 'Value'
+    label: 'Value',
   },
   {
     name: 'source',
-    label: 'Source'
-  }
+    label: 'Source',
+  },
 ];
 
 const EventsTable = ({ data }: { data: AccountEvent[] }): ReactElement => {

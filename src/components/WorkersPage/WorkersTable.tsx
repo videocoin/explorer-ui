@@ -9,18 +9,30 @@ import { readableWorkerStatus } from 'const';
 const fields: Field[] = [
   {
     name: 'status',
-    label: 'Status'
+    label: 'Status',
   },
   {
     name: 'name',
-    label: 'Name'
-  }
+    label: 'Name',
+  },
+  {
+    name: 'selfStake',
+    label: 'Direct Stake',
+  },
+  {
+    name: 'delegatedStake',
+    label: 'Delegated Stake',
+  },
+  {
+    name: 'totalStake',
+    label: 'Total Stake',
+  },
 ];
 
 const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
   const { md } = useBreakpoint();
   const renderRow = (row: Worker): ReactNode => {
-    const { id, name, status } = row;
+    const { id, name, status, selfStake, delegatedStake, totalStake } = row;
     if (md) {
       return (
         <tr key={row.id} className={css.row}>
@@ -35,6 +47,15 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
           <td>
             <div className={css.status}>{readableWorkerStatus[status]}</div>
           </td>
+          <td>
+            <div>{selfStake}</div>
+          </td>
+          <td>
+            <div>{delegatedStake}</div>
+          </td>
+          <td>
+            <div>{totalStake}</div>
+          </td>
         </tr>
       );
     }
@@ -48,6 +69,15 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
         </td>
         <td>
           <Typography type="body">{name}</Typography>
+        </td>
+        <td>
+          <div>{selfStake}</div>
+        </td>
+        <td>
+          <div>{delegatedStake}</div>
+        </td>
+        <td>
+          <div>{totalStake}</div>
         </td>
       </tr>
     );
