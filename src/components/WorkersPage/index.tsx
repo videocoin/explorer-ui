@@ -40,12 +40,11 @@ const Body = () => {
     if (!data) return [];
     const groupedByStatus = compose(
       groupBy('status'),
-      map<Worker, Worker>(({ id, selfStake, systemInfo, ...rest }) => {
+      map<Worker, Worker>(({ id, systemInfo, ...rest }) => {
         const [latOffset, lngOffset] = randomOffset(data.items.length / 200);
         return {
           ...rest,
           id,
-          selfStake: convertToVID(selfStake) || 0,
           systemInfo: {
             ...systemInfo,
             latitude: systemInfo.latitude + latOffset,
