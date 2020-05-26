@@ -86,6 +86,7 @@ export interface Worker {
   id: string;
   name: string;
   status: WorkerStatus;
+  isInternal: boolean;
   systemInfo: {
     cpuCores: number;
     cpuFreq: number;
