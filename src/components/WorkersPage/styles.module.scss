@@ -171,3 +171,11 @@
   transition: opacity 0.3s;
   z-index: 2147483647;
 }
+
+.self {
+  font-size: 24px;
+  color: $perfect-white;
+  &::before {
+    content: '•'
+  }
+}

@@ -32,7 +32,15 @@ const fields: Field[] = [
 const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
   const { md } = useBreakpoint();
   const renderRow = (row: Worker): ReactNode => {
-    const { id, name, status, selfStake, delegatedStake, totalStake } = row;
+    const {
+      id,
+      name,
+      status,
+      selfStake,
+      delegatedStake,
+      totalStake,
+      isInternal,
+    } = row;
     if (md) {
       return (
         <tr key={row.id} className={css.row}>
@@ -48,13 +56,17 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
             <div className={css.status}>{readableWorkerStatus[status]}</div>
           </td>
           <td>
-            <div>{selfStake}</div>
+            <div>{isInternal ? <span className={css.self} /> : selfStake}</div>
           </td>
           <td>
-            <div>{delegatedStake}</div>
+            <div>
+              {isInternal ? <span className={css.self} /> : delegatedStake}
+            </div>
           </td>
           <td>
-            <div>{totalStake}</div>
+            <div>
+              {!isInternal ? <span className={css.self} /> : totalStake}
+            </div>
           </td>
         </tr>
       );
@@ -71,13 +83,15 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
           <Typography type="body">{name}</Typography>
         </td>
         <td>
-          <div>{selfStake}</div>
+          <div>{isInternal ? <span className={css.self} /> : selfStake}</div>
         </td>
         <td>
-          <div>{delegatedStake}</div>
+          <div>
+            {isInternal ? <span className={css.self} /> : delegatedStake}
+          </div>
         </td>
         <td>
-          <div>{totalStake}</div>
+          <div>{isInternal ? <span className={css.self} /> : totalStake}</div>
         </td>
       </tr>
     );
