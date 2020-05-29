@@ -1,14 +1,13 @@
 import React, { ReactElement } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Navigation from 'components/Common/Navigation';
 import HomePage from 'components/HomePage/HomePage';
 import BlocksPage from 'components/BlocksPage/BlocksPage';
 import BlockPage from 'components/BlockPage/BlockPage';
 import TransactionsPage from 'components/TransactionsPage/TransactionsPage';
 import TransactionPage from 'components/TransactionPage/TransactionPage';
-import StreamsPage from 'components/StreamsPage/StreamsPage';
-import StreamPage from 'components/StreamPage/StreamPage';
 import AccountPage from 'components/AccountPage/AccountPage';
 import EmptySearchPage from 'components/EmptySearchPage';
 import WorkersPage from 'components/WorkersPage';
@@ -39,6 +38,7 @@ const App: React.FC = (): ReactElement => {
           </div>
         </div>
       </div>
+      <ToastContainer position="bottom-center" closeButton={false} />
     </BrowserRouter>
   );
 };

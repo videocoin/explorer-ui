@@ -84,6 +84,7 @@ export interface Block {
 
 export interface Worker {
   id: string;
+  address: string;
   name: string;
   status: WorkerStatus;
   isInternal: boolean;
