@@ -3,7 +3,7 @@ import React, {
   ReactElement,
   ReactNode,
   useCallback,
-  useState,
+  useState
 } from 'react';
 import cn from 'classnames';
 import { Field, Table, Typography } from 'ui-kit';
@@ -16,28 +16,28 @@ import AddressModal from './AddressModal';
 const fields: Field[] = [
   {
     name: 'status',
-    label: 'Status',
+    label: 'Status'
   },
   {
     name: 'name',
-    label: 'Name',
+    label: 'Name'
   },
   {
     name: 'selfStake',
-    label: 'Direct Stake',
+    label: 'Direct Stake'
   },
   {
     name: 'delegatedStake',
-    label: 'Delegated Stake',
+    label: 'Delegated Stake'
   },
   {
     name: 'totalStake',
-    label: 'Total Stake',
+    label: 'Total Stake'
   },
   {
     name: 'address',
-    label: 'Staking Address',
-  },
+    label: 'Staking Address'
+  }
 ];
 
 const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
@@ -55,7 +55,7 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
         delegatedStake,
         totalStake,
         isInternal,
-        address,
+        address
       } = row;
       console.log(row.address);
       const handleOpenAddressModal = () => {
@@ -117,7 +117,7 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
             <div>{isInternal ? <span className={css.self} /> : totalStake}</div>
           </td>
           <td align="center">
-            {address ? (
+            {address && !isInternal ? (
               <button type="button" onClick={handleOpenAddressModal}>
                 <Typography theme="sunkissed" weight="medium">
                   View Address
