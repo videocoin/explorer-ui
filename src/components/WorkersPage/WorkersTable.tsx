@@ -116,13 +116,15 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
           <td>
             <div>{isInternal ? <span className={css.self} /> : totalStake}</div>
           </td>
-          <td>
-            {address && (
+          <td align="center">
+            {address ? (
               <button type="button" onClick={handleOpenAddressModal}>
                 <Typography theme="sunkissed" weight="medium">
                   View Address
                 </Typography>
               </button>
+            ) : (
+              <Typography>—</Typography>
             )}
           </td>
         </tr>
