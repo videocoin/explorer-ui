@@ -35,7 +35,6 @@ const Body = () => {
       refreshInterval: POLL_TIMEOUT,
     }
   );
-  console.log(data);
   const items = useMemo(() => {
     if (!data) return [];
     const groupedByStatus = compose(

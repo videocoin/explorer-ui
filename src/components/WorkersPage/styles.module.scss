@@ -77,9 +77,10 @@
   }
 }
 .table {
+  overflow-x: auto;
   th {
     white-space: nowrap;
-    padding: 20px 44px;
+    padding: 20px 30px;
     @include mobile {
       padding: 20px 24px;
     }
@@ -110,7 +111,7 @@
 .row {
 
   td {
-    padding: 20px 44px;
+    padding: 20px 30px;
     max-width: 100%;
     white-space: nowrap;
     @include mobile {
