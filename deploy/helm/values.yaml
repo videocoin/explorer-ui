@@ -2,19 +2,22 @@ replicasCount: 1
 maxUnavailableCount: 0
 
 image:
-  repository: gcr.io/videocoin-network/explorer-ui
+  repository: registry.videocoin.net/cloud/explorer
   tag: latest
   pullPolicy: Always
+  pullSecrets: 
+  - name: regcred
+
+serviceAccount:
+  name: default
 
 service:
-  name: http
-  type: NodePort
-  externalPort: 80
-  internalPort: 80
+  ports:
+    http: 80
 
 autoscaler:
   minCount: 1
-  maxCount: 10
+  maxCount: 3
 
 resources:
   limits:
@@ -23,6 +26,14 @@ resources:
   requests:
    cpu: 100m
    memory: 128Mi
+
+ingress:
+  enabled: true
+  host: explorer2.dev.videocoin.net
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns-prod
+    kubernetes.io/ingress.class: nginx
+  secret: tls-cert-cloud-explorer
 
 config:
   nginx.conf: |

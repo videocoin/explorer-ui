@@ -2,7 +2,7 @@ GOOS?=linux
 GOARCH?=amd64
 ENV?=dev
 
-NAME=explorer-ui
+NAME=explorer
 VERSION=$$(git describe --abbrev=0)-$$(git rev-parse --abbrev-ref HEAD)-$$(git rev-parse --short HEAD)
 
 REGISTRY_SERVER?=registry.videocoin.net

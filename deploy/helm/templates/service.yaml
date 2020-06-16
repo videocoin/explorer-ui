@@ -7,11 +7,10 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     heritage: {{ .Release.Service }}
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.externalPort }}
-      targetPort: {{ .Values.service.internalPort }}
+    - port: {{ .Values.service.ports.http }}
+      targetPort: {{ .Values.service.ports.http }}
       protocol: TCP
-      name: {{ .Values.service.name }}
+      name: http
   selector:
     app: {{ .Chart.Name }}
