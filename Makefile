@@ -1,5 +1,3 @@
-GOOS?=linux
-GOARCH?=amd64
 ENV?=dev
 
 NAME=explorer
