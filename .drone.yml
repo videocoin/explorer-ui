@@ -1,13 +1,12 @@
 kind: pipeline
 type: kubernetes
-name: release-develop
+name: dev.explorer.videocoin.network
 
 steps:
   - name: submodules
     image: alpine/git
     commands:
-    - git submodule update --init --recursive
-
+      - git submodule update --init --recursive
   - name: build
     image: plugins/docker
     settings:
@@ -16,80 +15,26 @@ steps:
       password:
         from_secret: registry_password
       registry: registry.videocoin.net
-      repo: registry.videocoin.net/cloud/explorer-ui
+      repo: registry.videocoin.net/cloud/explorer
+      build_args:
+        - REACT_APP_CLOUD_API_URL=https://dev.videocoin.net/api/v1
+        - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
+        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
         - ${DRONE_COMMIT_SHA}
-      build_args:
-        - REACT_APP_CLOUD_API_URL=https://console.dev.videocoin.net/api/v1
-        - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
-        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyBobmovyr-n1lFcSuQAQPwqjp0xa7_8DbM
-trigger:
-  event:
-  - push
-  - pull_request
-  branch:
-    - infra
-    - drone
-
----
-
-kind: pipeline
-type: kubernetes
-name: release-master
-
-steps:
-  - name: submodules
-    image: alpine/git
-    commands:
-    - git submodule update --init
-
-  - name: build
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: registry_username
-      password:
-        from_secret: registry_password
-      registry: registry.videocoin.net
-      repo: registry.videocoin.net/cloud/explorer-ui
-      tags:
-        - ${DRONE_TAG}
-      build_args:
-        - REACT_APP_CLOUD_API_URL='https://console.videocoin.network/api/v1'
-        - REACT_APP_TXLOG_API_URL='https://symphony.videocoin.net/api/v1'
-        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyBobmovyr-n1lFcSuQAQPwqjp0xa7_8DbM
-trigger:
-  event:
-  - push
-  - pull_request
-  branch:
-  - pe-1
-  - pe-2
-  - pe-3
-
----
-
-kind: pipeline
-type: kubernetes
-name: deploy-dev
-
-steps:
- - name: deploy
-   image: devth/helm:v3.1.1
-   environment:
+  - name: deploy
+    image: devth/helm:v3.1.1
+    environment:
       KUBE_CONFIG:
         from_secret: dev_kube_config
-   commands:
-     - echo $KUBE_CONFIG | base64 -d > kube.config
-     - helm --kubeconfig=kube.config upgrade -i --wait --set image.tag=${DRONE_COMMIT_SHA} -n console explorer-ui ./deploy/helm
+    commands:
+      - echo $KUBE_CONFIG | base64 -d > kube.config
+      - helm --kubeconfig=kube.config upgrade -i --wait --set image.tag=$DRONE_COMMIT_SHA -n console explorer ./deploy/helm
 
 trigger:
   event:
-  - push
-  - pull_request
+    - push
+    - pull_request
   branch:
-  - infra
-  - drone
-
-depends_on:
-  - release-develop
+    - drone
+    - infra
