@@ -1,5 +1,5 @@
 ENV?=dev
-NAME=explorer-ui
+NAME=explorer
 VERSION=$$(git describe --abbrev=0)-$$(git rev-parse --abbrev-ref HEAD)-$$(git rev-parse --short HEAD)
 
 REGISTRY_SERVER?=registry.videocoin.net
@@ -37,4 +37,4 @@ docker-push:
 release: docker-build docker-push
 
 deploy:
-	cd deploy && helm upgrade -i --wait --set image.tag="${VERSION}" -n console explorer-ui ./helm
+	helm upgrade -i --wait --set image.tag="${VERSION}" -n console explorer ./deploy/helm
