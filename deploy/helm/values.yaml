@@ -2,7 +2,7 @@ replicasCount: 1
 maxUnavailableCount: 0
 
 image:
-  repository: registry.videocoin.net/cloud/explorer-ui
+  repository: registry.videocoin.net/cloud/explorer
   tag: latest
   pullPolicy: Always
   pullSecrets:
