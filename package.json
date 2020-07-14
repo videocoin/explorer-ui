@@ -11,7 +11,7 @@
     "@types/react": "16.9.44",
     "@types/react-dom": "16.9.8",
     "@types/react-router-dom": "^5.1.5",
-    "abi-decoder-web3jsfix": "^2.0.2",
+    "abi-decoder": "^2.3.0",
     "are-passive-events-supported": "^1.1.1",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
