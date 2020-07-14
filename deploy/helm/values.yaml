@@ -8,6 +8,9 @@ image:
   pullSecrets:
   - name: regcred
 
+serviceAccount:
+  name: default
+
 service:
   type: NodePort
   ports:
