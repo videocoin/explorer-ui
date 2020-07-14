@@ -9,9 +9,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.externalPort }}
-      targetPort: {{ .Values.service.internalPort }}
+    - port: {{ .Values.service.http }}
+      targetPort: {{ .Values.service.http }}
       protocol: TCP
       name: {{ .Values.service.name }}
   selector:
-    app: {{ .Chart.Name }}
+    app: http
