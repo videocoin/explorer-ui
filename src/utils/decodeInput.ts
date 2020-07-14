@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Web3 from 'web3';
 import { reduce, each } from 'lodash';
-import decoder from 'abi-decoder-web3jsfix';
+import decoder from 'abi-decoder';
 import abis from 'abis.json';
 
 function getSignatureMap(): object {
