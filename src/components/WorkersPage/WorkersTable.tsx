@@ -3,7 +3,7 @@ import React, {
   ReactElement,
   ReactNode,
   useCallback,
-  useState
+  useState,
 } from 'react';
 import cn from 'classnames';
 import { Field, Table, Typography } from 'ui-kit';
@@ -17,28 +17,28 @@ import formatVID from '../../utils/formatVID';
 const fields: Field[] = [
   {
     name: 'status',
-    label: 'Status'
+    label: 'Status',
   },
   {
     name: 'name',
-    label: 'Name'
+    label: 'Name',
   },
   {
     name: 'selfStake',
-    label: 'Direct Stake'
+    label: 'Direct Stake',
   },
   {
     name: 'delegatedStake',
-    label: 'Delegated Stake'
+    label: 'Delegated Stake',
   },
   {
     name: 'totalStake',
-    label: 'Total Stake'
+    label: 'Total Stake',
   },
   {
     name: 'address',
-    label: 'Staking Address'
-  }
+    label: 'Staking Address',
+  },
 ];
 
 const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
@@ -56,7 +56,7 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
         delegatedStake,
         totalStake,
         isInternal,
-        address
+        address,
       } = row;
       const handleOpenAddressModal = () => {
         setAddress(address);

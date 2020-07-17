@@ -1,30 +1,31 @@
 import numeral from 'numeral';
-function round(num, digest): number {
+function round(num: number, digest = 10): number {
   const n = Math.pow(digest, -1);
   return Math.floor(num * n) / n;
 }
 
 function formatVID(val: number | string): number | string {
-  if (val < 0.001) return 0;
-  if (val < 1) {
-    return val.toFixed(3);
+  const numVal = +val;
+  if (numVal < 0.001) return 0;
+  if (numVal < 1) {
+    return numVal.toFixed(3);
   }
-  if (val < 999) {
-    return val;
+  if (numVal < 999) {
+    return numVal;
   }
-  if (val < 10_000) {
-    return numeral(round(val, 10)).format('0.0 a');
+  if (numVal < 10_000) {
+    return numeral(round(numVal, 10)).format('0.0 a');
   }
-  if (val < 100_000) {
-    return numeral(round(val, 100)).format('0.0 a');
+  if (numVal < 100_000) {
+    return numeral(round(numVal, 100)).format('0.0 a');
   }
-  if (val < 999_999) {
-    return numeral(round(val, 1_000)).format('0 a');
+  if (numVal < 999_999) {
+    return numeral(round(numVal, 1_000)).format('0 a');
   }
-  if (val < 10_000_000) {
-    return numeral(round(val, 10_000)).format('0 a');
+  if (numVal < 10_000_000) {
+    return numeral(round(numVal, 10_000)).format('0 a');
   }
-  return numeral(round(val, 1_000_000).format('0 a'));
+  return numeral(round(numVal, 1_000_000)).format('0 a');
 }
 
 export default formatVID;
