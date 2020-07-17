@@ -12,6 +12,7 @@ import css from './styles.module.scss';
 import { useBreakpoint } from 'components/BreakpointProvider';
 import { readableWorkerStatus } from 'const';
 import AddressModal from './AddressModal';
+import formatVID from '../../utils/formatVID';
 
 const fields: Field[] = [
   {
@@ -57,9 +58,7 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
         isInternal,
         address,
       } = row;
-      console.log(row.address);
       const handleOpenAddressModal = () => {
-        console.log(address);
         setAddress(address);
       };
       if (md) {
@@ -106,15 +105,31 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
             <Typography type="body">{name}</Typography>
           </td>
           <td>
-            <div>{isInternal ? <span className={css.self} /> : selfStake}</div>
-          </td>
-          <td>
             <div>
-              {isInternal ? <span className={css.self} /> : delegatedStake}
+              {isInternal ? (
+                <span className={css.self} />
+              ) : (
+                formatVID(selfStake)
+              )}
             </div>
           </td>
           <td>
-            <div>{isInternal ? <span className={css.self} /> : totalStake}</div>
+            <div>
+              {isInternal ? (
+                <span className={css.self} />
+              ) : (
+                formatVID(delegatedStake)
+              )}
+            </div>
+          </td>
+          <td>
+            <div>
+              {isInternal ? (
+                <span className={css.self} />
+              ) : (
+                formatVID(totalStake)
+              )}
+            </div>
           </td>
           <td>
             {address && (
