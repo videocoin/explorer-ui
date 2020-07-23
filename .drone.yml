@@ -1,6 +1,6 @@
 kind: pipeline
 type: kubernetes
-name: release-develop
+name: develop
 
 steps:
   - name: submodules
@@ -21,6 +21,7 @@ steps:
         - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
         - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
+        - latest
         - ${DRONE_COMMIT_SHA}
   - name: deploy
     image: devth/helm:v3.1.1
@@ -34,12 +35,56 @@ steps:
 trigger:
   event:
     - push
-    - pull_request
   branch:
     - infra
 
+---
+
+kind: pipeline
+type: kubernetes
+name: release
+
+steps:
+  - name: submodules
+    image: alpine/git
+    commands:
+      - git submodule update --init --recursive
+  - name: build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry_username
+      password:
+        from_secret: registry_password
+      registry: registry.videocoin.net
+      repo: registry.videocoin.net/cloud/explorer
+      build_args:
+        - REACT_APP_CLOUD_API_URL=https://dev.videocoin.net/api/v1
+        - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
+        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
+      tags:
+        - ${DRONE_TAG}
+  - name: deploy
+    image: devth/helm:v3.1.1
+    environment:
+      KUBE_CONFIG:
+        from_secret: stage_kube_config
+    commands:
+      - echo $KUBE_CONFIG | base64 -d > kube.config
+      - helm --kubeconfig=kube.config upgrade -i --wait --set image.tag=$DRONE_TAG -n console explorer ./deploy/helm
+    when:
+      branch:
+      - master
+trigger:
+  event:
+    - push
+  branch:
+    - pe-1
+    - pe-2
+    - master
 
 ---
+
 kind: pipeline
 type: kubernetes
 name: helm-push
