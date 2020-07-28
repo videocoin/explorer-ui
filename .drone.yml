@@ -1,7 +1,6 @@
 kind: pipeline
 type: kubernetes
-name: release-develop
-
+name: develop
 steps:
   - name: submodules
     image: alpine/git
@@ -21,6 +20,7 @@ steps:
         - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
         - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
+        - latest
         - ${DRONE_COMMIT_SHA}
   - name: deploy
     image: devth/helm:v3.1.1
@@ -30,20 +30,75 @@ steps:
     commands:
       - echo $KUBE_CONFIG | base64 -d > kube.config
       - helm --kubeconfig=kube.config upgrade -i --wait --set image.tag=$DRONE_COMMIT_SHA -n console explorer ./deploy/helm
-
 trigger:
   event:
     - push
-    - pull_request
   branch:
-    - infra
+    - develop
+
+
+---
+kind: pipeline
+type: kubernetes
+name: pre-release
+steps:
+  - name: submodules
+    image: alpine/git
+    commands:
+      - git submodule update --init --recursive
+  - name: build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry_username
+      password:
+        from_secret: registry_password
+      registry: registry.videocoin.net
+      repo: registry.videocoin.net/cloud/explorer
+      build_args:
+        - REACT_APP_CLOUD_API_URL=https://console.staging.videocoin.net/api/v1
+        - REACT_APP_TXLOG_API_URL=https://symphony.staging.videocoin.net/api/v1
+        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
+      tags:
+        - ${DRONE_TAG}-prerelease
+trigger:
+  event:
+    - tag
+
+
+---
+kind: pipeline
+type: kubernetes
+name: release
+steps:
+  - name: submodules
+    image: alpine/git
+    commands:
+      - git submodule update --init --recursive
+  - name: build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry_username
+      password:
+        from_secret: registry_password
+      registry: registry.videocoin.net
+      repo: registry.videocoin.net/cloud/explorer
+      build_args:
+        - REACT_APP_CLOUD_API_URL=https://console.videocoin.net/api/v1
+        - REACT_APP_TXLOG_API_URL=https://symphony.videocoin.net/api/v1
+        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
+      tags:
+        - ${DRONE_TAG}
+trigger:
+  event:
+    - tag
 
 
 ---
 kind: pipeline
 type: kubernetes
 name: helm-push
-
 steps:
   - name: lint-chart
     image: pelotech/drone-helm3
@@ -61,9 +116,6 @@ steps:
       - helm repo add console https://registry.videocoin.net/chartrepo/cloud --username $$USERNAME --password $$PASSWORD
       - helm plugin install https://github.com/chartmuseum/helm-push
       - helm push ./deploy/helm console --username $$USERNAME --password $$PASSWORD
-
 trigger:
   event:
     - push
-  branch:
-    - infra

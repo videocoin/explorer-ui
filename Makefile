@@ -1,10 +1,8 @@
-ENV?=dev
 NAME=explorer
-VERSION=$$(git describe --abbrev=0)-$$(git rev-parse --abbrev-ref HEAD)-$$(git rev-parse --short HEAD)
+VERSION=$$(git rev-parse HEAD)
 
 REGISTRY_SERVER?=registry.videocoin.net
 REGISTRY_PROJECT?=cloud
-
 
 REACT_APP_CLOUD_API_URL?=
 REACT_APP_TXLOG_API_URL?=
