@@ -22,6 +22,10 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
+    resources:
+      requests:
+        cpu: 1000
+        memory: 1024MiB
   - name: deploy
     image: devth/helm:v3.1.1
     environment:
@@ -61,6 +65,10 @@ steps:
         - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
         - ${DRONE_TAG}-prerelease
+    resources:
+      requests:
+        cpu: 1000
+        memory: 1024MiB
 trigger:
   event:
     - tag
@@ -90,6 +98,10 @@ steps:
         - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
         - ${DRONE_TAG}
+    resources:
+      requests:
+        cpu: 1000
+        memory: 1024MiB
 trigger:
   event:
     - tag
