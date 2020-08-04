@@ -28,17 +28,21 @@ export default function useRequest<Data = unknown, Error = unknown>(
   const { data: response, error, isValidating, revalidate } = useSWR<
     AxiosResponse<Data>,
     AxiosError<Error>
-  >(request && JSON.stringify(request), () => api(request || {}), {
-    suspense: true,
-    ...config,
-    initialData: initialData && {
-      status: 200,
-      statusText: 'InitialData',
-      config: request,
-      headers: {},
-      data: initialData,
-    },
-  });
+  >(
+    request.url ? request && JSON.stringify(request) : null,
+    () => api(request || {}),
+    {
+      suspense: true,
+      ...config,
+      initialData: initialData && {
+        status: 200,
+        statusText: 'InitialData',
+        config: request,
+        headers: {},
+        data: initialData,
+      },
+    }
+  );
 
   return {
     data: response && response.data,

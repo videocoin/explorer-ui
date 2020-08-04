@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { TopBar as TopBarBase, Typography } from 'ui-kit';
 import Search from 'components/Search';
 import BackLink from 'components/BackLink';
@@ -8,11 +8,16 @@ import { Link } from 'react-router-dom';
 import { useBreakpoint } from 'components/BreakpointProvider';
 
 interface TopBarProps {
-  title: string;
+  title: ReactNode;
   backTo?: string;
+  hideSearch?: boolean;
 }
 
-const TopBar = ({ title, backTo }: TopBarProps): ReactElement => {
+const TopBar = ({
+  title,
+  backTo,
+  hideSearch = false,
+}: TopBarProps): ReactElement => {
   const breakpoints = useBreakpoint();
   return (
     <div className={css.root}>
@@ -30,7 +35,7 @@ const TopBar = ({ title, backTo }: TopBarProps): ReactElement => {
             {title}
           </Typography>
         </div>
-        <Search />
+        {!hideSearch && <Search />}
       </TopBarBase>
     </div>
   );

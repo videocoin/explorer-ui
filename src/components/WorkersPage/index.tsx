@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo } from 'react';
 import PageLayout from 'components/Common/PageLayout';
 import {
@@ -15,10 +14,8 @@ import { Typography } from 'ui-kit';
 import WorkersMap from './WorkersMap';
 import WorkersTable from './WorkersTable';
 import useRequest from 'api/useRequest';
-import { POLL_TIMEOUT, WorkerStatus } from 'const';
+import { apiURL, POLL_TIMEOUT, WorkerStatus } from 'const';
 import { Worker } from 'types/common';
-import { convertToVID } from 'utils/convertBalance';
-const apiURL = process.env.REACT_APP_CLOUD_API_URL;
 
 function randomOffset(radius: number): [number, number] {
   const lat = random(-radius, radius);

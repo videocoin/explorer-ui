@@ -1,5 +1,4 @@
-import React, { Suspense, ReactElement, useState } from 'react';
-import { Spinner } from 'ui-kit';
+import React, { ReactElement, useState } from 'react';
 import BlocksTable from './BlocksTable';
 import { Block } from 'types/common';
 import css from './styles.module.scss';

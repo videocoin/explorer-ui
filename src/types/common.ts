@@ -101,4 +101,9 @@ export interface Worker {
   delegatedStake: number;
   reward: number;
   totalStake: number;
+  delegatePolicy: string;
+  orgDesc: string;
+  orgName: string;
+  orgEmail: string;
+  allowThirdpartyDelegates: boolean;
 }
