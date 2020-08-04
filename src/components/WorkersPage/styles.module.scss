@@ -109,11 +109,12 @@
   }
 }
 .row {
-
+  cursor: pointer;
   td {
     padding: 20px 30px;
     max-width: 100%;
     white-space: nowrap;
+    transition: background-color .15s ease-in-out;
     @include mobile {
       padding: 20px 24px;
     }
@@ -123,6 +124,11 @@
     }
     div {
       display: inline-block;
+    }
+  }
+  &:hover {
+    td {
+      background-color: #4E238E!important;
     }
   }
 }

@@ -1,0 +1,127 @@
+@import 'colors';
+.root {
+  margin-bottom: 94px;
+}
+.address {
+  display: flex;
+  align-items: center;
+}
+.genesisBadge {
+  background: #7234c8;
+  border-radius: 2px;
+  padding: 2px 8px;
+  margin-right: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.status {
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  & > div:first-child {
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    border: 1px solid $grey-dawn-w1;
+    margin-right: 13px;
+  }
+  &.BUSY {
+    & > div:first-child {
+      background-color: $minty-green;
+    }
+  }
+  &.IDLE {
+    & > div:first-child {
+      background-color: $sunkissed-orange;
+    }
+  }
+  &.OFFLINE,
+  &.NEW {
+    & > div:first-child {
+      background-color: $grey-dawn-b2;
+    }
+  }
+}
+
+.spec {
+  & > div {
+    display: flex;
+    margin-bottom: 10px;
+    & > div:first-child {
+      width: 75px;
+      margin-right: 10px;
+    }
+  }
+}
+.info {
+  margin-top: 72px;
+}
+.head {
+  border-bottom: 1px solid $grey-dawn-w2;
+  margin-bottom: 24px;
+}
+.config {
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  & > div:first-child {
+    margin-right: 12px;
+  }
+}
+
+.configItem {
+  margin-left: 16px;
+  border-radius: 12px;
+  height: 56px;
+  background-color: $violet-sky-b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.name {
+  margin-top: 20px;
+  width: 360px;
+}
+.pagination {
+  text-align: right;
+}
+.timeCell {
+  white-space: nowrap;
+}
+.desc {
+  display: flex;
+  margin-top: 36px;
+  margin-bottom: 64px;
+}
+.currentStake {
+  margin-right: 36px;
+  padding: 24px 36px;
+  background-color: #290f4d;
+  border-radius: 16px;
+  min-width: 332px;
+  flex-shrink: 0;
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    & > div:last-child {
+      display: flex;
+      align-items: baseline;
+      margin-left: 30px;
+      & > div:last-child {
+        margin-left: 4px;
+      }
+    }
+  }
+}
+.email {
+   display: flex;
+   align-items: center;
+   margin-bottom: 16px;
+   text-decoration: none;
+   svg {
+     margin-right: 12px;
+   }
+ }
