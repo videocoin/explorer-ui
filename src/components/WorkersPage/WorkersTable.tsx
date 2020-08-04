@@ -2,6 +2,7 @@ import React, {
   memo,
   ReactElement,
   ReactNode,
+  SyntheticEvent,
   useCallback,
   useState,
 } from 'react';
@@ -10,6 +11,7 @@ import { Field, Table, Typography } from 'ui-kit';
 import { Worker } from 'types/common';
 import css from './styles.module.scss';
 import { useBreakpoint } from 'components/BreakpointProvider';
+import { useHistory } from 'react-router-dom';
 import { readableWorkerStatus } from 'const';
 import AddressModal from './AddressModal';
 import formatVID from '../../utils/formatVID';
@@ -43,7 +45,7 @@ const fields: Field[] = [
 
 const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
   const [address, setAddress] = useState<null | string>(null);
-
+  const history = useHistory();
   const handleCloseAddressModal = () => setAddress(null);
   const { md } = useBreakpoint();
   const renderRow = useCallback(
@@ -58,12 +60,16 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
         isInternal,
         address,
       } = row;
-      const handleOpenAddressModal = () => {
+      const handleOpenAddressModal = (e: SyntheticEvent) => {
+        e.stopPropagation();
         setAddress(address);
+      };
+      const handleOpenWorker = () => {
+        history.push(`/workers/${id}`);
       };
       if (md) {
         return (
-          <tr key={row.id} className={css.row}>
+          <tr key={row.id} className={css.row} onClick={handleOpenWorker}>
             <td>
               <div className={css.status}>
                 <div className={cn(css.statusMark, css[status])} />
@@ -94,7 +100,7 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
         );
       }
       return (
-        <tr key={id} className={css.row}>
+        <tr key={id} className={css.row} onClick={handleOpenWorker}>
           <td>
             <div className={css.status}>
               <div className={cn(css.statusMark, css[status])} />
@@ -145,7 +151,7 @@ const WorkersTable = ({ data }: { data: Worker[] }): ReactElement => {
         </tr>
       );
     },
-    [md]
+    [history, md]
   );
   return (
     <div className={css.table}>
