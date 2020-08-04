@@ -18,6 +18,7 @@ steps:
       build_args:
         - REACT_APP_CLOUD_API_URL=https://console.dev.videocoin.net/api/v1
         - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
+        - REACT_APP_PAYMENTS_API_URL=https://payments.dev.videocoinapis.com/api/v1
         - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
         - latest
@@ -62,6 +63,7 @@ steps:
       build_args:
         - REACT_APP_CLOUD_API_URL=https://console.staging.videocoin.net/api/v1
         - REACT_APP_TXLOG_API_URL=https://symphony.staging.videocoin.net/api/v1
+        - REACT_APP_PAYMENTS_API_URL=https://payments.staging.videocoinapis.com/api/v1
         - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
         - ${DRONE_TAG}-prerelease
@@ -95,6 +97,7 @@ steps:
       build_args:
         - REACT_APP_CLOUD_API_URL=https://console.videocoin.net/api/v1
         - REACT_APP_TXLOG_API_URL=https://symphony.videocoin.net/api/v1
+        - REACT_APP_PAYMENTS_API_URL=https://payments.videocoinapis.com/api/v1
         - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
         - ${DRONE_TAG}

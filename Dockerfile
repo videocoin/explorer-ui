@@ -2,6 +2,7 @@ FROM node:14.4-alpine3.11 as builder
 
 ARG REACT_APP_CLOUD_API_URL
 ARG REACT_APP_TXLOG_API_URL
+ARG REACT_APP_PAYMENTS_API_URL
 ARG REACT_APP_GOOGLE_MAP_KEY
 
 RUN apk add --no-cache --virtual .gyp \
