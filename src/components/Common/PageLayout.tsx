@@ -1,6 +1,7 @@
 import React, { ReactElement, ReactNode, Suspense } from 'react';
 import TopBar from 'components/Common/TopBar';
-import { Spinner } from 'ui-kit';
+import { Spinner, Typography } from 'ui-kit';
+import ErrorBoundary from '../ErrorHandler';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -17,7 +18,13 @@ const PageLayout = ({
     <div>
       <TopBar title={title} backTo={backTo} />
       <div className="content">
-        <Suspense fallback={<Spinner />}>{children}</Suspense>
+        <Suspense fallback={<Spinner />}>
+          <ErrorBoundary
+            fallback={<Typography>:( Ooops. Something went wrong</Typography>}
+          >
+            {children}
+          </ErrorBoundary>
+        </Suspense>
       </div>
     </div>
   );
