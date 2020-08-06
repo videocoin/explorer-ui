@@ -77,7 +77,9 @@ const WorkerInfo = ({ worker }: { worker: Worker }) => {
           <div className={css.head}>
             <Typography type="subtitleCaps">Delegate Payout Policy</Typography>
           </div>
-          <Typography>{delegatePolicy}</Typography>
+          <Typography className={css.orgDesc}>
+            <Linkify options={linkifyOptions}>{delegatePolicy}</Linkify>
+          </Typography>
         </>
       )}
       <div className={css.info}>
