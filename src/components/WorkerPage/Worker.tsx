@@ -1,5 +1,6 @@
 import React from 'react';
 import { eq } from 'lodash/fp';
+import Linkify from 'linkifyjs/react';
 import { Icon, Typography } from 'ui-kit';
 import formatBytes from 'utils/formatBytes';
 import css from './styles.module.scss';
@@ -17,9 +18,19 @@ const WorkerInfo = ({ worker }: { worker: Worker }) => {
     orgDesc,
     orgEmail,
     orgName,
+    allowThirdpartyDelegates,
   } = worker;
   const isNew = eq('NEW', status);
   const isGenesis = GENESIS_POOL_WORKERS.includes(address);
+  const linkifyOptions = {
+    tagName: 'a',
+    attributes: {
+      rel: 'noopener noreferrer',
+    },
+    target: {
+      url: '_blank',
+    },
+  };
   return (
     <div className={css.root}>
       <div className={css.address}>
@@ -50,14 +61,18 @@ const WorkerInfo = ({ worker }: { worker: Worker }) => {
           <Typography type="subtitle" theme="white">
             {orgName}
           </Typography>
-          <a href={`mailto:${orgEmail}`} className={css.email}>
-            <Icon name="email" color="#fff" />
-            <Typography type="smallBodyThin">{orgEmail}</Typography>
-          </a>
-          <Typography type="smallBodyThin">{orgDesc}</Typography>
+          {orgEmail && (
+            <a href={`mailto:${orgEmail}`} className={css.email}>
+              <Icon name="email" color="#fff" />
+              <Typography type="smallBodyThin">{orgEmail}</Typography>
+            </a>
+          )}
+          <Typography className={css.orgDesc} type="smallBodyThin">
+            <Linkify options={linkifyOptions}>{orgDesc}</Linkify>
+          </Typography>
         </div>
       </div>
-      {delegatePolicy && (
+      {allowThirdpartyDelegates && delegatePolicy && (
         <>
           <div className={css.head}>
             <Typography type="subtitleCaps">Delegate Payout Policy</Typography>

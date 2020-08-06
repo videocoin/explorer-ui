@@ -95,6 +95,7 @@
   display: flex;
   margin-top: 36px;
   margin-bottom: 64px;
+  align-items: flex-start;
 }
 .currentStake {
   margin-right: 36px;
@@ -125,3 +126,6 @@
      margin-right: 12px;
    }
  }
+.orgDesc {
+  white-space: pre-wrap;
+}
