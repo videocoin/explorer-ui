@@ -95,8 +95,8 @@ steps:
       registry: registry.videocoin.net
       repo: registry.videocoin.net/cloud/explorer
       build_args:
-        - REACT_APP_CLOUD_API_URL=https://console.videocoin.net/api/v1
-        - REACT_APP_TXLOG_API_URL=https://symphony.videocoin.net/api/v1
+        - REACT_APP_CLOUD_API_URL=https://console.videocoin.network/api/v1
+        - REACT_APP_TXLOG_API_URL=https://symphony.videocoin.network/api/v1
         - REACT_APP_PAYMENTS_API_URL=https://payments.videocoinapis.com/api/v1
         - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
       tags:
