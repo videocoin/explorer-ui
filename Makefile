@@ -37,4 +37,4 @@ docker-push:
 release: docker-build docker-push
 
 deploy:
-	helm upgrade -i --wait --set image.tag="${VERSION}" -n console explorer ./deploy/helm
+	helm upgrade -i --wait --set image.tag="${VERSION}" -n vcn-explorer explorer ./deploy/helm
