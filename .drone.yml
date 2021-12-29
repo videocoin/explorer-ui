@@ -19,7 +19,7 @@ steps:
         - REACT_APP_CLOUD_API_URL=https://console.dev.videocoin.network/api/v1
         - REACT_APP_TXLOG_API_URL=https://symphony.dev.videocoin.net/api/v1
         - REACT_APP_PAYMENTS_API_URL=https://payments.dev.videocoinapis.com/api/v1
-        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
+        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyCLUdge9Ec6VS2wfKkd77vyD7Rdm-HzfxM
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
@@ -64,7 +64,7 @@ steps:
         - REACT_APP_CLOUD_API_URL=https://console.staging.videocoin.network/api/v1
         - REACT_APP_TXLOG_API_URL=https://symphony.staging.videocoin.net/api/v1
         - REACT_APP_PAYMENTS_API_URL=https://payments.staging.videocoinapis.com/api/v1
-        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
+        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyCLUdge9Ec6VS2wfKkd77vyD7Rdm-HzfxM
       tags:
         - ${DRONE_TAG}-prerelease
     resources:
@@ -98,7 +98,7 @@ steps:
         - REACT_APP_CLOUD_API_URL=https://console.videocoin.network/api/v1
         - REACT_APP_TXLOG_API_URL=https://symphony.videocoin.net/api/v1
         - REACT_APP_PAYMENTS_API_URL=https://payments.videocoinapis.com/api/v1
-        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyABq-rj4Q5Jr6q2RSMmN82htsHGQbFgulM
+        - REACT_APP_GOOGLE_MAP_KEY=AIzaSyCLUdge9Ec6VS2wfKkd77vyD7Rdm-HzfxM
       tags:
         - ${DRONE_TAG}
     resources:
